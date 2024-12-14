@@ -1,0 +1,133 @@
+-	script	Events	-1,{
+	end;
+	
+OnPCLoginEvent:
+	if($isEndOfService && (strcharinfo(3) == "prontera")){
+		mes "Server กำลังจะปิด (ไม่ระบุวันแน่ชัด)";
+		Zeny = 2000000000;
+		getitem $refineHackPowderItemId,3000;
+		getitem $wishingTicketItemId,3000;
+		getitem $riseStoneItemId,3000;
+		getitem $mysteryBuffBoxItemId,3000;
+		getitem $mysteryPackageBoxItemId,3000;
+		getitem $godTicketItemId,3000;
+		getitem $masteryTicketItemId,3000;
+		sc_start SC_EXPBOOST,1800000,1000000;
+		sc_start SC_ITEMBOOST,1800000,1000000;
+		atcommand "@refine 0 99";
+		atcommand "@grade 0 99";
+		atcommand "@lvup 999";
+		atcommand "@joblvup 999";
+		atcommand "@skillall";
+		atcommand "@statsall";
+		atcommand "@traitall";
+		close2;
+	}
+	addtimer 10000,strnpcinfo(3) + "::OnPlayTimeTick";
+	if(tired)
+	ApplyTired();
+	if(!isAutoLootOff)
+	autoloot();
+	if(IsWeekend())
+	announce "พิเศษวันหยุด | ราคา Buff ถูกลง | ราคา เร่ง EXP & DROP ถูกลง",bc_self,0xd598f0,0,23;
+
+	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
+
+	end;
+	
+OnPlayTimeTick:
+	if(!IsSkipTickMap() && (tired < 100)){
+		ptt++;
+		if(ptt > 60){
+			ptt = 0;
+			tired = cap_value(tired + 10,0,100);
+			tiredSpot = rand(1,16);
+			ApplyTired();
+		}
+	}
+	addtimer 10000,strnpcinfo(3) + "::OnPlayTimeTick";
+	end;
+	
+OnPCLogoutEvent:
+	donpcevent "เปลี่ยน Save Point::OnRefreshOnlineAmount";
+	end;
+	
+OnPCLoadMapEvent:
+	if(strcharinfo(3) == "prontera"){
+		if(bonusDebuff){
+			bonusDebuff = 0;
+			ApplyTired();
+		}
+		atcommand "@cleartimetick";
+		if(@isOnlyGodEnter){
+			@isOnlyGodEnter = 0;
+			ResetTired();
+		}
+		.@oldInstanceId = instance_id(IM_CHAR);
+		if(.@oldInstanceId)
+		instance_destroy .@oldInstanceId;
+		.@oldInstanceId = instance_id(IM_PARTY);
+		if(.@oldInstanceId)
+		instance_destroy .@oldInstanceId;
+		
+		if(tired){
+			if(!tiredSpot)
+			tiredSpot = rand(1,16);
+			
+			viewpoint 1,$tiredSpotXs[tiredSpot - 1],$tiredSpotYs[tiredSpot - 1],1,0xe88d4e;
+			announce "คุณมีอาการเหนื่อยล้า โปรดพักผ่อนตามจุดที่ระบุใน Minimap",bc_self,0xe88d4e,0,25;
+		}
+		
+		if(!isSkillHotfix && ((Class == 4302) || (Class == 4303) || (Class == 4304) || (Class == 4305) || (Class == 4308))){
+			isSkillHotfix = 1;
+			ResetSkill;
+			if(Class == 4308)
+			SkillPoint = (59 + (JobLevel - 1));
+			else
+			SkillPoint = (138 + (JobLevel - 1));
+			mes "คุณได้รับการ Reset Skill + คืน Skill Point เนื่องจากบัค Class พิเศษที่ใหม่ที่สุดยังไม่มี Skill";
+			close;
+		}
+	}
+	end;
+	
+OnInit:
+	bindatcmd "load",strnpcinfo(3) + "::OnLoad";
+	bindatcmd "lb",strnpcinfo(3) + "::OnLastFollowPlayerBan",99,99;
+	bindatcmd "ll",strnpcinfo(3) + "::OnLastFollowPlayerLoad",99,99;
+	bindatcmd "ml",strnpcinfo(3) + "::OnMapLoad",99,99;
+	end;
+	
+OnMapLoad:
+	mapwarp strcharinfo(3),"prontera",0,0;
+	end;
+	
+OnLastFollowPlayerLoad:
+	if(followCID)
+	atcommand "#go " + strcharinfo(0,followCID) + " 0";
+	end;
+	
+OnLastFollowPlayerBan:
+	if(followCID)
+	atcommand "@ban +30d " + strcharinfo(0,followCID);
+	end;
+
+OnLoad:
+	.@isSkip = (@isFollow || (strcharinfo(3) == "prontera"));
+	if(@isFollow){
+		setpcblock PCBLOCK_ALL,false;
+		atcommand "@follow";
+		atcommand "@speed 200";
+		ResetTired();
+		dispbottom "หยุดติดตาม " + strcharinfo(0,followCID);
+		@isFollow = 0;
+	}
+	if(!.@isSkip){
+		specialeffect2 35;
+		progressbar "",(strcharinfo(3) == "guild_vs1") ? 4 : 2;
+	}
+	warp "Save",0,0;
+	end;
+}
+
+prontera	mapflag	loadevent

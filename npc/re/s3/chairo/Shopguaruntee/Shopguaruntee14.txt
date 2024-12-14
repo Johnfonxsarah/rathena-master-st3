@@ -1,0 +1,47 @@
+morocc,82,124,6	script	Guaruntee EGG14#1	562,{
+	callshop "Shop_Coupon17#1",1;
+	npcshopattach "Shop_Coupon17#1";
+	dispbottom "[ระบบ] : สกิลDCลดราคาไม่มีผลสำหรับการซื้อไอเทมในนี้";
+	dispbottom "[ระบบ] : คุณมี Guaruntee Egg14 ทั้งหมด [ "+countitem(.Given_ItemID)+" ชิ้น ]";
+//	mes "คุณมี Guaruntee Egg14 ทั้งหมด : "+countitem(.Given_ItemID)+"";
+	end;
+
+OnBuyItem:
+	for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+		for(set @j,0; @j < getarraysize(.Shop_ItemID); set @j,@j+1) {
+			if(.Shop_ItemID[@j] == @bought_nameid[@i]) {
+				set @itemcost,(.Shop_Price[(@j)]*@bought_quantity[@i]);
+				set @totalcost,(@totalcost+@itemcost);
+				break;
+			}
+		}
+	}
+	
+	if(@totalcost > countitem(.Given_ItemID)) {
+		dispbottom "[ระบบ] : คุณมี Guaruntee Egg14 ไม่พอสำหรับจะซื้อไอเทมนี้";
+	}
+	else {
+		for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+		getitem @bought_nameid[@i],@bought_quantity[@i];
+	}
+		delitem .Given_ItemID,@totalcost;
+//		dispbottom "[ระบบ] : ขอบคุณครับ โอกาศหน้าเชิญใหม่.";
+		dispbottom "[ระบบ] : คุณเหลือ Guaruntee Egg14 ทั้งหมด [ "+countitem(.Given_ItemID)+" ชิ้น ]";
+	}
+	set @totalcost,0;
+	deletearray @bought_nameid[0],128;
+	deletearray @bought_quantity[0],128;
+end;
+
+OnInit:
+waitingroom "แลก Guaruntee Egg14",0;
+npcshopdelitem "Shop_Coupon17#1",908;
+set .Given_ItemID,1300015; // รหัสไอเทมใช้ซื้อ
+setarray .Shop_ItemID[0],470272,400120,400121,490096,15189,15283,24393,24394,24395,6232,6228,12103,14766,12796,12883,12418,12411,12412; //รหัสไอเทม
+setarray .Shop_Price[0],200,150,150,150,80,50,40,40,40,100,100,20,5,5,5,5,5,5; //ราคา
+for(set .@i,0; .@i < getarraysize(.Shop_ItemID); set .@i,.@i+1) {
+npcshopadditem "Shop_Coupon17#1",.Shop_ItemID[.@i],.Shop_Price[.@i];
+}
+end;
+}
+-	shop	Shop_Coupon17#1	-1,908:-1

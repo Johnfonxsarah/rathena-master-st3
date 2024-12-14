@@ -1,0 +1,70 @@
+izlude,88,147,0	script	Mining	1907,{
+	
+//Fishing rod
+set .@Rod,93002;
+//Fishing Lure
+set .@Lure,93001;
+set .@Lure,93003;
+set .@Lure,93004;
+//Auto-Fish
+set .@Auto,1;
+//Auto-Fish on Fail
+set .@AutoFail,1;
+Fish:
+	if (isequipped(.@Rod)) && (isequipped(.@Lure)){
+		specialeffect2 EF_GASPUSH;
+		
+		dispbottom "[Mining] ท่านกำลังเริ่มขุด.........";
+		set .@fcast,15;
+			if (isequipped(93003)) { //Fisher's Muffler
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(93004)) { //Fisher's Boots
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(93002)) { //Fishing Pole
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(93001)) { //Fishing Lure
+				set .@fcast,.@fcast - 2;
+			}
+		progressbar "ffffff",.@fcast;
+		if (rand(1,20) == 2){
+		getitem 1200008,1; //Fish with Blue Back
+		specialeffect EF_GASPUSH;
+		mapannounce strcharinfo(3),strcharinfo(0)+" ได้รับ Cash Coin จากการ Mining!",bc_map,"0xff77ff";
+		if(.@Auto==1){
+		goto Fish;}else{
+		end;}
+		}
+			if (rand(1,6) == 1) ||(rand(1,6) == 3) || (rand(1,6) == 6){
+			setarray .@Catch[0],998,7126,999,1003,994,996,995,997;// List of Junk/Other
+			set .@CatchRand,.@Catch[rand(getarraysize(.@Catch))];
+			getitem .@CatchRand,1;
+			}
+			else {
+			dispbottom "[Mining] แย่จังไม่ได้อะไรเลยจากการขุด...";
+			if(.@AutoFail == 1){
+			goto Fish;} else{
+			end;}
+			}
+		if (rand(1,90) == 3){
+		setarray .@Rare[0],7619,7620,6241,6240,6226,6225,6231,6230,6235,6234,6635;
+		set .@RareCatch, .@Rare[rand(getarraysize(.@Rare))];
+		getitem .@RareCatch,1; //Reward
+		mapannounce strcharinfo(3),strcharinfo(0)+" ได้รับ "+getitemname(.@RareCatch)+"จากการ Mining!",bc_map,"0x33CC00";
+		}
+		if(.@Auto == 1){
+		goto Fish;} else{
+		end;}
+		}
+	else {
+	dispbottom "[Mining] คุณไม่ได้สวมใส่ชุดขุดแร่.";
+	end;
+	}
+
+
+}
+
+
+

@@ -1,0 +1,413 @@
+
+-	shop	gacha_cash_shop4	-1,909:-1
+
+izlude,124,138,4	script	Event Gachapon Zeny	563,{
+//sec_pri,15,27,4	script	Gachapon Cash	563,{
+//-	script	Gachapon Cash	563,{
+Start:	
+	
+	mes .NPCName$;
+	mes " ";
+	mes "ค่าบริการ";
+	switch(.Fee_Mode) {
+		case 1: mes "-> ^FF0000"+callfunc("F_InsertComma",.Zeny_Fee)+" zeny^000000"; break;
+		case 2: mes "-> ^FF0000"+callfunc("F_InsertComma",.Cash_Fee)+" cash^000000"; break;
+		case 3: mes "-> ^FF0000"+getitemname(.Item_Id_Fee)+" x"+.Item_Amt_Fee+"^000000"; break;
+		case 4: mes "-> ^FF0000ฟรี^000000"; break;
+	}
+	mes " ";
+	switch(.Fee_Mode) {
+		case 1: mes "-> zeny ของท่าน ^0000FF"+callfunc("F_InsertComma",Zeny)+"^000000"; break;
+		case 2: mes "-> cash ของท่าน ^0000FF"+callfunc("F_InsertComma",#CASHPOINTS)+"^000000"; break;
+		case 3: mes "-> item ของท่าน ^0000FF"+getitemname(.Item_Id_Fee)+" x"+callfunc("F_InsertComma",countitem(.Item_Id_Fee))+"^000000"; break;
+	}
+	mes "หมุนไปแล้ว : ^0099FF"+callfunc("F_InsertComma",collect_gacha_cash_10_9)+"^000000 ครั้ง";
+	next;
+	
+	mes .NPCName$;
+	/*
+	query_sql("SELECT player_name,score FROM `gacha_cashplayer_ranking4` WHERE char_id = "+getcharid(0)+"",.@name$,.@score);
+	
+	for (set .@i,0; .@i < getarraysize(.@name$); set .@i,.@i+1) {
+		if(strcharinfo(0) == .@name$[.@i]){ mes "คะแนนจัดอันดับ : ^0000FF"+callfunc("F_InsertComma",.@score[.@i])+" คะแนน^000000"; }
+	}
+	*/
+	mes "ไอเทมที่เหลือในตู้";
+	
+	deletearray .@ids;
+	deletearray .@ca;
+	deletearray .@cl;
+	
+	query_sql("SELECT item_id,claim_amount,claim_limit FROM `gacha_cashdata4` ORDER BY id ASC",.@ids,.@ca,.@cl);
+	for (.@i = 0; .@i < getarraysize(.@ids); ++.@i) {
+		if(.@ca[.@i] < .@cl[.@i]){ mes "-> [<ITEM>"+getitemname(.@ids[.@i])+"<INFO>"+.@ids[.@i]+"</INFO></ITEM>] เหลือ ["+.@ca[.@i]+"/"+.@cl[.@i]+"]"; }
+	}
+	next;
+	
+	switch(select("- สุ่ม Gacha:- ดูไอเทมที่มีโอกาสได้รับ:^0099FF- ตรวจสอบอันดับ^000000")) {
+	//switch(select("- สุ่ม Zeny:- ดูไอเทมที่มีโอกาสได้รับ")) {
+		case 1:
+			if($status_gacha_cash == 1){
+				mes .NPCName$;
+				mes "ยังไม่เปิดให้บริการ";
+				mes "สามารถเริ่มสุ่ม 21:00 - 23:59 น.";
+				end;
+			}
+			query_sql("SELECT COUNT(*) FROM `gacha_cashdata4` WHERE `claim_amount` < `claim_limit`",.@chk);
+			if (!.@chk) {
+				mes .NPCName$;
+				mes "^FF0000ไม่มีไอเทมเหลือในตู้แล้ว^000000";
+				close;
+			}
+			switch(.Fee_Mode) {
+				case 1:
+					if (Zeny < .Zeny_Fee) {
+						mes .NPCName$;
+						mes "^FF0000ท่านมี zeny ไม่พอจ่ายค่าสุ่มไอเทม^000000";
+						close;
+					}
+					set Zeny, Zeny - .Zeny_Fee;
+					break;
+				case 2:
+					if (#CASHPOINTS < .Cash_Fee) {
+						mes .NPCName$;
+						mes "^FF0000ท่านมี cash ไม่พอจ่ายค่าสุ่มไอเทม^000000";
+						close;
+					}
+					set #CASHPOINTS, #CASHPOINTS - .Cash_Fee;
+					$collect_gacha_cash_10_9 = $collect_gacha_cash_10_9 +.Cash_Fee;
+					break;
+				case 3:
+					if (countitem(.Item_Id_Fee) < .Item_Amt_Fee) {
+						mes .NPCName$;
+						mes "^FF0000ท่านมี "+getitemname(.Item_Id_Fee)+" ไม่พอจ่ายค่าสุ่มไอเทม^000000";
+						close;
+					}
+					delitem .Item_Id_Fee, .Item_Amt_Fee;
+					break;
+				case 4:
+					break;
+					
+			}
+			//sleep2 rand(3000);
+			
+			
+			.@point = 1;
+			
+			query_sql("SELECT COUNT(char_id) FROM `gacha_cashplayer_logs4` WHERE char_id = "+getcharid(0)+"",.@ccid);
+			if (!.@ccid) {
+				query_sql("INSERT INTO `gacha_cashplayer_logs4` (account_id,char_id,player_name,played) VALUES ("+getcharid(3)+","+getcharid(0)+",'"+strcharinfo(0)+"',"+.@point+")");
+			}
+			else {
+				query_sql("UPDATE `gacha_cashplayer_logs4` SET `played` = `played`+"+.@point+" WHERE char_id = "+getcharid(0)+"");
+			}
+			query_sql("SELECT COUNT(char_id) FROM `gacha_cashplayer_ranking4` WHERE char_id = "+getcharid(0)+"",.@ccid);
+			if (!.@ccid) {
+				query_sql("INSERT INTO `gacha_cashplayer_ranking4` (account_id,char_id,player_name,score) VALUES ("+getcharid(3)+","+getcharid(0)+",'"+strcharinfo(0)+"',"+.@point+")");
+			}
+			else {
+				query_sql("UPDATE `gacha_cashplayer_ranking4` SET `score` = `score`+"+.@point+" WHERE char_id = "+getcharid(0)+"");
+			}
+			
+			
+			collect_gacha_cash_10_9 ++;
+			
+
+			
+			deletearray .@itemid;
+			deletearray .@itemamt;
+			deletearray .@itemrate;
+			deletearray .@ann;
+			
+			query_sql("SELECT item_id,item_amount,item_rate,item_announce FROM `gacha_cashdata4` WHERE `claim_amount` < `claim_limit`",.@itemid,.@itemamt,.@itemrate,.@ann);
+			set .@lk, rand(getarraysize(.@itemid));
+			.@r = rand(1,100);
+			if(.dispbottom == 1){
+				dispbottom ""+.@itemid[.@lk];
+				dispbottom ""+.@r+"/"+.@itemrate[.@lk];
+			}
+			if (.@r > .@itemrate[.@lk]) {
+				specialeffect2 611;
+				mes .NPCName$;
+				mes " ";
+				mes "^FF0000โอ้วไม่นะ!!..รอบนี้ท่านไม่มีดวง^000000";
+				
+				.@a = rand(0,22);
+				
+				if(.@a == 0){ .@item_get = 12209;	.@am_get = 1; }
+				if(.@a == 1){ .@item_get = 12208;	.@am_get = 1; }
+				if(.@a == 2){ .@item_get = 12210;	.@am_get = 1; }
+				if(.@a == 3){ .@item_get = 12250;	.@am_get = 1; }
+				if(.@a == 4){ .@item_get = 12251;	.@am_get = 1; }
+				if(.@a == 5){ .@item_get = 984;		.@am_get = 1; }
+				if(.@a == 6){ .@item_get = 985;		.@am_get = 1; }
+				if(.@a == 7){ .@item_get = 14003;	.@am_get = 1; }
+				if(.@a == 8){ .@item_get = 12252;	.@am_get = 1; }
+				if(.@a == 9){ .@item_get = 12253;	.@am_get = 1; }
+				if(.@a == 10){ .@item_get = 12254;	.@am_get = 1; }
+				if(.@a == 11){ .@item_get = 12255;	.@am_get = 1; }
+				if(.@a == 12){ .@item_get = 7620;	.@am_get = 1; }
+				if(.@a == 13){ .@item_get = 7619;	.@am_get = 1; }
+				if(.@a == 14){ .@item_get = 6241;	.@am_get = 1; }
+				if(.@a == 15){ .@item_get = 6240;	.@am_get = 1; }
+				if(.@a == 16){ .@item_get = 6226;	.@am_get = 1; }
+				if(.@a == 17){ .@item_get = 6225;	.@am_get = 1; }
+				if(.@a == 18){ .@item_get = 12710;	.@am_get = 1; }
+				if(.@a == 19){ .@item_get = 13996;	.@am_get = 1; }
+				if(.@a == 20){ .@item_get = 13999;	.@am_get = 1; }
+				if(.@a == 21){ .@item_get = 12412;	.@am_get = 1; }
+				if(.@a == 22){ .@item_get = 12411;	.@am_get = 1; }
+				getitem .@item_get,.@am_get;
+				npctalk "ผู้เล่น "+strcharinfo(0)+" ได้รับ "+getitemname(.@item_get)+" x"+.@am_get+" ea เป็นรางวัลปลอบใจ";
+				next;
+				goto Start;
+				end;
+			}
+			else {
+				specialeffect2 682;
+				query_sql("INSERT INTO `gacha_cashlogs4` (char_id,name,item_id,item_amount,item_name,play_time) VALUES ("+getcharid(0)+",'"+strcharinfo(0)+"',"+.@itemid[.@lk]+","+.@itemamt[.@lk]+",'"+getitemname(.@itemid[.@lk])+"',NOW())");
+				getitem .@itemid[.@lk], .@itemamt[.@lk];
+				query_sql("UPDATE `gacha_cashdata4` SET `claim_amount` = `claim_amount`+"+.@itemamt[.@lk]+" WHERE item_id = "+.@itemid[.@lk]+"");
+				if (.@ann[.@lk]) {
+					announce "ผู้เล่น "+strcharinfo(0)+" ได้รับ "+getitemname(.@itemid[.@lk])+" จำนวน "+.@itemamt[.@lk]+" ชิ้นจากการสุ่ม Event Gacha Zeny",0;
+				}
+				next;
+				goto Start;
+				end;
+			}
+			end;
+		
+		case 2:
+			callshop "gacha_cash_shop4",1;
+			npcshopattach "gacha_cash_shop4";
+			end;
+		
+		case 3:
+			
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			
+			query_sql("SELECT player_name,score FROM `gacha_cashplayer_ranking4` ORDER BY score DESC LIMIT 10",.@name2$,.@score2);
+			
+			if (!.@score2[0]) {
+				mes " ";
+				mes "^FF0000ยังไม่มีข้อมูลของสัปดาห์นี้^000000";
+				close;
+			}
+			for (set .@i,0; .@i < getarraysize(.@name2$); set .@i,.@i+1) {
+				mes ""+(.@i+1)+". ^0000FF"+.@name2$[.@i]+"^009900 ["+.@score2[.@i]+"]^000000 คะแนน";
+			}
+			end;
+		
+		case 4:
+			
+			next;
+		
+			query_sql("SELECT COUNT(char_id) FROM `gacha_cashplayer_winners4` WHERE char_id = "+getcharid(0)+" AND claim = 0",.@ccid);
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "รางวัลที่ยังไม่ได้รับ ^FF0000"+.@ccid+"^000000 รางวัล";
+			next;
+			if (!.@ccid) {
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes " ";
+				mes "^FF0000ยังไม่มีรางวัลที่ท่านสามารถรับได้^000000";
+				close;
+			}
+			if (select("รับรางวัล:ยกเลิก") == 2) {
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes " ";
+				mes "^FF0000ไม่เป็นไร ไว้มารับทีหลังก็ได้นะ^000000";
+				close;
+			}
+			query_sql("SELECT id,number,reward_id,reward_amount FROM `gacha_cashplayer_winners4` WHERE char_id = "+getcharid(0)+" AND claim = 0",.@id,.@no,.@rwid,.@rwamt);
+			for (set .@i,0; .@i < getarraysize(.@rwid); set .@i,.@i+1) {
+				query_sql("UPDATE `gacha_cashplayer_winners4` SET claim = 1 WHERE id = "+.@id[.@i]+"");
+				dispbottom strnpcinfo(0)+" : คุณได้รับรางวัล ranking อันดับ "+.@no[.@i]+" เป็น "+getitemname(.@rwid[.@i])+" จำนวน "+.@rwamt[.@i]+"ea จาก "+strnpcinfo(0)+"";
+				getitem .@rwid[.@i],.@rwamt[.@i];
+				message strcharinfo(0),"ท่านได้รับรางวัล อันดับ "+.@no[.@i]+"";
+			}
+			end;
+		
+		case 5:
+			
+			next;
+		
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			query_sql("SELECT player_name,score,number FROM `gacha_cashplayer_winners4` ORDER BY id DESC LIMIT 10",.@name1$,.@score1,.@number1);
+			if (!.@score1[0]) {
+				mes " ";
+				mes "^FF0000ยังไม่มีข้อมูลของสัปดาห์ที่แล้ว^000000";
+				close;
+			}
+			for (set .@i,getarraysize(.@name1$); .@i >= 0 ; set .@i,.@i-1) {
+				if (.@score1[.@i])
+				mes ""+.@number1[.@i]+". ^0000FF"+.@name1$[.@i]+"^009900 ["+.@score1[.@i]+"]^000000 คะแนน";
+			}
+			end;
+			
+	}
+	
+OnBuyItem:
+	end;
+	
+	/*
+	Onclock0000:			//	ตั้งเวลาปิดตู้
+		
+		//	===================================================================================================	//
+		//	 0 = Sunday / 1 = Monday / 2 = Tuesday / 3 = Wednesday / 4 = Thursday / 5 = Friday / 6 = Saturday	//
+		//	===================================================================================================	//
+		
+		if(gettime(DT_DAYOFWEEK) == 0){
+				OnRanking:
+				query_sql("TRUNCATE TABLE `gacha_cashplayer_winners3`");
+				query_sql("SELECT account_id,char_id,player_name,score FROM `gacha_cashplayer_ranking3` ORDER BY score DESC LIMIT 3",.@aid,.@cid,.@name$,.@score);
+				for (set .@j,0; .@j < getarraysize(.@aid); set .@j,.@j+1) {
+					if ((.@j+1) == 1) {
+						set .@rwid, 61001;			//	ตั้งรหัสไอเทมรางวัลที่ 1
+						set .@rwamt, 100;					//	ตั้งจำนวนรางวัลที่ 1
+					}
+					else if ((.@j+1) == 2) {
+						set .@rwid, 61001;			//	ตั้งรหัสไอเทมรางวัลที่ 2
+						set .@rwamt, 50;					//	ตั้งจำนวนรางวัลที่ 2
+					}
+					else {
+						set .@rwid, 61001;			//	ตั้งรหัสไอเทมรางวัลที่ 3
+						set .@rwamt, 10;					//	ตั้งจำนวนรางวัลที่ 3
+					}
+					announce strnpcinfo(0)+" : ผู้เล่น " +.@name$[.@j]+ " ได้อันดับ "+(.@j+1)+" จากการเล่น "+strnpcinfo(0)+" "+.@score[.@j]+" คะแนน สัปดาห์นี้", bc_all, "0xFFFF00";
+					query_sql("INSERT INTO `gacha_cashplayer_winners4` (account_id,char_id,player_name,score,number,reward_id,reward_amount,claim) VALUES ("+.@aid[.@j]+","+.@cid[.@j]+",'"+.@name$[.@j]+"',"+.@score[.@j]+","+(.@j+1)+","+.@rwid+","+.@rwamt+",0)");
+				}
+				query_sql("TRUNCATE TABLE `gacha_cashplayer_ranking4`");
+				announce strnpcinfo(0)+" : ทำการรีเซ็ตอันดับ "+strnpcinfo(0)+" เรียบร้อยแล้ว", bc_all, "0xFFFF00";
+				end;
+		}
+		end;
+	*/
+	
+	end;
+	
+OnAtcommand:
+	if (getgmlevel() < 99) { end; }
+	mes .NPCName$;
+	
+	menu	"- รีเซ็ต Gacha",menu_02,
+			"- ตัดอันดับ Gacha",menu_01;
+	end;
+	
+	menu_01:
+	
+	goto OnRanking;
+	end;
+	
+	menu_02:
+	next;
+	mes .NPCName$;
+	mes " ";
+	mes "^FF0000ท่านแอดมินยืนยันการรีเซ็ต Gacha หรือไม่?^000000";
+	next;
+	if (select("- ยกเลิก:- ^FF0000ยืนยัน^000000") == 1) {
+		mes .NPCName$;
+		mes " ";
+		mes "^FF0000ไม่เป็นไร..ค่อยมาเรียกใช้งานข้าอีกครั้งในภายหน้าก็ได้^000000";
+		close;
+	}
+	query_sql("UPDATE `gacha_cashdata4` SET claim_amount = 0");
+	mes .NPCName$;
+	mes " ";
+	mes "^0000FFทำการรีเซ็ต Gacha เรียบร้อยแล้ว^000000";
+	close;
+	
+
+	
+OnInit:
+
+	$status_gacha_cash = 0;
+	
+	// ตั้งค่าชื่อ NPC
+	set .NPCName$, "[ Event Gacha Zeny ]";
+	// ตั้งค่าข้อความป้ายบนหัว NPC
+	waitingroom "[Event] Gacha Zeny",0;
+	// ตั้งค่าโหมดค่าบริการ 1 = Zeny || 2 = Cash || 3 = Item
+	set .Fee_Mode, 1;
+	// ตั้งค่าค่าบริการแบบ Zeny (ใส่ 0 ถ้าไม่เก็บค่าบริการเป็น Zeny)
+	set .Zeny_Fee, 3000000;
+	// ตั้งค่าค่าบริการแบบ Cash (ใส่ 0 ถ้าไม่เก็บค่าบริการเป็น Cash)
+	set .Cash_Fee, 0;
+	// ตั้งค่าค่าบริการแบบ Item (ใส่แบบนี้ถ้าไม่เก็บค่าบริการแบบ Item setarray .Item_Id_Fee, 0;)
+	set .Item_Id_Fee, 0;
+	// ตั้งค่ากำหนดจำนวนไอเทมค่าบริการ
+	set .Item_Amt_Fee, 0;
+	//	ตั้งค่าสำหรับโชว์ Dispbottom		0 = ยกเลิก	1 = ใช้งาน
+	.dispbottom = 0;
+	
+	.max_collect_gacha_cash = 100;
+	.cash_get = (.Cash_Fee*.max_collect_gacha_cash)*20/100;
+	
+	//query_sql("SELECT item_id FROM `gacha_cashdata4` ORDER BY id ASC",.@itemid);
+	query_sql("SELECT item_id,claim_amount,claim_limit FROM `gacha_cashdata4` ORDER BY id ASC",.@ids,.@ca,.@cl);
+	npcshopdelitem "gacha_cash_shop3",909;
+	for (set .@i,0; .@i<getarraysize(.@ids); set .@i,.@i+1){
+		npcshopadditem "gacha_cash_shop4",.@ids[.@i],.@cl[.@i];
+	}
+	
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `gacha_cashdata4` ("+
+		"`id` INT(12) NOT NULL AUTO_INCREMENT,"+
+		"`item_id` INT(10) NOT NULL,"+
+		"`item_amount` INT(10) NOT NULL,"+
+		"`item_rate` INT(3) NOT NULL,"+
+		"`item_announce` TINYINT(1) NOT NULL,"+
+		"`claim_amount` INT(4) NOT NULL,"+
+		"`claim_limit` INT(4) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `gacha_cashlogs4` ("+
+		"`id` INT(12) NOT NULL AUTO_INCREMENT,"+
+		"`char_id` INT(11) NOT NULL,"+
+		"`name` VARCHAR(30) NOT NULL,"+
+		"`item_id` INT(10) NOT NULL,"+
+		"`item_name` VARCHAR(255) NOT NULL,"+
+		"`item_amount` INT(4) NOT NULL,"+
+		"`play_time` DATETIME NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `gacha_cashplayer_logs4` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`player_name` varchar(255) NOT NULL,"+
+		"`played` int(7) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `gacha_cashplayer_ranking4` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`player_name` varchar(255) NOT NULL,"+
+		"`score` int(7) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `gacha_cashplayer_winners4` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`player_name` varchar(255) NOT NULL,"+
+		"`score` int(7) NOT NULL,"+
+		"`number` tinyint(1) NOT NULL,"+
+		"`reward_id` int(7) NOT NULL,"+
+		"`reward_amount` int(7) NOT NULL,"+
+		"`claim` tinyint(1) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	bindatcmd "gacha_cash",strnpcinfo(3) + "::OnAtcommand";
+	end;
+}

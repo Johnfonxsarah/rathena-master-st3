@@ -1,0 +1,161 @@
+morocc,184,81,3	script	Enchant Chai Stone Garment#cos_ect1	4_FROG,{
+	disable_items;
+	mes "[Enchant Chai Stone]";
+	mes "ยินดีตอนรับ!!";
+	mes "ข้าคือผู้ Enchant Chai Stone Garment ให้กับคอสส่วนปีก.";
+	next;
+	mes "[Enchant Chai Stone]";
+	mes "คุณจะต้องมี ^ff0000Costume Garment^000000 และ ^ff0000Chai Stone(Garment)^000000";
+	mes "จึงจะสามารถเสริมพลังได้!";
+	next;
+	if (select( "เริ่ม....ทำการเสริมพลัง.", "ไม่....ยังไม่พร้อม." ) == 2) {
+		mes "[Enchant Chai Stone]";
+		mes "ใช้? ในข้าค้นหาคอสในตัวเจ้าก่อน?";
+		close;
+	}
+	if (checkweight(1119,3) == 0) {
+		mes "[Enchant Chai Stone]";
+		mes "Well... Your shoulder doesn't look possilbe for any more upgrade...!";
+		mes "Don't be cruel to your shoulder!";
+		next;
+		mes "It seems you have too many items on you.";
+		mes "Come back after clearing some inventory spaces.";
+		close;
+	}
+	.@part = EQI_COSTUME_GARMENT;
+	.@equip_id = getequipid(.@part);
+	if (.@equip_id == -1) {
+		mes "[Enchant Effect Mid]";
+		mes "คุณไม่ได้ส่วมใส่คอสหู";
+		mes "คุณควรใส่คอสหูมาก่อนแล้วกลับมาหาข้า";
+		close;
+	}
+
+
+
+
+
+	// costume garment list allowed (incomplete)
+	switch(.@equip_id) {
+	case 20500:	// C_ang_Wing
+	case 20507:	// C_Poring_Bag
+	case 20727:	// C_Poring_Bag
+	case 20517:	// C_Poring_Bag
+	case 20546:	// C_Poring_Bag
+	case 20588:	// C_Poring_Bag
+	case 20525:	// C_Poring_Bag
+	case 20761:	// C_Poring_Bag
+	case 20571:	// C_Poring_Bag
+	case 20593:	// C_Poring_Bag
+	case 20514:	// C_Poring_Bag
+	case 20526:	// C_Poring_Bag
+	case 20543:	// C_Poring_Bag
+	case 20737:	// C_Poring_Bag
+	case 20762:	// C_Poring_Bag
+	case 20584:	// C_Poring_Bag
+	case 20603:	// C_Poring_Bag
+	case 20746:	// C_Poring_Bag
+	case 20576:	// C_Poring_Bag
+	case 20597:	// C_Poring_Bag
+	case 20599:	// C_Poring_Bag
+	case 480121:	// C_Poring_Bag
+	case 480126:	// C_Poring_Bag
+	case 480119:	// C_Poring_Bag
+	case 480118:	// C_Poring_Bag
+	case 20992:	// C_Poring_Bag
+	case 480071:	// C_Poring_Bag
+	case 480110:	// C_Poring_Bag
+	case 20607:	// C_Poring_Bag
+	case 480130:	// C_Poring_Bag
+	case 20590:	// C_Poring_Bag
+	case 20605:	// C_Poring_Bag
+	case 480137:	// C_Poring_Bag
+	case 20594:	// C_Poring_Bag
+	case 480131:	// C_Poring_Bag
+	case 20592:	// C_Poring_Bag
+	case 20535:	// C_Poring_Bag
+	case 20764:	// C_Poring_Bag
+	case 480056:	// C_Poring_Bag
+	case 480058:	// C_Poring_Bag
+	case 480318:	// C_Poring_Bag
+	case 20510:	// C_Poring_Bag
+
+		break;
+	default:
+		mes "[Lace La Zard]";
+		mes "I need to have a look at it to check for upgrading posibility..";// custom
+		close;
+	}
+
+	.@equip_refine = getequiprefinerycnt(.@part);
+	setarray .@card[0], getequipcardid(.@part, 0), getequipcardid(.@part, 1), getequipcardid(.@part, 2), getequipcardid(.@part, 3);
+
+	mes "[Enchant Chai Stone]";
+	mes "คุณใช้ ^0000FF" + getitemname(.@equip_id) + "^000000!!! ในการเสริม Effect?";
+	mes "เลือกหินที่คุณจะใช้เสริมพลังได้เลย!!";
+	next;
+	setarray .@data$[0],
+		1300088, 1300089, "da",	// ASPDStone_Robe	Atk_Speed1
+		1300090, 1300091, "da",	// ASPDStone_Robe	Atk_Speed1
+		1300092, 1300093, "da",	// ASPDStone_Robe	Atk_Speed1
+		1300094, 1300095, "da",	// ASPDStone_Robe	Atk_Speed1
+		1300096, 1300097, "da",	// ASPDStone_Robe	Atk_Speed1
+		1300098, 1300099, "da",	// ASPDStone_Robe	Atk_Speed1
+		1300100, 1300101, "da";	// ASPDStone_Robe	Atk_Speed1
+	.@size = getarraysize(.@data$);
+	for ( .@i = 0; .@i < .@size; .@i += 3 ) {
+		.@id = atoi(.@data$[.@i]);
+		.@menu$ += sprintf( "%d. %s (%d) left:", (.@j+1), getitemname(.@id), countitem(.@id) );
+		.@j++;
+	}
+	.@menu$ += "End Conversation.";
+	.@s = (select(.@menu$) - 1) * 3;
+	if (.@s == .@size) {
+		mes "[Lace La Zard]";
+		mes "Yes? Your want to look more?";
+		close;
+	}
+	.@id = atoi(.@data$[.@s]);
+	.@enchant = atoi(.@data$[.@s+1]);
+	if (getequipid(.@part) < 0 || countitem(.@id) < 1) {
+		mes "[Lace La Zard]";
+		mes "You must have both costume item and ability stone for this upgrading work.";
+		close;
+	}
+	mes "^FF0000   !!! คำเตือน !!!^000000";
+	mes "^FF0000มีโอกาศในการเสริมพลังล้มเหลว.^000000";
+	mes "^FF0000หากเสริมพลังล้มเหลว,^000000";
+	mes "^FF0000คอสของคุณจะยังอยู่.^000000";
+	mes "^FF0000แต่หินในการเสริมพลังจะหายไป?^000000";
+	next;
+	if (select( "Yes.", "No." ) == 2) {
+		mes "[Lace La Zard]";
+		mes "Yes? Your want to look more?";
+		close;
+	}
+
+	// anti-hack
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine))
+		close;
+
+	delitem .@id, 1;
+	delequip .@part;
+	if (rand(100) < 50) {
+		mes "[Enchant Chai Stone]";
+		mes "ว้าววววววววววว!!";
+		mes "คุณโชคดี........เสริม Effect สำเร็จ!";
+		.@card[3] = .@enchant;
+	}
+	else {
+		mes "[Enchant Chai Stone]";
+		mes "คุณเสริมพลัง";
+		mes "ล้มเหลว";
+		mes "ไว้เอารอบหน้ามาใหม่นะ";
+		.@card[3] = 0;
+	}
+	getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+	close;
+OnInit:
+	waitingroom "Enchant Chai Stone",0;
+	end;
+}

@@ -1,0 +1,21 @@
+morocc,125,111,5	script	MVP Coin	564,{
+
+	callshop "mvp_coin",1;
+	end;
+	
+OnInit:
+	waitingroom "Shop MVP Coin",0;
+	end;
+
+}
+
+morocc,130,111,5	script	Pet Boss	564,{
+
+	callshop "pet_boss",1;
+	end;
+	
+OnInit:
+	waitingroom "Pet Boss MVP",0;
+	end;
+
+}

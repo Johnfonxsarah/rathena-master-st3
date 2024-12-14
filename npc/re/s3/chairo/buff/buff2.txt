@@ -1,0 +1,125 @@
+morocc,168,97,6	script	BUFF	834,{ 
+if(class != 0) goto L_aspd0;
+
+
+L_aspd0:
+sc_start SC_BLESSING,600000,10;
+sc_start SC_INCREASEAGI,600000,10;
+sc_start 29,600000,10; 
+sc_start 41,120000,5; 
+sc_start 40,180000,5;
+sc_start4 SC_POEMBRAGI,60000,10,80,300,10;
+sc_start4 SC_SERVICE4U,60000,10,50,50,10;
+specialeffect2 42;
+specialeffect2 37;
+specialeffect2 313;
+specialeffect2 150;
+sc_end SC_Poison;
+sc_end SC_Freeze;
+sc_end SC_Sleep;
+sc_end SC_Stan;
+sc_end SC_Stone;
+sc_end SC_Silence;
+sc_end SC_Blind;
+sc_end SC_Bleeding;
+sc_end SC_Confusion;
+sc_end SC_Curse;
+sc_end SC_Hallucination; 
+percentheal 100,100;
+end;
+
+L_aspd1:
+
+sc_start SC_BLESSING,600000,10;
+sc_start SC_INCREASEAGI,600000,10;
+sc_start 29,600000,10; 
+sc_start 41,120000,5; 
+sc_start 40,180000,5;
+sc_start4 SC_POEMBRAGI,60000,10,80,300,10;
+sc_start4 SC_SERVICE4U,60000,10,50,50,10;
+
+specialeffect2 42;
+specialeffect2 37;
+specialeffect2 313;
+specialeffect2 150;
+sc_end SC_Poison;
+sc_end SC_Freeze;
+sc_end SC_Sleep;
+sc_end SC_Stan;
+sc_end SC_Stone;
+sc_end SC_Silence;
+sc_end SC_Blind;
+sc_end SC_Bleeding;
+sc_end SC_Confusion;
+sc_end SC_Curse;
+sc_end SC_Hallucination; 
+
+close;
+
+L_aspd2:
+
+sc_start SC_BLESSING,600000,10;
+sc_start SC_INCREASEAGI,600000,10;
+sc_start 29,600000,10; 
+sc_start 41,120000,5; 
+sc_start 40,180000,5;
+sc_start4 SC_POEMBRAGI,60000,10,80,300,10;
+sc_start4 SC_SERVICE4U,60000,10,50,50,10;
+
+specialeffect2 42;
+specialeffect2 37;
+specialeffect2 313;
+specialeffect2 150;
+sc_end SC_Poison;
+sc_end SC_Freeze;
+sc_end SC_Sleep;
+sc_end SC_Stan;
+sc_end SC_Stone;
+sc_end SC_Silence;
+sc_end SC_Blind;
+sc_end SC_Bleeding;
+sc_end SC_Confusion;
+sc_end SC_Curse;
+sc_end SC_Hallucination; 
+percentheal 100,100;
+close;
+
+
+OnInit:
+waitingroom "·®°∫—æ®√È“",0;
+end;
+
+OnWhisperGlobal:
+    if (@whispervar0$ == "Buff") {
+
+	sc_start SC_BLESSING,600000,10;
+	sc_start SC_INCREASEAGI,600000,10;
+	sc_start 29,600000,10; 
+	sc_start 41,120000,5; 
+	sc_start 40,180000,5;
+	sc_start4 SC_POEMBRAGI,60000,10,80,300,10;
+	sc_start4 SC_SERVICE4U,60000,10,50,50,10;
+
+	specialeffect2 42;
+	specialeffect2 37;
+	specialeffect2 313;
+	specialeffect2 150;
+	sc_end SC_Poison;
+	sc_end SC_Freeze;
+	sc_end SC_Sleep;
+	sc_end SC_Stan;
+	sc_end SC_Stone;
+	sc_end SC_Silence;
+	sc_end SC_Blind;
+	sc_end SC_Bleeding;
+	sc_end SC_Confusion;
+	sc_end SC_Curse;
+	sc_end SC_Hallucination;
+    }
+    end;
+}
+
+
+morocc,168,52,6	duplicate(BUFF)	Buff#iz2	834
+morocc,214,69,6	duplicate(BUFF)	Buff#iz3	834
+morocc,56,66,6	duplicate(BUFF)	Buff#iz4	834

@@ -1,0 +1,10 @@
+morocc,156,61,3	script	Shop Stone 6	759,{
+
+
+	callshop "stone_boxII",1;
+	end;
+	
+OnInit:
+	waitingroom "Shop Stone 2",0;
+	end;
+}

@@ -1,0 +1,160 @@
+morocc,156,66,4	script	Stone To Mix Coin#mix4	410,{
+	if (checkweight(1301,1) == 0) {
+		mes "- หยุดก่อน!! -";
+		mes "- คุณบรรทุกสิ่งของมากเกินไป, -";
+		mes "- จึงไม่สามารถรับไอเทมได้อีก, -";
+		mes "- กรุณาลดน้ำหนักของคุณ, -";
+		mes "- และกลับมาอีกครั้งในภายหลัง! -";
+		close;
+	}
+	disable_items;
+	mes "[Stone To Mix Coin]";
+	mes "^ff0000คำเตือน ^000000";
+	mes "อ่านชื่อitem ก่อนแลกทุกครั้ง!";
+	mes "ใช้ Enchant Stone อาชีพ  ที่ไม่ใช้แล้วเพื่อแลก Stone Mix Coin!";
+	next;
+	if (select( "ใช้ Enchant Stone อาชีพที่ไม่ใช้แล้วเพื่อแลก Stone Mix Coin", "อ่านรายละเอียด" ) == 2) {
+		mes "[Stone To Mix Coin]";
+		mes "^ff0000คำเตือน ^000000";
+		mes "อ่านชื่อ item ก่อน แลกทุกครั้ง!";
+
+		next;
+		mes "[Stone To Mix Coin]";
+		mes "โปรดระวังของที่คุณใส่หาย ให้นำของที่คุณใส่ไว้ในคลังหรือในรถเข็นก่อนกันคอสถูกแลกโดยไม่รู้ตัว!";
+		close;
+	}
+	mes "[" + strcharinfo(0) + "]";
+	mes "อ่านชื่อคอสก่อน แลกทุกครั้ง!";
+	next;
+	mes "[Stone To Mix Coin]";
+	mes "อ้อ งั้นฉันขอแลกเป็น Mix Coin ได้นะ";
+	next;
+	mes "- ค้นหา -";
+	next;
+
+
+	// ===================================================================
+	// =================== shadow ===================
+	// ===================================================================
+	.@box_list[0] = 1300111;		// Enchant_Stone_Box4
+	setarray .@item_list_0[0],
+		25409,		// C_Chick_Hat
+		25410,		// C_Chick_Hat
+		25411,		// C_Chick_Hat
+		25412,		// C_Chick_Hat
+		25413,		// C_Chick_Hat
+		25414,		// C_Chick_Hat
+		25415,		// C_Chick_Hat
+		25416,		// C_Chick_Hat
+		25417,		// C_Chick_Hat
+		25418,		// C_Chick_Hat
+		25419,		// C_Chick_Hat
+		25420,		// C_Chick_Hat
+		25445,		// C_Chick_Hat
+		25446,		// C_Chick_Hat
+		25447,		// C_Chick_Hat
+		25448,		// C_Chick_Hat
+		25449,		// C_Chick_Hat
+		25450,		// C_Chick_Hat
+		25451,		// C_Chick_Hat
+		25452,		// C_Chick_Hat
+		25453,		// C_Chick_Hat
+		25454,		// C_Chick_Hat
+		25455,		// C_Chick_Hat
+		25456,		// C_Chick_Hat
+		25490,		// C_Chick_Hat
+		25491,		// C_Chick_Hat
+		25492,		// C_Chick_Hat
+		25493,		// C_Chick_Hat
+		25494,		// C_Chick_Hat
+		25495,		// C_Chick_Hat
+		25496,		// C_Chick_Hat
+		25497,		// C_Chick_Hat
+		25498,		// C_Chick_Hat
+		25499,		// C_Chick_Hat
+		25500,		// C_Chick_Hat
+		25501,		// C_Chick_Hat
+		25706,		// C_Chick_Hat
+		25707,		// C_Chick_Hat
+		25708,		// C_Chick_Hat
+		25709,		// C_Chick_Hat
+		25710,		// C_Chick_Hat
+		25711,		// C_Chick_Hat
+		25712,		// C_Chick_Hat
+		25713,		// C_Chick_Hat
+		25714,		// C_Chick_Hat
+		25715,		// C_Chick_Hat
+		25716,		// C_Chick_Hat
+		25717,		// C_Chick_Hat
+		25842,		// C_Chick_Hat
+		25843,		// C_Chick_Hat
+		25844,		// C_Chick_Hat
+		25845,		// C_Chick_Hat
+		25846,		// C_Chick_Hat
+		25847,		// C_Chick_Hat
+		25848,		// C_Chick_Hat
+		25849,		// C_Chick_Hat
+		25850,		// C_Chick_Hat
+		25851,		// C_Chick_Hat
+		25852,		// C_Chick_Hat
+		25853,		// C_Chick_Hat
+		25854,		// C_Chick_Hat
+		25855,		// C_Chick_Hat
+		25856,		// C_Chick_Hat
+		25857,		// C_Chick_Hat
+		25858,		// C_Chick_Hat
+		25859,		// C_Chick_Hat
+		25860,		// C_Chick_Hat
+		25861,		// C_Chick_Hat
+		25862;		// C_Chick_Hat
+
+	while(1) {
+		for ( .@i = 0; .@i < 18; ++.@i ) {
+			if (getiteminfo(.@box_list[.@i], ITEMINFO_TYPE) == -1)	// temporary check
+				continue;
+			.@size = getarraysize( getd(".@item_list_" + .@i) );
+			for ( .@h = 0; .@h < .@size; ++.@h ) {
+				.@id = getd( ".@item_list_" + .@i + "[" + .@h + "]" );
+				if (getiteminfo(.@id, ITEMINFO_TYPE) == -1)	// temporary check
+					continue;
+				if (countitem(.@id) < 1)
+					continue;
+				mes "[Stone To Mix Coin]";
+				mes "คุณใช้ITEM ^3131FF" + getitemname(.@id) + "^000000. ในการแลกเปลี่ยน Stone Mix Coin?";
+				next;
+				switch( select( "แลกเปลี่ยน", "หา Enchant Stone อาชีพอื่นไม่ใช่ใบนี้", "ไม่แลกดีกว่า" ) ) {
+				case 1:
+					mes "[Stone To Mix Coin]";
+					if (countitem(.@id) < 1)
+						mes "โอ้~ จู่ๆก็มีบางอย่างหายไป...";
+					else {
+						mes "แลกเปลี่ยนสำเร็จ.";
+						delitem .@id, 1;
+						getitem .@box_list[.@i], 1;
+					}
+					mes "ขอเช็ครายการอื่นแลกครับ...";
+					next;
+					break;
+				case 2:
+					break;
+				case 3:
+					mes "[Stone To Mix Coin]";
+					mes "คุณกำลังจะไปไหน?";
+					close;
+				}
+			}
+		}
+		mes "[Stone To Mix Coin]";
+		mes "ค้นหา Enchant Stone อาชีพทั้งหมดในตัว";
+		next;
+		if (select( "ค้นหา Item", "Exit" ) == 2) {
+			mes "[Stone To Mix Coin]";
+			mes "บายๆๆๆ";
+			close;
+		}
+	}
+
+OnInit:
+	waitingroom "Stone อาชีพ แลก Mix Coin",0;
+	end;
+}

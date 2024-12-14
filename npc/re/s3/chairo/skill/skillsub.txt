@@ -1,0 +1,19 @@
+
+morocc,171,103,3	script	Platinum Skill NPC	94,{
+	mes "[Platinum Skill NPC]";
+	mes "ยินดีต้อนรับ";
+	mes "คุณต้องการเรียนสกิล";
+	next;
+	if (select("ใช่.....ข้าต้องการ:ไม่....ข้าไม่ต้องการ") == 2) {
+		mes "[Platinum Skill NPC]";
+		mes "โอเคร......พร้อมละกลับมาใหม่";
+		close;
+	}
+	callfunc "F_GetPlatinumSkills";
+	mes "[Platinum Skill NPC]";
+	mes "เรียบร้อยข้าเพิ่มสกิลให้ท่านแล้ว!";
+	close;
+OnInit:
+	waitingroom "รับสกิลเสริม",0;
+	end;
+}

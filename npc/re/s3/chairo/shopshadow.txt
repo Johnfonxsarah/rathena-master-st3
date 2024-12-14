@@ -1,0 +1,10 @@
+morocc,169,63,3	script	Shop Shadow Box	615,{
+
+
+	callshop "shadow_box",1;
+	end;
+	
+OnInit:
+	waitingroom "Shadow �Ҫվ",0;
+	end;
+}

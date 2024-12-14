@@ -1,0 +1,13 @@
+morocc,180,85,3	script	Weapon Armor Trade	779,{
+
+	callshop "weapon_ticket",1;
+	end;
+	
+OnInit:
+	waitingroom "Weapon Armor Ticket",0;
+	end;
+}
+
+
+
+

@@ -1,0 +1,2 @@
+if( Class == 0 ) mes "Hi";
+else if( Class == 4001 ) mes "Hello";

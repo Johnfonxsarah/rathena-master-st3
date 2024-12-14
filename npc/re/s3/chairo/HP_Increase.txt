@@ -1,0 +1,5 @@
+-	script	HP	-1,{
+	if(Class == Job_Monk || Class == Job_Champion || Class == Job_Baby_Monk || Class == Job_Sura || Class == Job_Sura_T || Class == Job_Baby_Sura){
+		bonus bMaxHPrate,-50;
+	}
+}

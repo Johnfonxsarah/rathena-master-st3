@@ -1,0 +1,64 @@
+morocc,143,136,0	script	Fishing12	1074,{
+	
+//Fishing rod
+set .@Rod,2764;
+//Fishing Lure
+set .@Lure,2775;
+set .@Lure,2550;
+set .@Lure,2443;
+//Auto-Fish
+set .@Auto,1;
+//Auto-Fish on Fail
+set .@AutoFail,1;
+Fish:
+	if (isequipped(.@Rod)) && (isequipped(.@Lure)){
+		specialeffect2 EF_BUBBLE;
+		
+		dispbottom "[Fishing] โยนเบ็ดลงน้ำ...";
+		set .@fcast,15;
+			if (isequipped(2550)) { //Fisher's Muffler
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(2443)) { //Fisher's Boots
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(2764)) { //Fishing Pole
+				set .@fcast,.@fcast - 3;
+			}
+			if (isequipped(2775)) { //Fishing Lure
+				set .@fcast,.@fcast - 1;
+			}
+		progressbar "ffffff",.@fcast;
+		if (rand(1,30) == 2){
+		getitem 1200008,1; //Fish with Blue Back
+		specialeffect EF_BUBBLE;
+		if(.@Auto==1){
+		goto Fish;}else{
+		end;}
+		}
+			if (rand(1,6) == 1) ||(rand(1,6) == 3) || (rand(1,6) == 6){
+			setarray .@Catch[0],985,984,578,1400001,1400002,1400003;// List of Junk/Other
+			set .@CatchRand,.@Catch[rand(getarraysize(.@Catch))];
+			getitem .@CatchRand,1;
+			}
+			else {
+			dispbottom "[Fishing] แย่จังไม่ได้อะไรเลย...";
+			if(.@AutoFail == 1){
+			goto Fish;} else{
+			end;}
+			}
+		if (rand(1,30) == 3){
+		setarray .@Rare[0],7619,25464,7620,1400005,1400004;
+		set .@RareCatch, .@Rare[rand(getarraysize(.@Rare))];
+		getitem .@RareCatch,1; //Reward
+		}
+		if(.@Auto == 1){
+		goto Fish;} else{
+		end;}
+		}
+	else {
+	dispbottom "[Fishing] คุณไม่ได้ใส่เบ็ด,เหยื่อตกปลาและชุดตกปลา.";
+	end;
+	}
+}
+

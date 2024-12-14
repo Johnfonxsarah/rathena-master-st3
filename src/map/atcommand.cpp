@@ -357,7 +357,7 @@ ACMD_FUNC(send)
 				// parse string
 				++message;
 				CHECK_EOS(message);
-				end=(num<=0? 0: min(off+((int)num),len));
+				end=(num<=0? 0: min(off+((int32)num),len));
 				for(; *message != '"' && (off < end || end == 0); ++off){
 					if(*message == '\\'){
 						++message;
@@ -472,7 +472,7 @@ ACMD_FUNC(send)
 /**
  * Retrieves map name suggestions for a given string.
  * This will first check if any map names contain the given string, and will
- *   print32 out MAX_SUGGESTIONS results if any maps are found.
+ *   print out MAX_SUGGESTIONS results if any maps are found.
  * Otherwise, suggestions will be calculated through Levenshtein distance,
  *   and up to 5 of the closest matches will be printed.
  *
@@ -511,7 +511,7 @@ static void warp_get_suggestions(map_session_data* sd, const char *name) {
 		// Levenshtein > 4 is bad
 		const int32 LEVENSHTEIN_MAX = 4;
 
-		std::unordered_map<int, std::vector<const char*>> maps;
+		std::unordered_map<int32, std::vector<const char*>> maps;
 
 		for (int32 i = 0; i < map_num; i++) {
 			struct map_data *mapdata = map_getmapdata(i);
@@ -2320,7 +2320,7 @@ ACMD_FUNC(monster)
 		ShowInfo("%s monster='%s' name='%s' id=%d count=%d (%d,%d)\n", command, monster, name, mob_id, number, sd->bl.x, sd->bl.y);
 
 	count = 0;
-	range = (int)sqrt((float)number) +2; // calculation of an odd number (+ 4 area around)
+	range = (int32)sqrt((float)number) +2; // calculation of an odd number (+ 4 area around)
 	for (i = 0; i < number; i++) {
 		int32 k;
 		map_search_freecell(&sd->bl, 0, &mx,  &my, range, range, 0);
@@ -2355,7 +2355,7 @@ static int32 atkillmonster_sub(struct block_list *bl, va_list ap)
 	int32 flag;
 
 	nullpo_ret(md=(struct mob_data *)bl);
-	flag = va_arg(ap, int);
+	flag = va_arg(ap, int32);
 
 	if (md->guardian_data)
 		return 0; //Do not touch WoE mobs!
@@ -5176,7 +5176,7 @@ char* txt_time(t_tick duration_)
 	memset(temp1, '\0', sizeof(temp1));
 
 	// Cap it
-	int32 duration = (int)duration_;
+	int32 duration = (int32)duration_;
 
 	days = duration / (60 * 60 * 24);
 	duration = duration - (60 * 60 * 24 * days);
@@ -5377,7 +5377,7 @@ ACMD_FUNC(jailfor) {
 	atcmd_output[sizeof(atcmd_output)-1] = '\0';
 
 	modif_p = atcmd_output;
-	jailtime = (int)solve_time(modif_p)/60; // Change to minutes
+	jailtime = (int32)solve_time(modif_p)/60; // Change to minutes
 
 	if (jailtime == 0) {
 		clif_displaymessage(fd, msg_txt(sd,1136)); // Invalid time for jail command.
@@ -6734,7 +6734,7 @@ ACMD_FUNC(autoloot)
 	} else {
 		double drate;
 		drate = atof(message);
-		rate = (int)(drate*100);
+		rate = (int32)(drate*100);
 	}
 	if (rate < 0) rate = 0;
 	if (rate > 10000) rate = 10000;
@@ -8344,7 +8344,7 @@ ACMD_FUNC(homshuffle)
 		return -1;
 
 	clif_displaymessage(sd->fd, msg_txt(sd,1275)); // Homunculus stats altered.
-	atcommand_homstats(fd, sd, command, message); //Print32 out the new stats
+	atcommand_homstats(fd, sd, command, message); //Print out the new stats
 	return 0;
 }
 
@@ -8547,8 +8547,8 @@ static int32 atcommand_mutearea_sub(struct block_list *bl,va_list ap)
 	if (pl_sd == nullptr)
 		return 0;
 
-	id = va_arg(ap, int);
-	time = va_arg(ap, int);
+	id = va_arg(ap, int32);
+	time = va_arg(ap, int32);
 
 	if (id != bl->id && !pc_get_group_level(pl_sd)) {
 		pl_sd->status.manner -= time;
@@ -10377,7 +10377,7 @@ ACMD_FUNC(vip) {
 		int32 year,month,day,hour,minute,second;
 		char timestr[21];
 		
-		split_time((int)(pl_sd->vip.time-now),&year,&month,&day,&hour,&minute,&second);
+		split_time((int32)(pl_sd->vip.time-now),&year,&month,&day,&hour,&minute,&second);
 		sprintf(atcmd_output,msg_txt(pl_sd,705),year,month,day,hour,minute); // Your VIP status is valid for %d years, %d months, %d days, %d hours and %d minutes.
 		clif_displaymessage(pl_sd->fd,atcmd_output);
 		timestamp2string(timestr,20,pl_sd->vip.time,"%Y-%m-%d %H:%M");
@@ -10586,6 +10586,151 @@ ACMD_FUNC(cloneequip) {
 	sprintf(atcmd_output, msg_txt(sd, 738), "equip"); // Clone '%s' is done.
 	clif_displaymessage(fd, atcmd_output);
 
+	return 0;
+}
+
+/*=========================================
+* Check values of statsdamage [Memory of Thanatos]
+*-----------------------------------------*/
+ACMD_FUNC(statsdamage) {
+	char statsdamage_state[100];
+	char info[CHAT_SIZE_MAX];
+	int j, count = 0;
+	struct {
+		const char* format;
+		int value;
+	} info_table[] = {
+		{ NULL, 0 },
+		{ "   เพิ่มพลังโจมตีขนาดเล็กแรงขึ้น %d เปอร์เซ็นต์", 0 }, // 1
+		{ "   เพิ่มพลังโจมตีขนาดกลางแรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีขนาดใหญ่แรงขึ้น %d เปอร์เซ็นต์", 0 },
+
+		{ "   เพิ่มพลังโจมตีประเภท Normal แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีประเภท Boss แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   [ Guardian class resist ] %d เปอร์เซ็นต์", 0 },
+		{ "   [ Battlefield class resist ] %d เปอร์เซ็นต์", 0 }, // 7
+
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Formless แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Undead แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Brute แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Plant แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Insect แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Fish แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Demon แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท กึ่งมนุษย์ แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Angel แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีมอนเตอร์ประเภท Dragon แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตี ผู้เล่น แรงขึ้น %d เปอร์เซ็นต์", 0 }, // 18
+
+		{ "   เพิ่มพลังโจมตีCriDMGแรงขึ้น %d เปอร์เซ็นต์", 0 }, // 19
+		
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Formless แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Undead แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Brute แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Plant แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Insect แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Fish แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Demon แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท กึ่งมนุษย์ แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Angle แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์มอนเตอร์ประเภท Dragon แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์ ผู้เล่น แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีเวทย์ ผู้เล่นDoram แรงขึ้น %d เปอร์เซ็นต์", 0 }, // 31
+
+		{ "   เพิ่มพลังโจมตีธาตุ Neutra แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Water แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Earth แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Fire แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Wind แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Poison แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Holy แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Dark แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Ghost แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Undead แรงขึ้น %d เปอร์เซ็นต์", 0 }, // 41
+
+		{ "   เพิ่มพลังโจมตีธาตุ Neutra ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Water ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Earth ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Fire ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Wind ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Poison ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Holy ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Dark ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Ghost ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีธาตุ Undead ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 }, // 51
+
+		{ "   เพิ่มพลังโจมตีระยะไกลแรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีระยะใกล้แรงขึ้น %d เปอร์เซ็นต์", 0 }, // 53
+		{ "   เพิ่มพลังโจมตีขนาดเล็กด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีขนาดกลางด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีขนาดใหญ่ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },//56
+		{ "   เพิ่มพลังโจมตีประเภท Normal ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ "   เพิ่มพลังโจมตีประเภท Boss ด้วยเวทย์มนต์แรงขึ้น %d เปอร์เซ็นต์", 0 },
+		{ NULL, 0 }
+	};
+
+	memset(statsdamage_state, '\0', sizeof(statsdamage_state));
+	memset(info, '\0', sizeof(info));
+
+
+		info_table[0].format = statsdamage_state;
+
+		for (j = 0; j <= 2; j++)
+		info_table[j+1].value = sd->right_weapon.addsize[SZ_ALL] + sd->left_weapon.addsize[SZ_ALL] + sd->indexed_bonus.arrow_addsize[SZ_ALL] + sd->right_weapon.addsize[j] + sd->left_weapon.addsize[j] + sd->indexed_bonus.arrow_addsize[j];
+
+
+		for (j = 0; j <= 1; j++)
+			info_table[j+4].value = sd->right_weapon.addclass[CLASS_ALL] + sd->left_weapon.addclass[CLASS_ALL] + sd->indexed_bonus.arrow_addclass[CLASS_ALL] + sd->right_weapon.addclass[j] + sd->left_weapon.addclass[j] + sd->indexed_bonus.arrow_addclass[j];
+
+		for (j = 0; j <= 10; j++)
+			info_table[j+8].value = sd->right_weapon.addrace[RC_ALL] + sd->left_weapon.addrace[RC_ALL] + sd->indexed_bonus.arrow_addrace[RC_ALL] + sd->right_weapon.addrace[j] + sd->left_weapon.addrace[j] + sd->indexed_bonus.arrow_addrace[j];
+
+		for (j = 0; j <= 1; j++)
+			info_table[j+19].value = sd->bonus.crit_atk_rate;
+		
+		for (j = 0; j <= 12; j++)
+			info_table[j+20].value = sd->indexed_bonus.magic_addrace[RC_ALL] + sd->indexed_bonus.magic_addrace[j];
+
+
+		for (j = 0; j <= 9; j++)
+			info_table[j+32].value = sd->right_weapon.addele[ELE_ALL] + sd->left_weapon.addele[ELE_ALL] + sd->indexed_bonus.arrow_addele[ELE_ALL] + sd->right_weapon.addele[j] + sd->left_weapon.addele[j] + sd->indexed_bonus.arrow_addele[j];
+
+
+		for (j = 0; j <= 9; j++)
+			info_table[j+42].value = sd->indexed_bonus.magic_addele_script[ELE_ALL] + sd->indexed_bonus.magic_addele_script[j];
+
+		info_table[52].value = sd->bonus.long_attack_atk_rate;
+		info_table[53].value = sd->bonus.short_attack_atk_rate;
+		
+		for (j = 0; j <= 2; j++)
+			info_table[j+54].value = sd->indexed_bonus.magic_addsize[SZ_ALL] + sd->indexed_bonus.magic_addsize[j];
+		
+		for (j = 0; j <= 2; j++)
+			info_table[j+57].value = sd->indexed_bonus.magic_addclass[CLASS_ALL] + sd->indexed_bonus.magic_addclass[j];
+
+
+	for (j = 1; info_table[j].format != NULL; j++){
+		if( info_table[j].value != 0 )
+			count =+ 1;
+	}
+
+	if( count == 0 ){
+		sprintf(statsdamage_state, "คุณไม่มีสถานะพลังโจมตีต่างๆ");
+		clif_messagecolor(&sd->bl, color_table[COLOR_RED], statsdamage_state, false, SELF);
+	} else {
+		sprintf(statsdamage_state, "======== สถานะพลังโจมตีทั้งหมดของคุณ ========");
+		clif_messagecolor(&sd->bl, color_table[COLOR_WHITE], statsdamage_state, false, SELF);
+	}
+
+	for (j = 1; info_table[j].format != NULL; j++) {
+		sprintf(info, info_table[j].format, info_table[j].value);
+		if (info_table[j].value > 0 && info_table[j].value <= 200)
+			clif_messagecolor(&sd->bl, color_table[COLOR_CYAN], info, false, SELF);
+		else if (info_table[j].value > 200)
+			clif_messagecolor(&sd->bl, color_table[COLOR_YELLOW], info, false, SELF);
+		else  if (info_table[j].value < 0)
+			clif_messagecolor(&sd->bl, color_table[COLOR_RED], info, false, SELF);
+	}
 	return 0;
 }
 
@@ -11340,6 +11485,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(vip),
 		ACMD_DEF(showrate),
 #endif
+		ACMD_DEF(statsdamage),
 		ACMD_DEF(fullstrip),
 		ACMD_DEF(costume),
 		ACMD_DEF(cloneequip),

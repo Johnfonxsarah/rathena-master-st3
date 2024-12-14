@@ -1,0 +1,40 @@
+morocc,169,80,2	script	PvP Room	753,{
+
+	mes "[PvP Warper]";
+	mes "Which arena do you want to go to?";
+	switch(select("PVP Damage Guild War:Prontera ["+getmapusers("pvp_y_8-1")+"/100]:Izlude ["+getmapusers("pvp_y_8-2")+"/100]:Payon ["+getmapusers("pvp_y_8-3")+"/100]:Morocc ["+getmapusers("pvp_y_8-5")+"/100]")) {
+	case 1:	// Normal PVP
+		warp "pvp_y_room",78,83;
+		end;		
+	case 2:	// Normal PVP
+		if (getmapusers("pvp_y_8-1") > 99) callsub S_full;
+		warp "pvp_y_8-1",0,0;
+		end;
+
+	case 3:	// PVP NoPotion
+		if (getmapusers("pvp_y_8-2") > 99) callsub S_full;
+		warp "pvp_y_8-2",0,0;
+		end;
+
+	case 4:	// SinX PVP Room
+		if (getmapusers("pvp_y_8-3") > 99) callsub S_full;
+		
+		warp "pvp_y_8-3",0,0;
+		end;
+		
+	case 5:	// Champ PvP Room
+		if (getmapusers("pvp_y_8-5") > 99) callsub S_full;
+		
+		warp "pvp_y_8-5",0,0;
+		end;
+
+		S_full:
+		mes " ";
+		mes "I'm sorry, this arena is full. Please try again later...";
+		close;
+
+OnInit:
+		waitingroom "PvP Room",0;
+		end;
+	}
+}

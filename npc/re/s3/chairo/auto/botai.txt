@@ -1,0 +1,12 @@
+prontera,0,0,4	function	script	botai_	{
+
+attachnpctimer getcharid(3);
+atcommand "@boton";
+initnpctimer;
+return;
+
+OnTimer60000: //60 seconds
+OnTimerQuit:
+atcommand "@boton";
+   end;
+}

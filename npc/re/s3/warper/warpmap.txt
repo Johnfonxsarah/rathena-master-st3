@@ -1,0 +1,91 @@
+Cities and Towns
+1.0
+Prontera 	1
+Izlude 		16
+Jawaii		17
+Geffen 		13
+Payon 		31
+Morroc 		27
+Alberta 	2
+Comodo 		7
+Umbala 
+Al De Baran 3
+Lutie 		21
+5.0
+Juno
+6.0
+Amatsu		4
+Kunlun
+Louyang		20
+Ayothaya	5
+Moscovia	28
+Brasilis	6
+Dewata		8
+Port Malaya	23
+Rock Ridge	33
+7.0
+Village of Utan Tribe, Umbala
+8.0
+City of the Dead, Niflheim		30
+9.0
+Rebirth
+10.1
+City of Steel, Einbroch		11
+10.2
+City of Prosperity, Lighthalzen		19
+10.4
+Haven of the Forgotten, Hugel	15
+11.1
+Sacred Precinct of the Goddess, Capital City Rachel		32
+11.2
+ Hidden Gorge of Thor's Volcano, Veins
+11.3
+Nameless Island, the Cursed Monastery, Endless Nightmare	29
+Eclage		9
+Verus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dungeons
+1.0
+Ant Hell
+Byalan 
+Clock Tower	
+Dead Pit Mt. Mjolnir 
+Geffen Tower Dungeon
+Glast Heim	
+Hidden Temple	
+Orc Dungeon
+Payon Cave	
+Prontera Culvert	
+Pyramid	
+Sphinx	
+Toy Factory	
+3.0
+Beach Dungeon
+Illusion of Luanda
+5.0
+Magma Dungeon
+Juperos Ruins
+7.0
+Hvergelmir's Fountain
+10.1
+Kiel Hyre Dungeon
+10.3
+Noghalt - The Abyss Lake, The Tower of Thanatos
+10.4
+Abyss Lake
+Thanatos Tower
+Odin Temple
+

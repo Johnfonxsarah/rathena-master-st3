@@ -1,0 +1,20 @@
+morocc,144,76,3	script	Booster Weapon	564,{
+
+
+	callshop "booster_weapon",1;
+	end;
+	
+OnInit:
+	waitingroom "แลกอาวุธ Booster",0;
+	end;
+}
+
+morocc,144,71,3	script	Booster Armor	564,{
+
+	callshop "booster_armor",1;
+	end;
+OnInit:
+	waitingroom "แลกชุด Booster",0;
+	end;	
+
+}

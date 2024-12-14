@@ -1,0 +1,10 @@
+morocc,127,87,6	script	Shop Shop Dun Chai	611,{
+
+
+	callshop "shopdun",1;
+	end;
+	
+OnInit:
+	waitingroom "Shop Dun Chai",0;
+	end;
+}

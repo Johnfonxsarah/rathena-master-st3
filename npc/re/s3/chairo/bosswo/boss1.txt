@@ -1,0 +1,60 @@
+//===============================
+// Script : Event Treasure Box
+// Designe By : ParadoX
+//===============================
+
+guild_vs5,0,0,0	script	::BossWorld1#1	111,{
+	close;
+trevstart:
+	set $@trevent,rand(1,1);
+	set $@ftrevent,0;
+	announce "Boss World Event : Boss World ได้ปรากฏตัว ณ เมือง Boss World จำนวน "+$@trevent+" ตัว",0,0x0000FF;
+
+	monster "guild_vs5",0,0,"Fahrros",29542,$@trevent,"BossWorld1::OnTreasureDie";
+	end;
+OnTreasureDie:
+	set $@ftrevent,$@ftrevent+1;
+	if($@ftrevent>=$@trevent)
+	announce "ผู้เล่น " + strcharinfo(0) + " ได้กำจัด Boss World แล้ว",0,0000FF;
+	if($@ftrevent!=$@trevent)
+	announce "ผู้เล่น " + strcharinfo(0) + " ได้กำจัด Boss World ตัวที่ "+$@ftrevent+"/"+$@trevent+"",0,0x0000FF;
+	getitem 1200011,1;
+	end;
+trevend:
+	if($@ftrevent!=$@trevent)
+	announce "หมดเวลาในการล่า Boss World บอสได้ถูกกำจัดเรียบร้อย",0,0000FF;
+	killmonster "guild_vs5","BossWorld1::OnTreasureDie";
+	end;
+OnTimeout:
+	end;
+
+OnClock1800:
+	goto trevstart;
+	end;
+
+
+OnClock2100:
+	goto trevstart;
+	end;
+
+
+OnClock2300:
+	goto trevstart;
+	end;
+}
+
+//oasis.gat,177,40,4	script	ล่ากล่องสมบัติ	1641,{
+//mes "[ ^FF0000TreasureBox^000000 ]";
+//mes "ในเมือง Oasis จะมีกล่องสมบัติ";
+//mes "มันจะสุ่มเกิดในเมือง Oasis นี่แหล่ะ";
+//mes "[ ^FF0000เวลาเกิดของมัน^000000 ]";
+//mes "เกิดเวลา 5 - 10 นาทีแรกในทุกๆชั่วโมง";
+//mes "ไอเท็มที่ได้จากกล่องสมบัติก็คือ!!";
+//mes "Cash Coin 1 ea./TCG 1 ea./Poring Coin 1 ea. /1กล่อง";
+//mes "[ ^FF0000เจ้าคอยเฝ้าดูให้ดีก็แล้วกัน 555 !!!^000000 ]";
+//close;
+//
+//Oninit:
+//waitingroom "ล่ากล่องสมบัติ",0;
+//end;
+//} 

@@ -1,0 +1,214 @@
+morocc,107,96,4	script	Exotic Temporal Boots#extem1	1_F_01,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[Exotic Temporal Boots]";
+	mes "ดังนั้นคุณจึงมาร่ายมนตร์ Temporal Boots โปรดทราบว่าบู๊ทส์ที่มีซ็อกเก็ตไม่สามารถร่ายมนตร์ได้ และการอัพเกรดนี้สามารถทำได้กับรองเท้าบู๊ทที่คุณสวมใส่เท่านั้น.";
+	next;
+	if (select( "ลบ Enchant Temporal Exotic Boots", "เพิ่ม Enchant Exotic Temporal Boots" ) == 1) {
+		.@equip_id = getequipid(EQI_SHOES);
+		switch(.@equip_id) {
+			case 22202:// GamblerII
+				break;
+			default:
+				mes "[Exotic Temporal Boots]";
+				mes "^FF0000เจ้าไม่ได้ใส่ Exotic Temporal Boots มาด้วย.^000000";
+				close;
+		}
+		setarray .@card[0], getequipcardid(EQI_SHOES,0), getequipcardid(EQI_SHOES,1), getequipcardid(EQI_SHOES,2), getequipcardid(EQI_SHOES,3);
+		.@refine = getequiprefinerycnt(EQI_SHOES);
+
+		if (.@card[3] < 1) {
+			mes "[Exotic Temporal Boots]";
+			mes "Exotic Temporal Boots ยังไม่ผ่านการออฟมาก่อน.";
+			close;
+		}
+		mes "[Exotic Temporal Boots]";
+		mes "เจ้าสามารถเลือกประเภทลบออฟได้.";
+		mes "แบบแรกใช้เงินลบออฟ โอกาสสำเร็จ 70% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+		mes "แบบที่สอง ใช้ Silvervine Fruits สำเร็จ 100%.";
+		next;
+		switch( select( "3,000,000z", "Silvervine Fruits 10 อัน", "ยกเลิก" ) ) {
+		case 1:
+			mes "[Exotic Temporal Boots]";
+			mes "โอกาสสำเร็จ 70% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+			next;
+			if (select( "ตกลง.", "ขอคิดดูก่อน." ) == 2) {
+				mes "[Exotic Temporal Boots]";
+				mes "ไม่เตรียมพร้อมซะเลย.";
+				close;
+			}
+			if (Zeny < 3000000) {
+				mes "เงินมีไม่พอ.";
+				close;
+			}
+			next;
+			mes "[Exotic Temporal Boots]";
+			mes "จะลบออฟแล้วนะ";
+			next;
+			progressbar "000000",1;
+			
+			Zeny -= 3000000;
+			delequip EQI_SHOES;
+			if ( rand(100) < 70 ) {
+			specialeffect2 EF_FIREHIT;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+			mes "[Exotic Temporal Boots]";
+			mes "^0000cdลบออฟสำเร็จ.^000000";
+			close;
+			}
+		else
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Exotic Temporal Boots]";
+			mes "^FF0000ของแตกจ้า.^000000";
+			close;
+		case 2:
+			mes "[Exotic Temporal Boots]";
+			mes "โอกาสสำเร็จ 100%.";
+			next;
+			if (select( "ตกลง.", "ขอคิดดูก่อน." ) == 2) {
+				mes "[Exotic Temporal Boots]";
+				mes "ไม่เตรียมพร้อมซะเลย.";
+				close;
+			}
+			if (countitem(6417) < 10) {
+				mes "Silvervine Fruits มีไม่พอ.";
+				close;
+			}
+			next;
+			mes "[Exotic Temporal Boots]";
+			mes "จะลบออฟแล้วนะ";
+			next;
+			progressbar "000000",1;
+
+
+
+			delequip EQI_SHOES;
+			specialeffect2 EF_FIREHIT;
+			delitem 6417,10; // Silvervine Fruits
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+			mes "[Enchant Subject Cape]";
+			mes "^0000cdลบออฟสำเร็จ.^000000";
+			close;
+		case 3:
+			mes "[Exotic Temporal Boots]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+	}
+	if (!getequipisequiped(EQI_SHOES)) {
+		mes "[Exotic Temporal Boots]";
+		mes "คุณกำลังสวมใส่รายการ?";
+		close;
+	}
+	.@equip_id = getequipid(EQI_SHOES);
+
+	setarray .@enchant_1[0],4808,4832,4814,4741,4869,4752;// Fighting_Spirit4	Expert_Archer1	Spell2	Vitality2	DelayafterAttack1Lv	Luck3
+	setarray .@enchant_2[0],4820,4833,4813,4742,4872,4753;// Fighting_Spirit5	Expert_Archer2	Spell3	Vitality3	DelayafterAttack2Lv	Luck4
+	setarray .@enchant_3[0],4821,4834,4812,4861,4873,4754;// Fighting_Spirit6	Expert_Archer3	Spell4	MHP1		DelayafterAttack3Lv	Luck5
+	setarray .@enchant_4[0],4822,4835,4826,4862,4881,4755;// Fighting_Spirit7	Expert_Archer4	Spell5	MHP2		DelayafterAttack4Lv	Luck6
+	setarray .@enchant_cost[0],1,2,3,4,5;
+
+	switch(.@equip_id) {
+	case 22202:	// Temporal_STR_Boots
+
+		.@equip_name$ = getequipname(EQI_SHOES);
+		setarray .@card[0],
+			getequipcardid(EQI_SHOES,0),
+			getequipcardid(EQI_SHOES,1),
+			getequipcardid(EQI_SHOES,2),
+			getequipcardid(EQI_SHOES,3);
+		copyarray .@equip_card[0], .@card[0], 4;	// for final check
+		.@equip_refine = getequiprefinerycnt(EQI_SHOES);
+
+		if (.@card[2] > 0) {
+			mes "[Exotic Temporal Boots]";
+			mes "รองเท้าบูทเหล่านี้ได้ผ่านขีดจำกัดอันน่าหลงใหลไปแล้ว เราไม่สามารถร่ายมนตร์พวกเขาได้อีกต่อไป.";
+			close;
+		}
+		if (.@card[0] > 0) {
+			mes "[Exotic Temporal Boots]";
+			mes "กรุณาถอดการ์ดออกก่อน.";
+			close;
+		}
+		if (.@card[3] == 0) {// 4th slot 1st try enchanting
+			.@cost = .@enchant_cost[0];
+			mes "[Exotic Temporal Boots]";
+			mes "อยากจะร่ายมนตร์ ^0000FF" + .@equip_name$ + "^000000?";
+			mes "สำหรับการร่ายมนตร์ครั้งที่ 1 คุณต้องมี ^0000FF" + .@cost + "^000000 Dungeon Coin.";
+			next;
+			.@s = select( "Quit", "Fighting Spirit", "Archery", "Spell", "Vitality", "Attack Speed", "Lucky" ) - 2;
+			if (.@s == -1) {
+				mes "[Exotic Temporal Boots]";
+				mes "โอเค กลับมาเมื่อคุณพร้อม.";
+				close;
+			}
+			.@card[3] = .@enchant_1[.@s];
+			.@string$ = "enchant number ^6300001^000000.";
+		}
+		else {
+			for ( .@enchant_num = 1; .@enchant_num < 5; .@enchant_num++ ) {
+				for ( .@enchant_type = 0; .@enchant_type < 6 && .@card[3] != getd( ".@enchant_" + .@enchant_num + "[" + .@enchant_type + "]" ); .@enchant_type++ )
+					continue;
+				if (.@enchant_type < 6)
+					break;
+			}
+			if (.@enchant_num == 5) {
+				mes "[Exotic Temporal Boots]";
+				mes "มีบางอย่างผิดปกติเกิดขึ้น.";
+				close;
+			}
+			.@cost = .@enchant_cost[.@enchant_num];
+
+			mes "[Exotic Temporal Boots]";
+			if (.@enchant_num == 4) {
+				.@card[2] = callfunc("F_Rand",4875,4876,4877,4878,4879,4880);// Bear's_Power, Runaway_Magic, Speed_Of_Light, Muscle_Fool, Hawkeye, Lucky_Day
+				.@string$ = "^990000Bonus effect ^000000 upgrade.";
+				mes "ช่องที่ 4 ได้รับการอัปเกรดเป็นตัวเลือกสุดท้ายแล้ว. คุณต้องการเอฟเฟกต์โบนัสแบบสุ่มสำหรับช่องที่ 3 หรือไม่? ต้องใช้ ^0000ff" + .@cost + "^000000 Dungeon Coin.";
+			}
+			else {
+				.@number = .@enchant_num + 1;
+				.@card[3] = getd( ".@enchant_" + (.@enchant_num+1) + "[" + .@enchant_type + "]" );
+				.@string$ = "enchant number ^630000" + .@number + "^000000.";
+				mes "Enchanting ^0000FF" + .@equip_name$ + "^000000's 4th slot as ^0000FF" + .@number + "^000000 level effect. Requires ^0000FF" + .@cost + "^000000 Dungeon Coin.";
+			}
+			next;
+			if (select("Quit","Effect Upgrade!") == 1) {
+				mes "[Exotic Temporal Boots]";
+				mes "โอเค กลับมาเมื่อคุณพร้อม.";
+				close;
+			}
+		}
+		if (countitem(1300085) < .@cost) {
+			mes "[Exotic Temporal Boots]";
+			mes "คุณต้องใช้ " + (.@cost - countitem(1300085)) + " Dungeon Coin. ไปรับเพิ่มแล้วเราจะพูดถึงเรื่องมนต์เสน่ห์เพิ่มเติม.";
+			close;
+		}
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 1300085,.@cost;// Coagulated_Spell
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_SHOES, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_SHOES, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || callfunc("F_IsEquipRefineHack", EQI_SHOES, .@equip_refine))
+			close;
+
+		delequip EQI_SHOES;
+		mes "[Exotic Temporal Boots]";
+		mes "กำลังพยายามเพื่อ " + .@string$;
+		getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		close;
+	default:
+		mes "[Exotic Temporal Boots]";
+		mes "นี่ไม่ใช่ไอเท็มที่เหมาะสมสำหรับการร่ายมนตร์นี้.";
+		mes "โปรดจำไว้ว่าต้องใช้ Exotic Temporal Boots ในการ Enchant เท่านั้น.";
+		close;
+	}
+OnInit:
+waitingroom "Enchant Exotic Temporal Boots",0;
+end;
+}

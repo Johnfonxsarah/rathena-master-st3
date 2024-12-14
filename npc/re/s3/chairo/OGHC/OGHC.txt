@@ -1,0 +1,1078 @@
+1@gl_k2	mapflag	pvp	off
+1@gl_k2	mapflag	nowarp
+1@gl_k2	mapflag	nowarpto
+1@gl_k2	mapflag	noteleport
+1@gl_k2	mapflag	nosave
+1@gl_k2	mapflag	noicewall
+1@gl_k2	mapflag	nobranch
+1@gl_k2	mapflag	nomemo
+
+
+2@gl_k2	mapflag	pvp	off
+2@gl_k2	mapflag	nowarp
+2@gl_k2	mapflag	nowarpto
+2@gl_k2	mapflag	noteleport
+2@gl_k2	mapflag	nosave
+2@gl_k2	mapflag	noicewall
+2@gl_k2	mapflag	nobranch
+2@gl_k2	mapflag	nomemo
+
+
+
+
+2@gl_k2,159,238,3	script	Portal#EGHC	PORTAL,{
+mes "Return to Prontera?";
+switch (select ("No", "Yes")) {
+	case 1:
+	end;
+
+	case 2:	
+    warp "prontera",150,150;
+	end;
+}
+
+}
+
+
+
+2@gl_k2,156,240,3	script	Treasure#EGHC	4_TREASURE_BOX,{
+.@party_id = getcharid(1);
+
+if (getpartyleader(.@party_id,2) != getcharid(0))	
+end;
+getmapxy(.@map$,.@x,.@y,BL_PC);
+for(.@i=0;.@i<getmapusers(instance_mapname(strcharinfo(3)));.@i++){
+makeitem 7461,10,instance_mapname(strcharinfo(3)),.@x,.@y;
+}
+getitem 25864,4;
+
+hideoffnpc instance_npcname("Portal#EGHC");
+hideonnpc instance_npcname("Treasure#EGHC");
+end;
+OnInstanceInit:
+hideonnpc instance_npcname("Treasure#EGHC");
+hideonnpc instance_npcname("Portal#EGHC");
+
+end;
+}
+
+
+
+glast_01,190,275,3	script	Oscar	10307,{
+
+OnInst:
+getinventorylist;
+	if(@inventorylist_count>75){
+		mes "You have too many items in your inventory!!";
+		end;
+	}
+if((MaxWeight-Weight)<10000){
+	mes "You don't have enough free weight, come back when you empty more!";
+	end;
+}
+	if (BaseLevel < 185) {
+		mes "Go back when you reach level 185.";
+		end;
+	}
+	if (getcharid(1) < 1) {
+		mes "Come back when you have a party";
+		end;
+	}
+
+	if(gettimetick(2) < GHCD)
+	{
+		set .@h,(GHCD-gettimetick(2))/3600;
+		set .@m,(GHCD-gettimetick(2))%3600/60;
+		mes "Instance Delay: [ ^FF0000"+.@h+"h:"+.@m+"m ]";
+		close;
+	}
+
+	.@party_id = getcharid(1);
+	if (getpartyleader(.@party_id,2) == getcharid(0))
+		.@string$ = "Open portal.";
+	.@s = select( .@string$, "Glast Heim Challenge", "Never mind." );
+	if (.@s == 1) {
+	
+		if(instance_enter("Glast Heim Challenge") == IE_OK){ dispbottom "The portal is already open!"; end; }
+	
+		mes "[Oscar]";
+		mes "Here are the avalaible level for you Mr.";
+		mes "Choose wisely, and be carefull of the monster,";
+		mes "make sure you are strong enough.";
+		set .@mn,select("Level 1:Level 2:Level 3:Level 4:Level 5:Level 6:Level 7:Level 8:Level 9:Level 10");
+				
+		if(.@mn > 1 && GHCT < (.@mn-1)) {
+			mes "[Oscar]";
+			mes "^FF0000* You need to finish the Level "+ (GHCT + 1) +" and subsequent!*^000000";
+			close;
+		}
+		
+		getpartymember getcharid(1),0;		
+		
+		if($@partymembercount > 1)
+		{			
+			getpartymember getcharid(1),1;
+			getpartymember getcharid(1),2;
+			
+			for (set .@i,0; .@i<$@partymembercount; set .@i,.@i+1 )
+			{
+				if (isloggedin($@partymemberaid[.@i],$@partymembercid[.@i]))
+				{
+					if((getvar(GHCT,$@partymembercid[.@i])) < (.@mn-1) && $@partymembercid[.@i] != getcharid(0))
+					{ dispbottom "[ "+$@partymembername$[.@i]+" ]: You cannot do this level "+.@mn+"!"; set .@err,1; }
+					
+					if(gettimetick(2) < (getvar(GHCD,$@partymembercid[.@i])) && $@partymembercid[.@i] != getcharid(0))
+					{ dispbottom "[ "+$@partymembername$[.@i]+" ]: You need to wait for several hours!"; set .@er,1; }
+				}
+			}
+		}
+		
+		if(.@err) mes "^FF0000* One of your team cannot enter this level "+.@mn+"!";
+		if(.@er) mes "^FF0000* Some member of your team has an instance delay!";
+		if(.@err || .@er) close;
+		
+		mes "Done.";
+		
+		setarray $@GHCT_IDs[getarraysize($@GHCT_IDs)],getcharid(0);
+		set @GHCT,.@mn;
+		instance_create("Glast Heim Challenge");
+		close;
+	}
+	
+	if (.@s == 2) {
+		switch( instance_enter("Glast Heim Challenge") ) {
+		case IE_NOMEMBER:
+		case IE_NOINSTANCE:
+		case IE_OTHER:
+			mes "Instance is not yet generated.";
+			break;
+		case IE_OK:
+			break;
+		}
+	}
+	end;
+}
+
+
+prontera,163,159,3	script	Reset Delay	10307,{ 
+	set GHCD,0;
+	dispbottom "Old Glast Heim delay instance has been reseted.";
+	end;
+	
+}
+
+
+1@gl_k2,0,0,0	script	GHCMain	-1,{
+
+OnInstanceInit:
+setarray $DropWeapGHC[0],1336,18191,21055,28141,32027,32353,1870,2060,13347,18198,26165,26166,26172,26216,28046,28636,28774,28775,28776,32111,32304,32401,32402,32403;
+set 'mapinst1$,instance_mapname("1@gl_k2");
+set 'mapinst2$, instance_mapname("2@gl_k2");
+
+set 'Level,(getvar(@GHCT,$@GHCT_IDs[0]) < 1 ? 1:getvar(@GHCT,$@GHCT_IDs[0]));
+deletearray $@GHCT_IDs[0],getarraysize($@GHCT_IDs);
+
+set 'skills,0;
+'label1$ = instance_npcname("GHCMain") + "::OnMobsKilled";
+'label2$ = instance_npcname("GHCMain") + "::OnBossKilled";
+'label3$ = instance_npcname("GHCMain") + "::OnHidden";
+disablenpc instance_npcname("ghcwarp10");
+disablenpc instance_npcname("ghcwarp9");
+hideonnpc instance_npcname("Oscar#Boss");
+
+donpcevent instance_npcname("GHCMain") + "::OnMobs";
+
+end;
+
+
+OnHidden:
+end;
+
+OnBossBattleNormal:
+
+	setarray .@boss1[0],2475,2475,2475,2475,3150,3150,20575,20575,20575,20575;			//comrrupet
+    setarray .@boss2[0],2476,2476,2476,2476,3151,3151,20573,20573,20573,20573;			//amdaras
+    setarray .@boss3[0],20572,20572,20572,20572,20572,20572,20572,20572,20572,20572; 	//himel
+	
+set 'randboss,rand(1,5);
+if('randboss==1){
+set 'bosid,.@boss1[('Level-1)];
+}
+if('randboss>1){
+set 'bosid,.@boss2[('Level-1)];
+}
+set 'qualboss,rand(1,10);
+if('qualboss==1){
+set 'bosid,.@boss3[('Level-1)];
+
+}
+monster  'mapinst2$,157,239,"[Level "+'Level+"] "+strmobinfo(1,'bosid)+"",'bosid,1,'label2$;
+'boss_id = $@mobid[0];
+
+monster  'mapinst2$,142,236,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,151,236,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,160,236,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,169,236,"--ja--",3038,1,'label3$;
+
+monster  'mapinst2$,142,250,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,151,250,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,160,250,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,169,250,"--ja--",3038,1,'label3$;
+
+monster  'mapinst2$,142,243,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,151,243,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,160,243,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,169,243,"--ja--",3038,1,'label3$;
+
+
+monster  'mapinst2$,142,227,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,151,227,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,160,227,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,169,227,"--ja--",3038,1,'label3$;
+
+
+monster  'mapinst2$,142,218,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,151,218,"--ja--",3038,1,'label3$;
+monster  'mapinst2$,160,218,"--ja--",3038,1,'label3$;
+
+donpcevent instance_npcname("GHCskills") + "::OnSkills";
+
+
+end;
+
+
+
+// drops desativados
+OnMobsKilled:
+if(playerattached()){
+set .@randdrop,rand(1,100);
+if(.@randdrop<=5){
+set .@max,getarraysize($DropWeapGHC)-1;	
+getitem $DropWeapGHC[rand(0,.@max)],1;	
+}
+}
+
+
+
+if(mobcount('mapinst2$,'label1$)%10==0 || mobcount('mapinst2$,'label1$)<=10)
+mapannounce 'mapinst2$, "Remaining Monster: "+mobcount('mapinst2$,'label1$)+".", bc_map,0xFFFF00;
+
+//dispbottom "Remaining Monster: "+mobcount('mapinst2$,'label1$)+".";
+
+if(mobcount('mapinst2$,'label1$)<=0){
+
+
+mapannounce 'mapinst2$, "North access is opened!", bc_map,0xFFFF00;
+enablenpc instance_npcname("ghcwarp10");
+enablenpc instance_npcname("ghcwarp9");
+hideoffnpc instance_npcname("Oscar#Boss");
+}
+
+
+end;
+
+
+OnMobs:
+//Nasce Mob Normal
+areamonster 'mapinst2$,31,156,123,24,"--ja--",20577,10,'label1$;
+areamonster 'mapinst2$,31,156,123,24,"--ja--",20578,10,'label1$;
+areamonster 'mapinst2$,31,156,123,24,"--ja--",20574,10,'label1$;
+areamonster 'mapinst2$,31,156,123,24,"--ja--",20576,10,'label1$;
+areamonster 'mapinst2$,31,156,123,24,"--ja--",20579,10,'label1$;
+areamonster 'mapinst2$,31,156,123,24,"--ja--",20580,10,'label1$;
+
+areamonster 'mapinst2$,177,25,260,150,"--ja--",20577,10,'label1$;
+areamonster 'mapinst2$,177,25,260,150,"--ja--",20578,10,'label1$;
+areamonster 'mapinst2$,177,25,260,150,"--ja--",20574,10,'label1$;
+areamonster 'mapinst2$,177,25,260,150,"--ja--",20576,10,'label1$;
+areamonster 'mapinst2$,177,25,260,150,"--ja--",20579,10,'label1$;
+areamonster 'mapinst2$,177,25,260,150,"--ja--",20580,10,'label1$;
+
+end;
+
+
+OnBossKilled:
+set 'skills,1;
+hideoffnpc instance_npcname("Treasure#EGHC");
+
+
+	getpartymember getcharid(1),1;
+	getpartymember getcharid(1),2;
+
+	for (set .@i,0; .@i<$@partymembercount; set .@i,.@i+1 )
+	{
+		if (isloggedin($@partymemberaid[.@i],$@partymembercid[.@i]))
+		{
+			attachrid($@partymemberaid[.@i]);
+			set GHCT,(GHCT < 'Level ? 'Level:GHCT); 
+			set GHCD,gettimetick(2)+14400;
+			detachrid;	
+		}
+	}
+
+end;
+}
+
+
+
+
+2@gl_k2,158,240,3	script	Oscar#Boss	10307,{
+.@party_id = getcharid(1);
+if (getpartyleader(.@party_id,2) != getcharid(0))	
+end;
+	mes "[Oscar]";
+	mes "Start Boss Battle?";
+switch(select("Yes","No")){
+case 1:
+end;
+case 2:
+donpcevent instance_npcname("GHCMain") + "::OnBossBattleNormal";
+sleep 100;
+mapwarp 'mapinst2$,'mapinst2$,150,195;
+hideonnpc instance_npcname("Oscar#Boss");
+
+end;
+}
+
+
+end;
+
+}
+
+
+//Warps
+
+2@gl_k2,149,163,0	warp	ghcwarp9	2,2,2@gl_k2,149,172
+2@gl_k2,149,168,0	warp	ghcwarp10	2,2,2@gl_k2,149,160
+
+
+
+//
+2@gl_k2,146,81,0	warp	ghcwarp1	2,2,2@gl_k2,129,81
+2@gl_k2,146,123,0	warp	ghcwarp2	2,2,2@gl_k2,129,123
+2@gl_k2,153,139,0	warp	ghcwarp3	2,2,2@gl_k2,170,139
+2@gl_k2,153,101,0	warp	ghcwarp4	2,2,2@gl_k2,170,101
+
+
+2@gl_k2,135,81,0	warp	ghcwarp5	2,2,2@gl_k2,150,81
+2@gl_k2,135,123,0	warp	ghcwarp6	2,2,2@gl_k2,150,123
+2@gl_k2,164,139,0	warp	ghcwarp7	2,2,2@gl_k2,150,139
+2@gl_k2,164,101,0	warp	ghcwarp8	2,2,2@gl_k2,150,101
+
+
+
+
+2@gl_k2,0,0,0	script	GHCskills	10307,{
+
+OnSkills:
+if('skills==1)
+end;
+
+
+set .@qualskill,rand(1,6);
+getunitdata 'boss_id,.@bossteste;
+
+
+if(.@bossteste[6]>181||.@bossteste[6]<137||.@bossteste[7]>255||.@bossteste[7]<217)
+unitwarp 'boss_id,'mapinst2$,157,238;
+
+if('bosid!=20572)
+{
+areamobuseskill  'mapinst2$,149,148,5000,3038,339,100,1,0,0,0;
+
+}
+//Ganbatein
+
+
+sleep 5;
+
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-3,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+3,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-5,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+5,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+7,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-7,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+11,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-11,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-11,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-3,.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+3,.@bossteste[7]-3,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-5,.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+5,.@bossteste[7]-5,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+7,.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-7,.@bossteste[7]+7,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-9,.@bossteste[7]-9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+9,.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-11,.@bossteste[7]-11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]-11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,483,1,.@bossteste[6]+11,.@bossteste[7]-11,-1000;
+
+sleep 200;
+
+if(.@qualskill==1){
+//Meteorox
+
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-3,.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+3,.@bossteste[7]-3,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-5,.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+5,.@bossteste[7]-5,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+7,.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-7,.@bossteste[7]+7,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-9,.@bossteste[7]-9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+9,.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-11,.@bossteste[7]-11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+11,.@bossteste[7]-11,-1000;
+}
+
+
+if(.@qualskill==2){
+//Meteoro +
+sleep 5;
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-3,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+3,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-5,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+5,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+7,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-7,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]+11,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6]-11,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,80,25,.@bossteste[6],.@bossteste[7]-11,-1000;
+
+}
+if(.@qualskill==3){
+
+//Fire wall x
+
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-3,.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+3,.@bossteste[7]-3,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-5,.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+5,.@bossteste[7]-5,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+7,.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-7,.@bossteste[7]+7,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-9,.@bossteste[7]-9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+9,.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-11,.@bossteste[7]-11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+11,.@bossteste[7]-11,-1000;
+}
+
+
+
+if(.@qualskill==4){
+//Firewall +
+
+
+sleep 5;
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-3,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+3,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-5,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+5,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+7,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-7,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]+11,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6]-11,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,18,100,.@bossteste[6],.@bossteste[7]-11,-1000;
+
+}
+
+
+if(.@qualskill==5){
+//HeavenDrive +
+
+
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-3,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+3,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-5,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+5,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+7,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-7,.@bossteste[7],-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-9,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+12,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-12,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]+12,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]-12,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-5,.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+5,.@bossteste[7]-5,-1000;
+
+}
+
+if(.@qualskill==6){
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-2,.@bossteste[7],-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]+2,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6],.@bossteste[7]-2,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-3,.@bossteste[7]-3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-3,.@bossteste[7]+3,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+3,.@bossteste[7]-3,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-5,.@bossteste[7]-5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-5,.@bossteste[7]+5,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+5,.@bossteste[7]-5,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+7,.@bossteste[7]+7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-7,.@bossteste[7]-7,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-7,.@bossteste[7]+7,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-9,.@bossteste[7]-9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-9,.@bossteste[7]+9,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+9,.@bossteste[7]-9,-1000;
+sleep 5;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-11,.@bossteste[7]-11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]-11,.@bossteste[7]+11,-1000;
+
+if(unitexists('boss_id))
+unitskillusepos 'boss_id,91,20,.@bossteste[6]+11,.@bossteste[7]-11,-1000;
+}
+
+
+
+sleep 3000;
+donpcevent instance_npcname("GHCskills") + "::OnSkills";
+
+end;
+}
+
+
+
+
+

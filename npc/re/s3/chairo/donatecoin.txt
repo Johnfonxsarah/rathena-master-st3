@@ -1,0 +1,47 @@
+morocc,130,106,6	script	Donate Coin#1	409,{
+	callshop "Shop_Coupon8#1",1;
+	npcshopattach "Shop_Coupon8#1";
+	dispbottom "[ระบบ] : สกิลDCลดราคาไม่มีผลสำหรับการซื้อไอเทมในนี้";
+	dispbottom "[ระบบ] : คุณมี Donate Coin ทั้งหมด [ "+countitem(.Given_ItemID)+" ชิ้น ]";
+//	mes "คุณมี Donate Coin ทั้งหมด : "+countitem(.Given_ItemID)+"";
+	end;
+
+OnBuyItem:
+	for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+		for(set @j,0; @j < getarraysize(.Shop_ItemID); set @j,@j+1) {
+			if(.Shop_ItemID[@j] == @bought_nameid[@i]) {
+				set @itemcost,(.Shop_Price[(@j)]*@bought_quantity[@i]);
+				set @totalcost,(@totalcost+@itemcost);
+				break;
+			}
+		}
+	}
+	
+	if(@totalcost > countitem(.Given_ItemID)) {
+		dispbottom "[ระบบ] : คุณมี Donate Coin ไม่พอสำหรับจะซื้อไอเทมนี้";
+	}
+	else {
+		for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+		getitem @bought_nameid[@i],@bought_quantity[@i];
+	}
+		delitem .Given_ItemID,@totalcost;
+//		dispbottom "[ระบบ] : ขอบคุณครับ โอกาศหน้าเชิญใหม่.";
+		dispbottom "[ระบบ] : คุณเหลือ Donate Coin ทั้งหมด [ "+countitem(.Given_ItemID)+" ชิ้น ]";
+	}
+	set @totalcost,0;
+	deletearray @bought_nameid[0],128;
+	deletearray @bought_quantity[0],128;
+end;
+
+OnInit:
+waitingroom "แลก Donate Coin",0;
+npcshopdelitem "Shop_Coupon8#1",908;
+set .Given_ItemID,1300010; // รหัสไอเทมใช้ซื้อ
+setarray .Shop_ItemID[0],23718,90214,90215,90216,1300102,1300103,1300104,1300105,1300106,1300107,1000282,1000287,1200009,6993,6994,6635,23436,23720,12920,12921,16396,16394,16258,16259,17244,17524; //รหัสไอเทม
+setarray .Shop_Price[0],5,50,50,50,30,30,30,30,30,30,20,30,1,30,30,4,3,2,5,5,5,5,3,3,2,2; //ราคา
+for(set .@i,0; .@i < getarraysize(.Shop_ItemID); set .@i,.@i+1) {
+npcshopadditem "Shop_Coupon8#1",.Shop_ItemID[.@i],.Shop_Price[.@i];
+}
+end;
+}
+-	shop	Shop_Coupon8#1	-1,908:-1

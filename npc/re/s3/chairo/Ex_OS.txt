@@ -1,0 +1,60 @@
+//===== Script =======================================
+//= Exchange Modification Parts
+//= Exchange Modification Modules
+//= By JumBo
+//====================================================
+morocc,180,99,3	script	OS Helm	4_F_REBELLION3,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[Rebellion]";
+	mes "ข้ามีหน้าที่แลกเปลี่ยน.";
+	mes "ใช้ 500 <ITEM>[Cor Cores]<INFO>25723</INFO></ITEM>";
+	mes "ใช้ 500 <ITEM>[Mysterious Components]<INFO>25669</INFO></ITEM>";
+	mes "ใช้ 10 <ITEM>[Broken Weapon]<INFO>25668</INFO></ITEM>";
+	mes "เพื่อแลกกับ <ITEM>[OS Helm Box]<INFO>100469</INFO></ITEM>";
+	next;
+	switch( select( "ออก", "แลก ^0000cdOS Helm Box^000000" ) ) {
+	case 1:
+		mes "[Rebellion]";
+		mes "ไว้วันหลังก็ได้.";
+		close;
+	case 2:
+			if (select("พร้อมแล้ว", "หยุดก่อน" )== 2) {
+				mes "[Rebellion]";
+				mes "ไว้วันหลังก็ได้.";
+				close;
+			}
+			if ((countitem(25723) < 500) || (countitem(25669) < 500) || (countitem(25668) < 10)) { // Cor Core ,Mysterious Component
+			next;
+			mes "[Rebellion]";
+			mes "เจ้ามี <ITEM>[Cor Cores]<INFO>25723</INFO></ITEM> หรือ.";
+			mes "<ITEM>[Mysterious Components]<INFO>25669</INFO></ITEM> หรือ.";
+			mes "<ITEM>[Broken Weapon]<INFO>25668</INFO></ITEM> ไม่เพียงพอ.";
+			close;
+			}
+		.@modul_rnd = rand(10000);
+		if (.@modul_rnd < 1600)		{ .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_Lucky_Strike
+		else if (.@modul_rnd < 1600)	{ .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_Fatal_Flash
+		else if (.@modul_rnd < 1600)	{ .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_Overpower
+		else if (.@modul_rnd < 1600)	{ .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_Firing_Shot
+		else if (.@modul_rnd < 1600)	{ .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_Spell_Buster
+		else if (.@modul_rnd < 1600)	{ .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_Unlimited_Vital
+		else { .@modul_item = 100469; @modulgrade$ = "OS Helm Box"; }	// Modification_Module_DEF
+		specialeffect EF_SPELLBREAKER;
+		delitem 25723,500;// Cor Core
+		delitem 25669,500;// Mysterious Component
+		delitem 25668,10;// Mysterious Component
+		getitem .@modul_item,1;
+		mes "เจ้าได้รับ.";
+		mes "<ITEM>[OS Helm Box]<INFO>100469</INFO></ITEM>";
+		close;
+	
+	}	
+}

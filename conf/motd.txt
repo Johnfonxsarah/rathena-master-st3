@@ -1,2 +1,10 @@
 // Internal default is limited to 128 lines.  If you need more, you will need to modify the MOTD_LINE_SIZE definition in pc.cpp
-Welcome to rAthena! Enjoy! Please report any bugs you find.
+// Welcome to rAthena! Enjoy! Please report any bugs you find.
+=========================================
+[[ยินดีต้อนรับเข้าสู่ SectorRO]]
+[[ปัจจุบัน EP 13.2 --99/70]]
+=========================================
+***สกิลก่อกวนผู้เล่นอื่น แจมมอนสเตอร์ผู้อื่นจนทำให้เกิดบรรยากาศเป็นลบ หากพบเจออัดรีเพลย์ส่ง GM ได้เลยค่ะ***
+***คนที่ทำพฤติกรรมแบบนี้จะถูกลงโทษตามความบ่อยของการทำผิด***
+***กฎระเบียบ server : ห้ามตัดโมชั่น!!!! ถ้าเจอจะโดนเตือน และแบนตามลำดับ***
+***หากพบปัญหาใดๆ สามารถแจ้งทาง GM ได้ทั้งหน้า Discord และในเกมค่ะ***

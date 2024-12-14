@@ -1,0 +1,1245 @@
+/*
+	==============================================================================
+							Edit-By-Readparam(bStr)
+	==============================================================================
+	
+	Line : 186 = ตั้งค่าเวลาประกาศก่อนเริ่มกิจกรรม เปิดให้เข้ากิจกรรม
+	Line : 192 = ตั้งค่าเวลาประกาศก่อนเริ่มกิจกรรม
+	Line : 197 = ตั้งค่าเวลาประกาศก่อนเริ่มกิจกรรม
+	Line : 202 = ตั้งค่าเวลาประกาศก่อนเริ่มกิจกรรม
+	Line : 207 = ตั้งค่าเวลาประกาศก่อนเริ่มกิจกรรม
+	Line : 301 = ตั้งรหัสไอเทมแจกรางวัล รอบที่ 1	ตัวอย่าง เช่น 7539,61001 เป็นต้น
+	Line : 302 = ตั้งจำนวนแจกรางวัล รอบที่ 1		ตัวอย่าง เช่น 100,50 เป็นต้น การตั้งจำนวน คอลั้มต้องเท่ากับรหัสไอเทม เช่น รหัสไอเทมมี 7539,61001 คือ 2 คอลั้ม จำนวนต้องเท่ากันด้วย เช่น 100,50 = 7539 100ea / 61001 50ea
+	Line : 304 = ตั้งรหัสไอเทมแจกรางวัล รอบที่ 2	ตัวอย่าง เช่น 7539,61001 เป็นต้น
+	Line : 305 = ตั้งจำนวนแจกรางวัล รอบที่ 2		ตัวอย่าง เช่น 100,50 เป็นต้น การตั้งจำนวน คอลั้มต้องเท่ากับรหัสไอเทม เช่น รหัสไอเทมมี 7539,61001 คือ 2 คอลั้ม จำนวนต้องเท่ากันด้วย เช่น 100,50 = 7539 100ea / 61001 50ea
+	Line : 307 = ตั้งรหัสไอเทมแจกรางวัล รอบที่ 3	ตัวอย่าง เช่น 7539,61001 เป็นต้น
+	Line : 308 = ตั้งจำนวนแจกรางวัล รอบที่ 3		ตัวอย่าง เช่น 100,50 เป็นต้น การตั้งจำนวน คอลั้มต้องเท่ากับรหัสไอเทม เช่น รหัสไอเทมมี 7539,61001 คือ 2 คอลั้ม จำนวนต้องเท่ากันด้วย เช่น 100,50 = 7539 100ea / 61001 50ea
+	Line : 310 = ตั้งรหัสไอเทมแจกรางวัล รอบที่ 4	ตัวอย่าง เช่น 7539,61001 เป็นต้น
+	Line : 311 = ตั้งจำนวนแจกรางวัล รอบที่ 4		ตัวอย่าง เช่น 100,50 เป็นต้น การตั้งจำนวน คอลั้มต้องเท่ากับรหัสไอเทม เช่น รหัสไอเทมมี 7539,61001 คือ 2 คอลั้ม จำนวนต้องเท่ากันด้วย เช่น 100,50 = 7539 100ea / 61001 50ea
+	Line : 313 = ตั้งรหัสไอเทมแจกรางวัล รอบที่ 5	ตัวอย่าง เช่น 7539,61001 เป็นต้น
+	Line : 314 = ตั้งจำนวนแจกรางวัล รอบที่ 5		ตัวอย่าง เช่น 100,50 เป็นต้น การตั้งจำนวน คอลั้มต้องเท่ากับรหัสไอเทม เช่น รหัสไอเทมมี 7539,61001 คือ 2 คอลั้ม จำนวนต้องเท่ากันด้วย เช่น 100,50 = 7539 100ea / 61001 50ea
+	Line : 316 = ตั้งรหัสไอเทมแจกรางวัล รอบที่ 6	ตัวอย่าง เช่น 7539,61001 เป็นต้น
+	Line : 317 = ตั้งจำนวนแจกรางวัล รอบที่ 6		ตัวอย่าง เช่น 100,50 เป็นต้น การตั้งจำนวน คอลั้มต้องเท่ากับรหัสไอเทม เช่น รหัสไอเทมมี 7539,61001 คือ 2 คอลั้ม จำนวนต้องเท่ากันด้วย เช่น 100,50 = 7539 100ea / 61001 50ea
+	
+	คำสั่งการใช้งาน อื่น ๆ หรือ เพิ่มรอบพิเศษ ให้พิม @dcon
+
+*/
+
+morocc,153,80,4	script	กิจกรรมถอยเต๋า	723,{	//	ห้ามเปลี่ยนชื่อ	npc	กิจกรรมถอยเต๋า
+Start:
+	
+	mes	"^FF0066[ "+strnpcinfo(0)+" ]^000000";
+	mes "เวลาวาปเข้าร่วมกิจกรรม ^0099FF20:25 น.^000000";
+	mes "หมดเวลาวาปเข้าร่วมกิจกรรม ^0099FF20:30 น.^000000";
+	mes	"จะเข้ากิจกรรมใช่ไหม";
+	
+	Switch(Select("• เข้าร่วมกิจจกรม [ "+getmapusers("job_knt")+" ] คน.:- เช็ครางวัลกิจกรรม")){
+
+		case 1:
+			
+			if($event_dice_on == 0){
+			
+				next;
+				mes	"^FF0066[ "+strnpcinfo(0)+" ]^000000";
+				
+				mes "ขณะนี้ยังไม่ถึงเวลาร่วมกิจกรรม";
+				end;
+			
+			}
+			
+			if($event_dice_on == 1){
+				next;
+				mes	"[	Event	]";
+				mes	"คุณแน่ใจนะ";
+				mes	"จะเข้าไปเบอร์ไหนล่ะ";
+				
+				switch(select("- เบอร์ 1","- เบอร์ 2","- เบอร์ 3","- เบอร์ 4","- เบอร์ 5","- เบอร์ 6"))	{
+
+					case	1:
+			
+						announce	"[ กิจกรรมทอยเต๋า ] : คุณ "+strcharinfo(0)+" ได้เข้าร่วมกิจกรรมแล้ว",0,0xFF0000;
+						warp	"job_knt",135,63;
+						end;
+
+					case	2:
+
+						announce	"[ กิจกรรมทอยเต๋า ] : คุณ "+strcharinfo(0)+" ได้เข้าร่วมกิจกรรมแล้ว",0,0xFF0000;
+						warp	"job_knt",135,55;
+						end;
+
+					case	3:
+
+						announce	"[ กิจกรรมทอยเต๋า ] : คุณ "+strcharinfo(0)+" ได้เข้าร่วมกิจกรรมแล้ว",0,0xFF0000;
+						warp	"job_knt",135,45;
+						end;
+
+					case	4:
+
+						announce	"[ กิจกรรมทอยเต๋า ] : คุณ "+strcharinfo(0)+" ได้เข้าร่วมกิจกรรมแล้ว",0,0xFF0000;
+						warp	"job_knt",152,63;
+						end;
+
+					case	5:
+
+						announce	"[ กิจกรรมทอยเต๋า ] : คุณ "+strcharinfo(0)+" ได้เข้าร่วมกิจกรรมแล้ว",0,0xFF0000;
+						warp	"job_knt",152,55;
+						end;
+
+					case	6:
+
+						announce	"[ กิจกรรมทอยเต๋า ] : คุณ "+strcharinfo(0)+" ได้เข้าร่วมกิจกรรมแล้ว",0,0xFF0000;
+						warp	"job_knt",152,45;
+						end;
+
+				}
+
+			}
+		
+		case 2:
+			
+			next;
+			mes "^FF0066[ "+strnpcinfo(0)+" ]^000000";
+			mes "รอบที่ 1";
+			for ( .@a = 0; .@a < getarraysize($rw_dice_round_01); .@a ++){
+				mes "<ITEM>"+getitemname($rw_dice_round_01[.@a])+" จำนวน "+$amount_dice_round_01[.@a]+" ea<INFO>"+$rw_dice_round_01[.@a]+"</INFO></ITEM>";
+			}
+			next;
+			mes "^FF0066[ "+strnpcinfo(0)+" ]^000000";
+			mes "รอบที่ 2";
+			for ( .@b = 0; .@b < getarraysize($rw_dice_round_02); .@b ++){
+				mes "<ITEM>"+getitemname($rw_dice_round_02[.@b])+" จำนวน "+$amount_dice_round_02[.@b]+" ea<INFO>"+$rw_dice_round_02[.@b]+"</INFO></ITEM>";
+			}
+			next;
+			mes "^FF0066[ "+strnpcinfo(0)+" ]^000000";
+			mes "รอบที่ 3";
+			for ( .@c = 0; .@c < getarraysize($rw_dice_round_03); .@c ++){
+				mes "<ITEM>"+getitemname($rw_dice_round_03[.@c])+" จำนวน "+$amount_dice_round_03[.@c]+" ea<INFO>"+$rw_dice_round_03[.@c]+"</INFO></ITEM>";
+			}
+			next;
+			mes "^FF0066[ "+strnpcinfo(0)+" ]^000000";
+			mes "รอบที่ 4";
+			for ( .@d = 0; .@d < getarraysize($rw_dice_round_04); .@d ++){
+				mes "<ITEM>"+getitemname($rw_dice_round_04[.@d])+" จำนวน "+$amount_dice_round_04[.@d]+" ea<INFO>"+$rw_dice_round_04[.@d]+"</INFO></ITEM>";
+			}
+			next;
+			mes "^FF0066[ "+strnpcinfo(0)+" ]^000000";
+			mes "รอบที่ 5";
+			for ( .@e = 0; .@e < getarraysize($rw_dice_round_05); .@e ++){
+				mes "<ITEM>"+getitemname($rw_dice_round_05[.@e])+" จำนวน "+$amount_dice_round_05[.@e]+" ea<INFO>"+$rw_dice_round_05[.@e]+"</INFO></ITEM>";
+			}
+			next;
+			mes "^FF0066[ "+strnpcinfo(0)+" ]^000000";
+			mes "รอบที่ 6";
+			for ( .@f = 0; .@f < getarraysize($rw_dice_round_06); .@f ++){
+				mes "<ITEM>"+getitemname($rw_dice_round_06[.@f])+" จำนวน "+$amount_dice_round_06[.@f]+" ea<INFO>"+$rw_dice_round_06[.@f]+"</INFO></ITEM>";
+			}
+			
+			end;
+			
+	}		
+
+
+OnInit:
+	waitingroom	"[#] กิจกรรมทอยเต๋า",0;
+	end;
+}
+
+job_knt,0,0,0	script	Event_Dice_Setting	-1,{
+
+Start:
+
+
+Onclock2025:
+
+	announce	"[ กิจกรรมทอยเต๋า ] : คุณมีเวลาเข้ากิจกรรมทอยเต๋าจนถึงเวลา 20:30 น.",0,0xFFFF00;
+	set $event_dice_on,1;
+	end;
+	
+Onclock2026:
+
+	announce	"[ กิจกรรมทอยเต๋า ] : คุณมีเวลาเข้ากิจกรรมทอยเต๋าจนถึงเวลา 20:30 น.",0,0xFFFF00;
+	end;
+	
+Onclock2027:
+
+	announce	"[ กิจกรรมทอยเต๋า ] : คุณมีเวลาเข้ากิจกรรมทอยเต๋าจนถึงเวลา 20:30 น.",0,0xFFFF00;
+	end;
+	
+Onclock2028:
+
+	announce	"[ กิจกรรมทอยเต๋า ] : คุณมีเวลาเข้ากิจกรรมทอยเต๋าจนถึงเวลา 20:30 น.",0,0xFFFF00;
+	end;
+	
+Onclock2029:
+
+	announce	"[ กิจกรรมทอยเต๋า ] : คุณมีเวลาเข้ากิจกรรมทอยเต๋าจนถึงเวลา 20:30 น.",0,0xFFFF00;
+	end;
+	
+	
+Onclock2030:
+
+	announce	"[ กิจกรรมทอยเต๋า ] : ขณะนี้หมดเวลาเข้าร่วมกิจกรรมแล้ว รอรอบหน้านะคะ.",0,0xFFFF00;
+	set $event_dice_on,0;
+	set $dice_round01,0;
+	set $dice_round02,0;
+	set $dice_round03,0;
+	set $dice_round04,0;
+	set $dice_round05,0;
+	set $dice_round06,0;
+	donpcevent "Event_Dice_V1::Onplaying";
+	
+	end;
+
+}
+
+job_knt,0,0,0	script	getitem_dice	-1,{
+
+end;
+
+On_Getitem_1:
+	
+	addrid(1);
+	
+	for( .@i = 0; .@i < getarraysize($rw_dice_round_01); .@i ++){
+		getitem $rw_dice_round_01[.@i],$amount_dice_round_01[.@i];
+	}
+	
+	end;
+	
+On_Getitem_2:
+	
+	addrid(1);
+	
+	for( .@i = 0; .@i < getarraysize($rw_dice_round_02); .@i ++){
+		getitem $rw_dice_round_02[.@i],$amount_dice_round_02[.@i];
+	}
+	
+	end;
+	
+On_Getitem_3:
+	
+	addrid(1);
+	
+	for( .@i = 0; .@i < getarraysize($rw_dice_round_03); .@i ++){
+		getitem $rw_dice_round_03[.@i],$amount_dice_round_03[.@i];
+	}
+	
+	end;
+	
+On_Getitem_4:
+	
+	addrid(1);
+	
+	for( .@i = 0; .@i < getarraysize($rw_dice_round_04); .@i ++){
+		getitem $rw_dice_round_04[.@i],$amount_dice_round_04[.@i];
+	}
+	
+	end;
+
+On_Getitem_5:
+	
+	addrid(1);
+	
+	for( .@i = 0; .@i < getarraysize($rw_dice_round_05); .@i ++){
+		getitem $rw_dice_round_05[.@i],$amount_dice_round_05[.@i];
+	}
+	
+	end;
+	
+On_Getitem_6:
+	
+	addrid(1);
+	
+	for( .@i = 0; .@i < getarraysize($rw_dice_round_06); .@i ++){
+		getitem $rw_dice_round_06[.@i],$amount_dice_round_06[.@i];
+	}
+	end;
+
+OnInit:
+	
+	deletearray $rw_dice_round_01;	deletearray $amount_dice_round_01;
+	deletearray $rw_dice_round_02;	deletearray $amount_dice_round_02;
+	deletearray $rw_dice_round_03;	deletearray $amount_dice_round_03;
+	deletearray $rw_dice_round_04;	deletearray $amount_dice_round_04;
+	deletearray $rw_dice_round_05;	deletearray $amount_dice_round_05;
+	deletearray $rw_dice_round_06;	deletearray $amount_dice_round_06;
+	
+	//	ตั้งรหัสไอเทมสำหรับ รอบที่ 1
+	setarray $rw_dice_round_01[0],12411,1300108,1300109,1300110;
+	//	ตั้งจำนวนไอเทมสำหรับ รอบที่ 1
+	setarray $amount_dice_round_01[0],3,15,15,15;
+	//	ตั้งรหัสไอเทมสำหรับ รอบที่ 2
+	setarray $rw_dice_round_02[0],17295,12411,1300108,1300109,1300110;
+	//	ตั้งจำนวนไอเทมสำหรับ รอบที่ 2
+	setarray $amount_dice_round_02[0],3,3,15,15,15;
+	//	ตั้งรหัสไอเทมสำหรับ รอบที่ 3
+	setarray $rw_dice_round_03[0],17295,12412,1300108,1300109,1300110;
+	//	ตั้งจำนวนไอเทมสำหรับ รอบที่ 3
+	setarray $amount_dice_round_03[0],3,3,15,15,15;
+	//	ตั้งรหัสไอเทมสำหรับ รอบที่ 4
+	setarray $rw_dice_round_04[0],17295,12412,1300108,1300109,1300110,1200009;
+	//	ตั้งจำนวนไอเทมสำหรับ รอบที่ 4
+	setarray $amount_dice_round_04[0],6,6,15,15,15,3;
+	//	ตั้งรหัสไอเทมสำหรับ รอบที่ 5
+	setarray $rw_dice_round_05[0],17295,12412,1300108,1300109,1300110,1200009;
+	//	ตั้งจำนวนไอเทมสำหรับ รอบที่ 5
+	setarray $amount_dice_round_05[0],6,6,30,30,30,3;
+	//	ตั้งรหัสไอเทมสำหรับ รอบที่ 6
+	setarray $rw_dice_round_06[0],17295,12412,1300108,1300109,1300110,1200011,1300085;
+	//	ตั้งจำนวนไอเทมสำหรับ รอบที่ 6
+	setarray $amount_dice_round_06[0],6,6,60,60,60,1,6;
+	
+	end;
+}
+
+
+job_knt,144,65,4	script	::Event_Dice_V1	111,{
+
+end;
+
+Onplaying:
+	
+	set $dicerandom,rand(1,6);
+	
+	if($dicerandom == $dice_round01){
+	
+		goto Onplaying;
+		
+	}
+	if($dicerandom == $dice_round02){
+	
+		goto Onplaying;
+		
+	}
+	if($dicerandom == $dice_round03){
+	
+		goto Onplaying;
+		
+	}
+	if($dicerandom == $dice_round04){
+	
+		goto Onplaying;
+		
+	}
+	if($dicerandom == $dice_round05){
+	
+		goto Onplaying;
+		
+	}
+	
+	if($dice_round01 == 0){
+	
+		set $dice_round01,$dicerandom;
+		goto recheck;
+		end;
+	}
+	if($dice_round02 == 0){
+	
+		set $dice_round02,$dicerandom;
+		goto recheck;
+		end;
+	}
+	if($dice_round03 == 0){
+	
+		set $dice_round03,$dicerandom;
+		goto recheck;
+		end;
+	}
+	if($dice_round04 == 0){
+	
+		set $dice_round04,$dicerandom;
+		goto recheck;
+		end;
+	}
+	if($dice_round05 == 0){
+	
+		set $dice_round05,$dicerandom;
+		goto recheck;
+		end;
+	}
+	if($dice_round06 == 0){
+	
+		set $dice_round06,$dicerandom;
+		goto recheck;
+		end;
+	}
+	
+recheck:
+	
+	set $roundeventdice,$roundeventdice +1;
+	
+	if($dicerandom == 1){
+		announce	"[ กิจกรรมทอยเต๋า ] : แจกของรางวัล ครั้งที่ [ "+$roundeventdice+" ]",0,0xFFFF00;
+		if($roundeventdice == 1){ donpcevent "getitem_dice::On_Getitem_1"; }
+		if($roundeventdice == 2){ donpcevent "getitem_dice::On_Getitem_2"; }
+		if($roundeventdice == 3){ donpcevent "getitem_dice::On_Getitem_3"; }
+		if($roundeventdice == 4){ donpcevent "getitem_dice::On_Getitem_4"; }
+		if($roundeventdice == 5){ donpcevent "getitem_dice::On_Getitem_5"; }
+		if($roundeventdice == 6){ donpcevent "getitem_dice::On_Getitem_6"; }
+		sleep 5000;
+		$emotion_dice = 58;
+		donpcevent "Emotion_01::OnEmotion";
+		donpcevent "Emotion_02::OnEmotion";
+		donpcevent "Emotion_03::OnEmotion";
+		donpcevent "Emotion_04::OnEmotion";
+		donpcevent "Emotion_05::OnEmotion";
+		donpcevent "Emotion_06::OnEmotion";
+		sleep 5000;
+		announce "[ กิจกรรมทอยเต๋า ] : ครั้งที่ [ "+$roundeventdice+" ] ห้องที่ตกรอบ คือ [ เบอร์ "+$dicerandom+" ]",0,0xFFFF00;
+		sleep 2000;
+		if($dicerandom == 1){ areawarp	"job_knt",131,68,139,61,"morocc",161,86; }
+		if($dicerandom == 2){ areawarp	"job_knt",131,59,139,53,"morocc",161,86; }
+		if($dicerandom == 3){ areawarp	"job_knt",131,51,139,43,"morocc",161,86; }
+		if($dicerandom == 4){ areawarp	"job_knt",148,68,156,61,"morocc",161,86; }
+		if($dicerandom == 5){ areawarp	"job_knt",148,59,156,53,"morocc",161,86; }
+		if($dicerandom == 6){ areawarp	"job_knt",148,51,156,43,"morocc",161,86; }
+		if($roundeventdice == 6){
+			announce	"[ กิจกรรมทอยเต๋า ] : [ "+$dice_round01+" ] [ "+$dice_round02+" ] [ "+$dice_round03+" ] [ "+$dice_round04+" ] [ "+$dice_round05+" ] [ "+$dice_round06+" ] ",0,0xFFFF00;
+			set $roundeventdice,0;
+			end;
+		}	else {
+				sleep 5000;
+				goto Onplaying;
+			}
+	}
+	
+	if($dicerandom == 2){
+		announce	"[ กิจกรรมทอยเต๋า ] : แจกของรางวัล ครั้งที่ [ "+$roundeventdice+" ]",0,0xFFFF00;
+		if($roundeventdice == 1){ donpcevent "getitem_dice::On_Getitem_1"; }
+		if($roundeventdice == 2){ donpcevent "getitem_dice::On_Getitem_2"; }
+		if($roundeventdice == 3){ donpcevent "getitem_dice::On_Getitem_3"; }
+		if($roundeventdice == 4){ donpcevent "getitem_dice::On_Getitem_4"; }
+		if($roundeventdice == 5){ donpcevent "getitem_dice::On_Getitem_5"; }
+		if($roundeventdice == 6){ donpcevent "getitem_dice::On_Getitem_6"; }
+		sleep 5000;
+		$emotion_dice = 59;
+		donpcevent "Emotion_01::OnEmotion";
+		donpcevent "Emotion_02::OnEmotion";
+		donpcevent "Emotion_03::OnEmotion";
+		donpcevent "Emotion_04::OnEmotion";
+		donpcevent "Emotion_05::OnEmotion";
+		donpcevent "Emotion_06::OnEmotion";
+		sleep 5000;
+		announce "[ กิจกรรมทอยเต๋า ] : ครั้งที่ [ "+$roundeventdice+" ] ห้องที่ตกรอบ คือ [ เบอร์ "+$dicerandom+" ]",0,0xFFFF00;
+		sleep 2000;
+		if($dicerandom == 1){ areawarp	"job_knt",131,68,139,61,"morocc",161,86; }
+		if($dicerandom == 2){ areawarp	"job_knt",131,59,139,53,"morocc",161,86; }
+		if($dicerandom == 3){ areawarp	"job_knt",131,51,139,43,"morocc",161,86; }
+		if($dicerandom == 4){ areawarp	"job_knt",148,68,156,61,"morocc",161,86; }
+		if($dicerandom == 5){ areawarp	"job_knt",148,59,156,53,"morocc",161,86; }
+		if($dicerandom == 6){ areawarp	"job_knt",148,51,156,43,"morocc",161,86; }
+		if($roundeventdice == 6){
+			announce	"[ กิจกรรมทอยเต๋า ] : [ "+$dice_round01+" ] [ "+$dice_round02+" ] [ "+$dice_round03+" ] [ "+$dice_round04+" ] [ "+$dice_round05+" ] [ "+$dice_round06+" ] ",0,0xFFFF00;
+			set $roundeventdice,0;
+			end;
+		}	else {
+				sleep 5000;
+				goto Onplaying;
+			}
+	}
+	
+	if($dicerandom == 3){
+		announce	"[ กิจกรรมทอยเต๋า ] : แจกของรางวัล ครั้งที่ [ "+$roundeventdice+" ]",0,0xFFFF00;
+		if($roundeventdice == 1){ donpcevent "getitem_dice::On_Getitem_1"; }
+		if($roundeventdice == 2){ donpcevent "getitem_dice::On_Getitem_2"; }
+		if($roundeventdice == 3){ donpcevent "getitem_dice::On_Getitem_3"; }
+		if($roundeventdice == 4){ donpcevent "getitem_dice::On_Getitem_4"; }
+		if($roundeventdice == 5){ donpcevent "getitem_dice::On_Getitem_5"; }
+		if($roundeventdice == 6){ donpcevent "getitem_dice::On_Getitem_6"; }
+		sleep 5000;
+		$emotion_dice = 60;
+		donpcevent "Emotion_01::OnEmotion";
+		donpcevent "Emotion_02::OnEmotion";
+		donpcevent "Emotion_03::OnEmotion";
+		donpcevent "Emotion_04::OnEmotion";
+		donpcevent "Emotion_05::OnEmotion";
+		donpcevent "Emotion_06::OnEmotion";
+		sleep 5000;
+		announce "[ กิจกรรมทอยเต๋า ] : ครั้งที่ [ "+$roundeventdice+" ] ห้องที่ตกรอบ คือ [ เบอร์ "+$dicerandom+" ]",0,0xFFFF00;
+		sleep 2000;
+		if($dicerandom == 1){ areawarp	"job_knt",131,68,139,61,"morocc",161,86; }
+		if($dicerandom == 2){ areawarp	"job_knt",131,59,139,53,"morocc",161,86; }
+		if($dicerandom == 3){ areawarp	"job_knt",131,51,139,43,"morocc",161,86; }
+		if($dicerandom == 4){ areawarp	"job_knt",148,68,156,61,"morocc",161,86; }
+		if($dicerandom == 5){ areawarp	"job_knt",148,59,156,53,"morocc",161,86; }
+		if($dicerandom == 6){ areawarp	"job_knt",148,51,156,43,"morocc",161,86; }
+		if($roundeventdice == 6){
+			announce	"[ กิจกรรมทอยเต๋า ] : [ "+$dice_round01+" ] [ "+$dice_round02+" ] [ "+$dice_round03+" ] [ "+$dice_round04+" ] [ "+$dice_round05+" ] [ "+$dice_round06+" ] ",0,0xFFFF00;
+			set $roundeventdice,0;
+			end;
+		}	else {
+				sleep 5000;
+				goto Onplaying;
+			}
+	}
+	
+	if($dicerandom == 4){
+		announce	"[ กิจกรรมทอยเต๋า ] : แจกของรางวัล ครั้งที่ [ "+$roundeventdice+" ]",0,0xFFFF00;
+		if($roundeventdice == 1){ donpcevent "getitem_dice::On_Getitem_1"; }
+		if($roundeventdice == 2){ donpcevent "getitem_dice::On_Getitem_2"; }
+		if($roundeventdice == 3){ donpcevent "getitem_dice::On_Getitem_3"; }
+		if($roundeventdice == 4){ donpcevent "getitem_dice::On_Getitem_4"; }
+		if($roundeventdice == 5){ donpcevent "getitem_dice::On_Getitem_5"; }
+		if($roundeventdice == 6){ donpcevent "getitem_dice::On_Getitem_6"; }
+		sleep 5000;
+		$emotion_dice = 61;
+		donpcevent "Emotion_01::OnEmotion";
+		donpcevent "Emotion_02::OnEmotion";
+		donpcevent "Emotion_03::OnEmotion";
+		donpcevent "Emotion_04::OnEmotion";
+		donpcevent "Emotion_05::OnEmotion";
+		donpcevent "Emotion_06::OnEmotion";
+		sleep 5000;
+		announce "[ กิจกรรมทอยเต๋า ] : ครั้งที่ [ "+$roundeventdice+" ] ห้องที่ตกรอบ คือ [ เบอร์ "+$dicerandom+" ]",0,0xFFFF00;
+		sleep 2000;
+		if($dicerandom == 1){ areawarp	"job_knt",131,68,139,61,"morocc",161,86; }
+		if($dicerandom == 2){ areawarp	"job_knt",131,59,139,53,"morocc",161,86; }
+		if($dicerandom == 3){ areawarp	"job_knt",131,51,139,43,"morocc",161,86; }
+		if($dicerandom == 4){ areawarp	"job_knt",148,68,156,61,"morocc",161,86; }
+		if($dicerandom == 5){ areawarp	"job_knt",148,59,156,53,"morocc",161,86; }
+		if($dicerandom == 6){ areawarp	"job_knt",148,51,156,43,"morocc",161,86; }
+		if($roundeventdice == 6){
+			announce	"[ กิจกรรมทอยเต๋า ] : [ "+$dice_round01+" ] [ "+$dice_round02+" ] [ "+$dice_round03+" ] [ "+$dice_round04+" ] [ "+$dice_round05+" ] [ "+$dice_round06+" ] ",0,0xFFFF00;
+			set $roundeventdice,0;
+			end;
+		}	else {
+				sleep 5000;
+				goto Onplaying;
+			}
+	}
+	
+	if($dicerandom == 5){
+		announce	"[ กิจกรรมทอยเต๋า ] : แจกของรางวัล ครั้งที่ [ "+$roundeventdice+" ]",0,0xFFFF00;
+		if($roundeventdice == 1){ donpcevent "getitem_dice::On_Getitem_1"; }
+		if($roundeventdice == 2){ donpcevent "getitem_dice::On_Getitem_2"; }
+		if($roundeventdice == 3){ donpcevent "getitem_dice::On_Getitem_3"; }
+		if($roundeventdice == 4){ donpcevent "getitem_dice::On_Getitem_4"; }
+		if($roundeventdice == 5){ donpcevent "getitem_dice::On_Getitem_5"; }
+		if($roundeventdice == 6){ donpcevent "getitem_dice::On_Getitem_6"; }
+		sleep 5000;
+		$emotion_dice = 62;
+		donpcevent "Emotion_01::OnEmotion";
+		donpcevent "Emotion_02::OnEmotion";
+		donpcevent "Emotion_03::OnEmotion";
+		donpcevent "Emotion_04::OnEmotion";
+		donpcevent "Emotion_05::OnEmotion";
+		donpcevent "Emotion_06::OnEmotion";
+		sleep 5000;
+		announce "[ กิจกรรมทอยเต๋า ] : ครั้งที่ [ "+$roundeventdice+" ] ห้องที่ตกรอบ คือ [ เบอร์ "+$dicerandom+" ]",0,0xFFFF00;
+		sleep 2000;
+		if($dicerandom == 1){ areawarp	"job_knt",131,68,139,61,"morocc",161,86; }
+		if($dicerandom == 2){ areawarp	"job_knt",131,59,139,53,"morocc",161,86; }
+		if($dicerandom == 3){ areawarp	"job_knt",131,51,139,43,"morocc",161,86; }
+		if($dicerandom == 4){ areawarp	"job_knt",148,68,156,61,"morocc",161,86; }
+		if($dicerandom == 5){ areawarp	"job_knt",148,59,156,53,"morocc",161,86; }
+		if($dicerandom == 6){ areawarp	"job_knt",148,51,156,43,"morocc",161,86; }
+		if($roundeventdice == 6){
+			announce	"[ กิจกรรมทอยเต๋า ] : [ "+$dice_round01+" ] [ "+$dice_round02+" ] [ "+$dice_round03+" ] [ "+$dice_round04+" ] [ "+$dice_round05+" ] [ "+$dice_round06+" ] ",0,0xFFFF00;
+			set $roundeventdice,0;
+			end;
+		}	else {
+				sleep 5000;
+				goto Onplaying;
+			}
+	}
+	
+	if($dicerandom == 6){
+		announce	"[ กิจกรรมทอยเต๋า ] : แจกของรางวัล ครั้งที่ [ "+$roundeventdice+" ]",0,0xFFFF00;
+		if($roundeventdice == 1){ donpcevent "getitem_dice::On_Getitem_1"; }
+		if($roundeventdice == 2){ donpcevent "getitem_dice::On_Getitem_2"; }
+		if($roundeventdice == 3){ donpcevent "getitem_dice::On_Getitem_3"; }
+		if($roundeventdice == 4){ donpcevent "getitem_dice::On_Getitem_4"; }
+		if($roundeventdice == 5){ donpcevent "getitem_dice::On_Getitem_5"; }
+		if($roundeventdice == 6){ donpcevent "getitem_dice::On_Getitem_6"; }
+		sleep 5000;
+		$emotion_dice = 63;
+		donpcevent "Emotion_01::OnEmotion";
+		donpcevent "Emotion_02::OnEmotion";
+		donpcevent "Emotion_03::OnEmotion";
+		donpcevent "Emotion_04::OnEmotion";
+		donpcevent "Emotion_05::OnEmotion";
+		donpcevent "Emotion_06::OnEmotion";
+		sleep 5000;
+		announce "[ กิจกรรมทอยเต๋า ] : ครั้งที่ [ "+$roundeventdice+" ] ห้องที่ตกรอบ คือ [ เบอร์ "+$dicerandom+" ]",0,0xFFFF00;
+		sleep 2000;
+		if($dicerandom == 1){ areawarp	"job_knt",131,68,139,61,"morocc",161,86; }
+		if($dicerandom == 2){ areawarp	"job_knt",131,59,139,53,"morocc",161,86; }
+		if($dicerandom == 3){ areawarp	"job_knt",131,51,139,43,"morocc",161,86; }
+		if($dicerandom == 4){ areawarp	"job_knt",148,68,156,61,"morocc",161,86; }
+		if($dicerandom == 5){ areawarp	"job_knt",148,59,156,53,"morocc",161,86; }
+		if($dicerandom == 6){ areawarp	"job_knt",148,51,156,43,"morocc",161,86; }
+		if($roundeventdice == 6){
+			announce	"[ กิจกรรมทอยเต๋า ] : [ "+$dice_round01+" ] [ "+$dice_round02+" ] [ "+$dice_round03+" ] [ "+$dice_round04+" ] [ "+$dice_round05+" ] [ "+$dice_round06+" ] ",0,0xFFFF00;
+			set $roundeventdice,0;
+			end;
+		}	else {
+				sleep 5000;
+				goto Onplaying;
+			}
+	}
+
+end;
+
+}
+
+job_knt,142,64,4	script	::Emotion_01	111,{
+end;
+OnEmotion:
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	end;
+}
+
+job_knt,145,64,4	script	::Emotion_02	111,{
+end;
+OnEmotion:
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	end;
+}
+
+job_knt,142,56,4	script	::Emotion_03	111,{
+end;
+OnEmotion:
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	end;
+}
+
+job_knt,145,56,4	script	::Emotion_04	111,{
+end;
+OnEmotion:
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	end;
+}
+
+job_knt,142,47,4	script	::Emotion_05	111,{
+end;
+OnEmotion:
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	end;
+}
+
+job_knt,145,47,4	script	::Emotion_06	111,{
+end;
+OnEmotion:
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	sleep 1500;
+	emotion $emotion_dice;
+	end;
+}
+
+
+
+-	script	setwall	-1,{
+end;
+OnInit:
+setwall	"job_knt",130,69,28,6,0,"w1-1";
+setwall	"job_knt",157,68,27,4,0,"w1-2";
+setwall	"job_knt",156,42,27,2,0,"w1-3";
+setwall	"job_knt",130,43,26,0,0,"w1-4";
+//-
+setwall	"job_knt",131,60,9,6,0,"w2-4";
+setwall	"job_knt",131,52,9,6,0,"w2-3";
+setwall	"job_knt",148,60,9,6,0,"w2-2";
+setwall	"job_knt",148,52,9,6,0,"w2-1";
+//-
+setwall	"job_knt",140,68,9,4,0,"d1";
+setwall	"job_knt",140,59,7,4,0,"d2";
+setwall	"job_knt",140,52,10,4,0,"d3";
+setwall	"job_knt",147,68,9,4,0,"d4";
+setwall	"job_knt",147,59,7,4,0,"d5";
+setwall	"job_knt",147,52,10,4,0,"d6";
+}
+job_knt,130,69,4	script	wall::wallx	858,{	}
+job_knt,130,68,4	duplicate(wallx)	wall#10	858,{	}
+job_knt,130,67,4	duplicate(wallx)	wall#11	858,{	}
+job_knt,130,66,4	duplicate(wallx)	wall#12	858,{	}
+job_knt,130,65,4	duplicate(wallx)	wall#13	858,{	}
+job_knt,130,64,4	duplicate(wallx)	wall#14	858,{	}
+job_knt,130,63,4	duplicate(wallx)	wall#15	858,{	}
+job_knt,130,62,4	duplicate(wallx)	wall#16	858,{	}
+job_knt,130,61,4	duplicate(wallx)	wall#17	858,{	}
+job_knt,130,60,4	duplicate(wallx)	wall#18	858,{	}
+job_knt,130,59,4	duplicate(wallx)	wall#19	858,{	}
+job_knt,130,58,4	duplicate(wallx)	wall#110	858,{	}
+job_knt,130,57,4	duplicate(wallx)	wall#111	858,{	}
+job_knt,130,56,4	duplicate(wallx)	wall#112	858,{	}
+job_knt,130,55,4	duplicate(wallx)	wall#113	858,{	}
+job_knt,130,54,4	duplicate(wallx)	wall#114	858,{	}
+job_knt,130,53,4	duplicate(wallx)	wall#115	858,{	}
+job_knt,130,52,4	duplicate(wallx)	wall#116	858,{	}
+job_knt,130,51,4	duplicate(wallx)	wall#117	858,{	}
+job_knt,130,50,4	duplicate(wallx)	wall#118	858,{	}
+job_knt,130,49,4	duplicate(wallx)	wall#119	858,{	}
+job_knt,130,48,4	duplicate(wallx)	wall#120	858,{	}
+job_knt,130,47,4	duplicate(wallx)	wall#121	858,{	}
+job_knt,130,46,4	duplicate(wallx)	wall#122	858,{	}
+job_knt,130,45,4	duplicate(wallx)	wall#123	858,{	}
+job_knt,130,44,4	duplicate(wallx)	wall#124	858,{	}
+job_knt,130,43,4	duplicate(wallx)	wall#125	858,{	}
+job_knt,130,42,4	duplicate(wallx)	wall#126	858,{	}
+//-
+job_knt,131,42,4	duplicate(wallx)	wall#20	858,{	}
+job_knt,132,42,4	duplicate(wallx)	wall#21	858,{	}
+job_knt,133,42,4	duplicate(wallx)	wall#22	858,{	}
+job_knt,134,42,4	duplicate(wallx)	wall#23	858,{	}
+job_knt,135,42,4	duplicate(wallx)	wall#24	858,{	}
+job_knt,136,42,4	duplicate(wallx)	wall#25	858,{	}
+job_knt,137,42,4	duplicate(wallx)	wall#26	858,{	}
+job_knt,138,42,4	duplicate(wallx)	wall#27	858,{	}
+job_knt,139,42,4	duplicate(wallx)	wall#28	858,{	}
+job_knt,140,42,4	duplicate(wallx)	wall#29	858,{	}
+job_knt,141,42,4	duplicate(wallx)	wall#210	858,{	}
+job_knt,142,42,4	duplicate(wallx)	wall#211	858,{	}
+job_knt,143,42,4	duplicate(wallx)	wall#212	858,{	}
+job_knt,144,42,4	duplicate(wallx)	wall#213	858,{	}
+job_knt,145,42,4	duplicate(wallx)	wall#214	858,{	}
+job_knt,146,42,4	duplicate(wallx)	wall#215	858,{	}
+job_knt,147,42,4	duplicate(wallx)	wall#216	858,{	}
+job_knt,148,42,4	duplicate(wallx)	wall#217	858,{	}
+job_knt,149,42,4	duplicate(wallx)	wall#218	858,{	}
+job_knt,150,42,4	duplicate(wallx)	wall#219	858,{	}
+job_knt,151,42,4	duplicate(wallx)	wall#220	858,{	}
+job_knt,152,42,4	duplicate(wallx)	wall#221	858,{	}
+job_knt,153,42,4	duplicate(wallx)	wall#222	858,{	}
+job_knt,154,42,4	duplicate(wallx)	wall#223	858,{	}
+job_knt,155,42,4	duplicate(wallx)	wall#224	858,{	}
+job_knt,156,42,4	duplicate(wallx)	wall#225	858,{	}
+job_knt,157,42,4	duplicate(wallx)	wall#226	858,{	}
+//-
+job_knt,157,43,4	duplicate(wallx)	wall#30	858,{	}
+job_knt,157,44,4	duplicate(wallx)	wall#31	858,{	}
+job_knt,157,45,4	duplicate(wallx)	wall#32	858,{	}
+job_knt,157,46,4	duplicate(wallx)	wall#33	858,{	}
+job_knt,157,47,4	duplicate(wallx)	wall#34	858,{	}
+job_knt,157,48,4	duplicate(wallx)	wall#35	858,{	}
+job_knt,157,49,4	duplicate(wallx)	wall#36	858,{	}
+job_knt,157,50,4	duplicate(wallx)	wall#37	858,{	}
+job_knt,157,51,4	duplicate(wallx)	wall#38	858,{	}
+job_knt,157,52,4	duplicate(wallx)	wall#39	858,{	}
+job_knt,157,53,4	duplicate(wallx)	wall#310	858,{	}
+job_knt,157,54,4	duplicate(wallx)	wall#311	858,{	}
+job_knt,157,55,4	duplicate(wallx)	wall#312	858,{	}
+job_knt,157,56,4	duplicate(wallx)	wall#313	858,{	}
+job_knt,157,57,4	duplicate(wallx)	wall#314	858,{	}
+job_knt,157,58,4	duplicate(wallx)	wall#315	858,{	}
+job_knt,157,59,4	duplicate(wallx)	wall#316	858,{	}
+job_knt,157,60,4	duplicate(wallx)	wall#317	858,{	}
+job_knt,157,61,4	duplicate(wallx)	wall#318	858,{	}
+job_knt,157,62,4	duplicate(wallx)	wall#319	858,{	}
+job_knt,157,63,4	duplicate(wallx)	wall#320	858,{	}
+job_knt,157,64,4	duplicate(wallx)	wall#321	858,{	}
+job_knt,157,65,4	duplicate(wallx)	wall#322	858,{	}
+job_knt,157,66,4	duplicate(wallx)	wall#323	858,{	}
+job_knt,157,67,4	duplicate(wallx)	wall#324	858,{	}
+job_knt,157,68,4	duplicate(wallx)	wall#325	858,{	}
+//-
+job_knt,157,69,4	duplicate(wallx)	wall#40	858,{	}
+job_knt,156,69,4	duplicate(wallx)	wall#41	858,{	}
+job_knt,155,69,4	duplicate(wallx)	wall#42	858,{	}
+job_knt,154,69,4	duplicate(wallx)	wall#43	858,{	}
+job_knt,153,69,4	duplicate(wallx)	wall#44	858,{	}
+job_knt,152,69,4	duplicate(wallx)	wall#45	858,{	}
+job_knt,151,69,4	duplicate(wallx)	wall#46	858,{	}
+job_knt,150,69,4	duplicate(wallx)	wall#47	858,{	}
+job_knt,149,69,4	duplicate(wallx)	wall#48	858,{	}
+job_knt,148,69,4	duplicate(wallx)	wall#49	858,{	}
+job_knt,147,69,4	duplicate(wallx)	wall#410	858,{	}
+job_knt,146,69,4	duplicate(wallx)	wall#411	858,{	}
+job_knt,145,69,4	duplicate(wallx)	wall#412	858,{	}
+job_knt,144,69,4	duplicate(wallx)	wall#413	858,{	}
+job_knt,143,69,4	duplicate(wallx)	wall#414	858,{	}
+job_knt,142,69,4	duplicate(wallx)	wall#415	858,{	}
+job_knt,141,69,4	duplicate(wallx)	wall#416	858,{	}
+job_knt,140,69,4	duplicate(wallx)	wall#417	858,{	}
+job_knt,139,69,4	duplicate(wallx)	wall#418	858,{	}
+job_knt,138,69,4	duplicate(wallx)	wall#419	858,{	}
+job_knt,137,69,4	duplicate(wallx)	wall#420	858,{	}
+job_knt,136,69,4	duplicate(wallx)	wall#421	858,{	}
+job_knt,135,69,4	duplicate(wallx)	wall#422	858,{	}
+job_knt,134,69,4	duplicate(wallx)	wall#423	858,{	}
+job_knt,133,69,4	duplicate(wallx)	wall#424	858,{	}
+job_knt,132,69,4	duplicate(wallx)	wall#425	858,{	}
+job_knt,131,69,4	duplicate(wallx)	wall#426	858,{	}
+//-
+job_knt,131,60,4	duplicate(wallx)	wall#50	858,{	}
+job_knt,132,60,4	duplicate(wallx)	wall#51	858,{	}
+job_knt,133,60,4	duplicate(wallx)	wall#52	858,{	}
+job_knt,134,60,4	duplicate(wallx)	wall#53	858,{	}
+job_knt,135,60,4	duplicate(wallx)	wall#54	858,{	}
+job_knt,136,60,4	duplicate(wallx)	wall#55	858,{	}
+job_knt,137,60,4	duplicate(wallx)	wall#56	858,{	}
+job_knt,138,60,4	duplicate(wallx)	wall#57	858,{	}
+job_knt,139,60,4	duplicate(wallx)	wall#58	858,{	}
+//-
+job_knt,131,52,4	duplicate(wallx)	wall#60	858,{	}
+job_knt,132,52,4	duplicate(wallx)	wall#61	858,{	}
+job_knt,133,52,4	duplicate(wallx)	wall#62	858,{	}
+job_knt,134,52,4	duplicate(wallx)	wall#63	858,{	}
+job_knt,135,52,4	duplicate(wallx)	wall#64	858,{	}
+job_knt,136,52,4	duplicate(wallx)	wall#65	858,{	}
+job_knt,137,52,4	duplicate(wallx)	wall#66	858,{	}
+job_knt,138,52,4	duplicate(wallx)	wall#67	858,{	}
+job_knt,139,52,4	duplicate(wallx)	wall#68	858,{	}
+//-
+job_knt,148,60,4	duplicate(wallx)	wall#70	858,{	}
+job_knt,149,60,4	duplicate(wallx)	wall#71	858,{	}
+job_knt,150,60,4	duplicate(wallx)	wall#72	858,{	}
+job_knt,151,60,4	duplicate(wallx)	wall#73	858,{	}
+job_knt,152,60,4	duplicate(wallx)	wall#74	858,{	}
+job_knt,153,60,4	duplicate(wallx)	wall#75	858,{	}
+job_knt,154,60,4	duplicate(wallx)	wall#76	858,{	}
+job_knt,155,60,4	duplicate(wallx)	wall#77	858,{	}
+job_knt,156,60,4	duplicate(wallx)	wall#78	858,{	}
+//-
+job_knt,148,52,4	duplicate(wallx)	wall#80	858,{	}
+job_knt,149,52,4	duplicate(wallx)	wall#81	858,{	}
+job_knt,150,52,4	duplicate(wallx)	wall#82	858,{	}
+job_knt,151,52,4	duplicate(wallx)	wall#83	858,{	}
+job_knt,152,52,4	duplicate(wallx)	wall#84	858,{	}
+job_knt,153,52,4	duplicate(wallx)	wall#85	858,{	}
+job_knt,154,52,4	duplicate(wallx)	wall#86	858,{	}
+job_knt,155,52,4	duplicate(wallx)	wall#87	858,{	}
+job_knt,156,52,4	duplicate(wallx)	wall#88	858,{	}
+//-1
+job_knt,140,68,4	duplicate(wallx)	wall#d10	858,{	}
+job_knt,140,67,4	duplicate(wallx)	wall#d11	858,{	}
+job_knt,140,66,4	duplicate(wallx)	wall#d12	858,{	}
+job_knt,140,65,4	duplicate(wallx)	wall#d13	858,{	}
+job_knt,140,64,4	duplicate(wallx)	wall#d14	858,{	}
+job_knt,140,63,4	duplicate(wallx)	wall#d15	858,{	}
+job_knt,140,62,4	duplicate(wallx)	wall#d16	858,{	}
+job_knt,140,61,4	duplicate(wallx)	wall#d17	858,{	}
+job_knt,140,60,4	duplicate(wallx)	wall#d18	858,{	}
+//-2
+job_knt,140,59,4	duplicate(wallx)	wall#d20	858,{	}
+job_knt,140,58,4	duplicate(wallx)	wall#d21	858,{	}
+job_knt,140,57,4	duplicate(wallx)	wall#d22	858,{	}
+job_knt,140,56,4	duplicate(wallx)	wall#d23	858,{	}
+job_knt,140,55,4	duplicate(wallx)	wall#d24	858,{	}
+job_knt,140,54,4	duplicate(wallx)	wall#d25	858,{	}
+job_knt,140,53,4	duplicate(wallx)	wall#d26	858,{	}
+//-3
+job_knt,140,52,4	duplicate(wallx)	wall#d30	858,{	}
+job_knt,140,51,4	duplicate(wallx)	wall#d31	858,{	}
+job_knt,140,50,4	duplicate(wallx)	wall#d32	858,{	}
+job_knt,140,49,4	duplicate(wallx)	wall#d33	858,{	}
+job_knt,140,48,4	duplicate(wallx)	wall#d34	858,{	}
+job_knt,140,47,4	duplicate(wallx)	wall#d35	858,{	}
+job_knt,140,46,4	duplicate(wallx)	wall#d36	858,{	}
+job_knt,140,45,4	duplicate(wallx)	wall#d37	858,{	}
+job_knt,140,44,4	duplicate(wallx)	wall#d38	858,{	}
+job_knt,140,43,4	duplicate(wallx)	wall#d39	858,{	}
+//-4
+job_knt,147,68,4	duplicate(wallx)	wall#d40	858,{	}
+job_knt,147,67,4	duplicate(wallx)	wall#d41	858,{	}
+job_knt,147,66,4	duplicate(wallx)	wall#d42	858,{	}
+job_knt,147,65,4	duplicate(wallx)	wall#d43	858,{	}
+job_knt,147,64,4	duplicate(wallx)	wall#d44	858,{	}
+job_knt,147,63,4	duplicate(wallx)	wall#d45	858,{	}
+job_knt,147,62,4	duplicate(wallx)	wall#d46	858,{	}
+job_knt,147,61,4	duplicate(wallx)	wall#d47	858,{	}
+job_knt,147,60,4	duplicate(wallx)	wall#d48	858,{	}
+//-5
+job_knt,147,59,4	duplicate(wallx)	wall#d50	858,{	}
+job_knt,147,58,4	duplicate(wallx)	wall#d51	858,{	}
+job_knt,147,57,4	duplicate(wallx)	wall#d52	858,{	}
+job_knt,147,56,4	duplicate(wallx)	wall#d53	858,{	}
+job_knt,147,55,4	duplicate(wallx)	wall#d54	858,{	}
+job_knt,147,54,4	duplicate(wallx)	wall#d55	858,{	}
+job_knt,147,53,4	duplicate(wallx)	wall#d56	858,{	}
+//-6
+job_knt,147,52,4	duplicate(wallx)	wall#d60	858,{	}
+job_knt,147,51,4	duplicate(wallx)	wall#d61	858,{	}
+job_knt,147,50,4	duplicate(wallx)	wall#d62	858,{	}
+job_knt,147,49,4	duplicate(wallx)	wall#d63	858,{	}
+job_knt,147,48,4	duplicate(wallx)	wall#d64	858,{	}
+job_knt,147,47,4	duplicate(wallx)	wall#d65	858,{	}
+job_knt,147,46,4	duplicate(wallx)	wall#d66	858,{	}
+job_knt,147,45,4	duplicate(wallx)	wall#d67	858,{	}
+job_knt,147,44,4	duplicate(wallx)	wall#d68	858,{	}
+job_knt,147,43,4	duplicate(wallx)	wall#d69	858,{	}
+
+
+
+job_knt,157,46,4	script	::Event_Dice_Slot6	858,{
+
+oninit:
+waitingroom	"[#] เบอร์ 6",0;
+end;
+
+}
+
+job_knt,157,55,4	script	::Event_Dice_Slot5	858,{
+
+oninit:
+waitingroom	"[#] เบอร์ 5",0;
+end;
+
+}
+
+job_knt,157,64,4	script	::Event_Dice_Slot4	858,{
+
+oninit:
+waitingroom	"[#] เบอร์ 4",0;
+end;
+
+}
+
+job_knt,130,46,4	script	::Event_Dice_Slot3	858,{
+
+oninit:
+waitingroom	"[#] เบอร์ 3",0;
+end;
+
+}
+
+job_knt,130,55,4	script	::Event_Dice_Slot2	858,{
+
+oninit:
+waitingroom	"[#] เบอร์ 2",0;
+end;
+
+}
+
+job_knt,130,64,4	script	::Event_Dice_Slot1	858,{
+
+oninit:
+waitingroom	"[#] เบอร์ 1",0;
+end;
+
+}
+
+//	==================================================	คำสั่ง
+
+-	script	atcmd_DiceX	-1,{
+OnInit:
+bindatcmd	"dcon",strnpcinfo(3)+"::OnAtcommand",99,99;	//	แก้เป็นอย่างอื่นได้	แก้ที่	dcon	เวลาใช้ก็พิม	@dcon
+end;
+
+	OnAtcommand:
+		
+		if(getgroupid() < 90)	{ end; }
+		mes	"[	DiceEvent	]";
+		mes	"จะทำอะไรล่ะท่าน	GM";
+		menu	
+		"-	เปิด/ปิดห้องทั้งหมด",DOORROOM,
+		"-	เริ่มกิจกรรมด่วน",Eff_r,
+		"-	เตะผู้เล่น",KICKZ,
+		"-	เปิด/ปิดวาปเข้ากิจกรรม",OCDOOR;
+		end;
+		
+	OCDOOR:
+		
+		while(	getgmlevel()	>=99	){
+			
+			mes	"[	GM	]";
+			mes	"	เปิด/ปิด	npc	เข้ากิจกรรม";
+			mes	"	";
+			menu	
+			"-	เปิด	npc",opz,
+			"-	ปิด	npc",clz;
+			end;
+			
+			opz:
+				
+				set $event_dice_on,1;
+				end;
+				close;
+			
+			clz:
+				
+				announce	"	หมดเวลาสำหรับการเข้ากิจกรรมทอยเต๋า	",0,0xFFF000;
+				set $event_dice_on,0;
+				end;
+				end;
+		}
+		
+	KICKZ:
+	
+	while(	getgmlevel()	>=99	){
+		
+		emotion	19;
+		mes	"[	GM	]";
+		mes	"เลือกช่องที่ต้องกระจะเตะเลย";
+		menu	
+		"เตะช่อง	1",c1,
+		"เตะช่อง	2",c2,
+		"เตะช่อง	3",c3,
+		"เตะช่อง	4",c4,
+		"เตะช่อง	5",c5,
+		"เตะช่อง	6",c6,
+		"เตะทั้งหมด ปิดกิจกรรม",ber1;
+		
+		ber1:
+		
+		areawarp	"job_knt",130,59,140,53,"morocc",0,0;
+		areawarp	"job_knt",130,69,140,60,"morocc",0,0;
+		areawarp	"job_knt",130,52,140,42,"morocc",0,0;
+		areawarp	"job_knt",146,69,157,60,"morocc",0,0;
+		areawarp	"job_knt",147,60,157,52,"morocc",0,0;
+		areawarp	"job_knt",147,52,157,42,"morocc",0,0;
+		//areawarp	"job_knt",127,75,163,36,"morocc",0,0;
+		initnpctimer	"EFF#Effect1";
+		initnpctimer	"EFF#Effect2";
+		initnpctimer	"EFF#Effect3";
+		initnpctimer	"EFF#Effect4";
+		initnpctimer	"EFF#Effect5";
+		initnpctimer	"EFF#Effect6";	
+		hideoffnpc	"กิจกรรมถอยเต๋า";
+		setwall	"job_knt",140,68,9,4,0,"d1";
+		setwall	"job_knt",140,59,7,4,0,"d2";
+		setwall	"job_knt",140,52,10,4,0,"d3";
+		setwall	"job_knt",147,68,9,4,0,"d4";
+		setwall	"job_knt",147,59,7,4,0,"d5";
+		setwall	"job_knt",147,52,10,4,0,"d6";
+		hideoffnpc	"wall#d10";
+		hideoffnpc	"wall#d11";
+		hideoffnpc	"wall#d12";
+		hideoffnpc	"wall#d13";
+		hideoffnpc	"wall#d14";
+		hideoffnpc	"wall#d15";
+		hideoffnpc	"wall#d16";
+		hideoffnpc	"wall#d17";
+		hideoffnpc	"wall#d18";
+		hideoffnpc	"wall#d20";
+		hideoffnpc	"wall#d21";
+		hideoffnpc	"wall#d22";
+		hideoffnpc	"wall#d23";
+		hideoffnpc	"wall#d24";
+		hideoffnpc	"wall#d25";
+		hideoffnpc	"wall#d26";
+		hideoffnpc	"wall#d30";
+		hideoffnpc	"wall#d31";
+		hideoffnpc	"wall#d32";
+		hideoffnpc	"wall#d33";
+		hideoffnpc	"wall#d34";
+		hideoffnpc	"wall#d35";
+		hideoffnpc	"wall#d36";
+		hideoffnpc	"wall#d37";
+		hideoffnpc	"wall#d38";
+		hideoffnpc	"wall#d39";
+		hideoffnpc	"wall#d40";
+		hideoffnpc	"wall#d41";
+		hideoffnpc	"wall#d42";
+		hideoffnpc	"wall#d43";
+		hideoffnpc	"wall#d44";
+		hideoffnpc	"wall#d45";
+		hideoffnpc	"wall#d46";
+		hideoffnpc	"wall#d47";
+		hideoffnpc	"wall#d48";
+		hideoffnpc	"wall#d50";
+		hideoffnpc	"wall#d51";
+		hideoffnpc	"wall#d52";
+		hideoffnpc	"wall#d53";
+		hideoffnpc	"wall#d54";
+		hideoffnpc	"wall#d55";
+		hideoffnpc	"wall#d56";
+		hideoffnpc	"wall#d60";
+		hideoffnpc	"wall#d61";
+		hideoffnpc	"wall#d62";
+		hideoffnpc	"wall#d63";
+		hideoffnpc	"wall#d64";
+		hideoffnpc	"wall#d65";
+		hideoffnpc	"wall#d66";
+		hideoffnpc	"wall#d67";
+		hideoffnpc	"wall#d68";
+		hideoffnpc	"wall#d69";
+		end;
+		
+		c1:
+		areawarp	"job_knt",130,69,140,60,"morocc",0,0;
+		end;
+		
+		c2:
+		areawarp	"job_knt",130,59,140,53,"morocc",99,113;
+		end;
+		
+		c3:
+		areawarp	"job_knt",130,52,140,42,"morocc",0,0;
+		end;
+		
+		c4:
+		areawarp	"job_knt",146,69,157,60,"morocc",0,0;
+		end;
+		
+		c5:
+		areawarp	"job_knt",147,60,157,52,"morocc",0,0;
+		end;
+		
+		c6:
+		areawarp	"job_knt",147,52,157,42,"morocc",0,0;
+		end;
+
+	}
+	
+	Eff_r:
+		
+		set $dice_round01,0;
+		set $dice_round02,0;
+		set $dice_round03,0;
+		set $dice_round04,0;
+		set $dice_round05,0;
+		set $dice_round06,0;
+		donpcevent "Event_Dice_V1::Onplaying";
+
+	end;
+	
+	DOORROOM:
+		
+		while(	getgmlevel()	>=99	){
+			emotion	19;
+			mes	"[	GM	]";
+			mes	"เลือกช่องที่ต้องกระจะเตะเลย";
+			menu	
+			"-	เปิดประตูทั้งหมด",cdr,
+			"-	ปิดประตูทั้งหมด",odr;
+			cdr:
+				delwall	"d1";
+				delwall	"d2";
+				delwall	"d3";
+				delwall	"d4";
+				delwall	"d5";
+				delwall	"d6";
+				hideonnpc	"wall#d10";
+				hideonnpc	"wall#d11";
+				hideonnpc	"wall#d12";
+				hideonnpc	"wall#d13";
+				hideonnpc	"wall#d14";
+				hideonnpc	"wall#d15";
+				hideonnpc	"wall#d16";
+				hideonnpc	"wall#d17";
+				hideonnpc	"wall#d18";
+				hideonnpc	"wall#d20";
+				hideonnpc	"wall#d21";
+				hideonnpc	"wall#d22";
+				hideonnpc	"wall#d23";
+				hideonnpc	"wall#d24";
+				hideonnpc	"wall#d25";
+				hideonnpc	"wall#d26";
+				hideonnpc	"wall#d30";
+				hideonnpc	"wall#d31";
+				hideonnpc	"wall#d32";
+				hideonnpc	"wall#d33";
+				hideonnpc	"wall#d34";
+				hideonnpc	"wall#d35";
+				hideonnpc	"wall#d36";
+				hideonnpc	"wall#d37";
+				hideonnpc	"wall#d38";
+				hideonnpc	"wall#d39";
+				hideonnpc	"wall#d40";
+				hideonnpc	"wall#d41";
+				hideonnpc	"wall#d42";
+				hideonnpc	"wall#d43";
+				hideonnpc	"wall#d44";
+				hideonnpc	"wall#d45";
+				hideonnpc	"wall#d46";
+				hideonnpc	"wall#d47";
+				hideonnpc	"wall#d48";
+				hideonnpc	"wall#d50";
+				hideonnpc	"wall#d51";
+				hideonnpc	"wall#d52";
+				hideonnpc	"wall#d53";
+				hideonnpc	"wall#d54";
+				hideonnpc	"wall#d55";
+				hideonnpc	"wall#d56";
+				hideonnpc	"wall#d60";
+				hideonnpc	"wall#d61";
+				hideonnpc	"wall#d62";
+				hideonnpc	"wall#d63";
+				hideonnpc	"wall#d64";
+				hideonnpc	"wall#d65";
+				hideonnpc	"wall#d66";
+				hideonnpc	"wall#d67";
+				hideonnpc	"wall#d68";
+				hideonnpc	"wall#d69";
+				end;
+			odr:
+				setwall	"job_knt",140,68,9,4,0,"d1";
+				setwall	"job_knt",140,59,7,4,0,"d2";
+				setwall	"job_knt",140,52,10,4,0,"d3";
+				setwall	"job_knt",147,68,9,4,0,"d4";
+				setwall	"job_knt",147,59,7,4,0,"d5";
+				setwall	"job_knt",147,52,10,4,0,"d6";
+				hideoffnpc	"wall#d10";
+				hideoffnpc	"wall#d11";
+				hideoffnpc	"wall#d12";
+				hideoffnpc	"wall#d13";
+				hideoffnpc	"wall#d14";
+				hideoffnpc	"wall#d15";
+				hideoffnpc	"wall#d16";
+				hideoffnpc	"wall#d17";
+				hideoffnpc	"wall#d18";
+				hideoffnpc	"wall#d20";
+				hideoffnpc	"wall#d21";
+				hideoffnpc	"wall#d22";
+				hideoffnpc	"wall#d23";
+				hideoffnpc	"wall#d24";
+				hideoffnpc	"wall#d25";
+				hideoffnpc	"wall#d26";
+				hideoffnpc	"wall#d30";
+				hideoffnpc	"wall#d31";
+				hideoffnpc	"wall#d32";
+				hideoffnpc	"wall#d33";
+				hideoffnpc	"wall#d34";
+				hideoffnpc	"wall#d35";
+				hideoffnpc	"wall#d36";
+				hideoffnpc	"wall#d37";
+				hideoffnpc	"wall#d38";
+				hideoffnpc	"wall#d39";
+				hideoffnpc	"wall#d40";
+				hideoffnpc	"wall#d41";
+				hideoffnpc	"wall#d42";
+				hideoffnpc	"wall#d43";
+				hideoffnpc	"wall#d44";
+				hideoffnpc	"wall#d45";
+				hideoffnpc	"wall#d46";
+				hideoffnpc	"wall#d47";
+				hideoffnpc	"wall#d48";
+				hideoffnpc	"wall#d50";
+				hideoffnpc	"wall#d51";
+				hideoffnpc	"wall#d52";
+				hideoffnpc	"wall#d53";
+				hideoffnpc	"wall#d54";
+				hideoffnpc	"wall#d55";
+				hideoffnpc	"wall#d56";
+				hideoffnpc	"wall#d60";
+				hideoffnpc	"wall#d61";
+				hideoffnpc	"wall#d62";
+				hideoffnpc	"wall#d63";
+				hideoffnpc	"wall#d64";
+				hideoffnpc	"wall#d65";
+				hideoffnpc	"wall#d66";
+				hideoffnpc	"wall#d67";
+				hideoffnpc	"wall#d68";
+				hideoffnpc	"wall#d69";
+				end;
+		}
+}
+
+job_knt	mapflag	nomemo
+job_knt	mapflag	noteleport
+job_knt	mapflag	nosave
+job_knt	mapflag	nobranch
+job_knt	mapflag	nodrop
+job_knt	mapflag	noskill

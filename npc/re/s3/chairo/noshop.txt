@@ -1,0 +1,6 @@
+-	script	NovendingMO	-1,{
+OnInit:
+setcell "morocc",0,999,999,0,cell_novending,0; //พิกัดที่สามารถตั้งได้
+setcell "morocc",148,102,178,85,cell_novending,1; //(พิกัดที่ห้ามตั้ง x,y บนซ้าย ไป x,y ล่างขวา)
+end;
+}

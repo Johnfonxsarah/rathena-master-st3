@@ -1,0 +1,10 @@
+morocc,169,67,3	script	Shop Stone Enchant	616,{
+
+
+	callshop "stone_box",1;
+	end;
+	
+OnInit:
+	waitingroom "ËÔ¹EnchantÍÒªÕ¾",0;
+	end;
+}

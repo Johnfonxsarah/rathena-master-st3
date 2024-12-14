@@ -1,0 +1,389 @@
+//===== Script =======================================
+//= Temporal Circlet Enchantment
+//= By JumBo
+//= ดัดแปลงมาจากออฟหมวกแลป 5
+//====================================================
+morocc,108,101,4	script	Enchant Subject Cape	403,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[Enchant Subject Cape]";
+	mes "ข้าสามารถ Enchant Subject Cape ได้.";
+	mes "เพียงเจ้ามี Dungeon Coin มาด้วย.";
+	mes "^FF0000 Enchant ติด 100%^000000 ในช่องที่ 4 3 และ 2.";
+	next;
+	switch( select( "Enchant Subject Cape", "ลบ Enchant Subject Cape", "รายละเอียด", "ออก" ) ) {
+	case 1:
+		.@equip_id = getequipid(EQI_GARMENT);
+		switch(.@equip_id) {
+			case 480161:// GamblerII
+			case 480172:// KarduiII
+			case 480166:// SeraphimII
+				break;
+			default:
+				mes "[Enchant Subject Cape]";
+				mes "^FF0000เจ้าไม่ได้ใส่ Subject Cape มาด้วย.^000000";
+				close;
+		}
+		mes "[Enchant Subject Cape]";
+
+		setarray .@card[0], getequipcardid(EQI_GARMENT,0), getequipcardid(EQI_GARMENT,1), getequipcardid(EQI_GARMENT,2), getequipcardid(EQI_GARMENT,3);
+		.@refine = getequiprefinerycnt(EQI_GARMENT);
+	
+		if (.@card[3] == 0) {
+			.@slot = 3;
+			.@reqitem = 1300085; // Chai-Ro Coin
+			.@requirement = 1;
+			mes "ออฟช่องที่ 4 จะสุ่ม ^0000cdSkill Delay^000000 1-3, ^0000cdINT^000000 1-4, ^0000cdSTR^000000 1-4, ^0000cdVIT^000000 1-4, ^0000cdLUK^000000 1-4.";
+			mes "^0000cdSharp^000000 1-4, ^0000cdExpert Archer^000000 1-4, ^0000cdASPD^000000 1-4, ^0000cdSpell^000000 1-4.";
+		}
+		else if (.@card[2] == 0) {
+			mes "ออฟช่องที่ 3.";
+			mes "สุ่ม ^0000cdSkill Delay^000000 1-3, ^0000cdINT STR VIT LUK";
+			mes "^0000cdSharp^000000 1-4, ^0000cdExpert Archer^000000 1-4, ^0000cdASPD^000000 1-4, ^0000cdSpell^000000 1-4.";
+			switch( select( "-> ออฟต่อ", "-> ยกเลิก")) {
+			case 1:
+				.@slot = 2;
+				.@reqitem = 1300085; // Chai-Ro Coin
+				.@requirement = 1;
+				break;
+			case 2:
+				close;
+			}
+		}
+		else if (.@card[1] == 0) {
+			.@slot = 1;
+			.@reqitem = 1300085; // Chai-Ro Coin
+			.@requirement = 1;
+			mes "ออฟช่องที่ 2 จะสุ่ม ^0000cdSkill Delay^000000 1-3, ^0000cdSharp^000000 1-4, ^0000cdExpert Archer^000000 1-4, ^0000cdASPD^000000 1-4, ^0000cdSpell^000000 1-4.";
+			mes "ซึ่งสามารถอัพเกรดเลเวลหินออฟได้.";
+		}
+		next;
+		mes "[Enchant Subject Cape]";
+		mes "วัตถุดิบที่ต้องใช้ ^0000cd" +getitemname(.@reqitem) + "^000000 จำนวน ^FF0000" + .@requirement + "^000000 อัน.";
+		next;
+		if (select( "ตกลง.", "ไปหาก่อน." ) == 2) {
+			mes "[Enchant Subject Cape]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+		if (countitem(.@reqitem) < .@requirement) {
+			mes "[Enchant Subject Cape]";
+			mes "เจ้ามี ^0000cd" +getitemname(.@reqitem) + "^000000 ไม่ถึง ^FF0000" + .@requirement + "^000000 อัน.";
+			close;
+		}
+		mes "[Enchant Subject Cape]";
+		mes "^FF0000ของสวมใส่จะไม่สูญหาย หากอัพเกรดล้มเหลว.^000000";
+		next;
+		if (select( "พร้อมที่จะออฟแล้ว.", "ขอคิดดูก่อน." ) == 2) {
+			mes "[Enchant Subject Cape]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem .@reqitem, .@requirement;
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_GARMENT, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_GARMENT, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_GARMENT, .@refine))
+			close;
+
+		switch(.@slot) {
+		case 3:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4948,	// skill_Delay_1
+				4949,	// skill_Delay_2
+				4950,	// skill_Delay_3
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 2:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4948,	// skill_Delay_1
+				4949,	// skill_Delay_2
+				4950,	// skill_Delay_3
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 22:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4948,	// skill_Delay_1
+				4949,	// skill_Delay_2
+				4950,	// skill_Delay_3
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[2] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 1:
+			setarray .@enchant[0],
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4948,	// skill_Delay_1
+				4949,	// skill_Delay_2
+				4950,	// skill_Delay_3
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 999:
+			if (.@enchant_rate > rand(100))
+				.@level_dt = 1;
+			else
+				.@level_dt = -1;
+			.@enchant_level += .@level_dt;
+			.@card[1] += .@level_dt;
+			if (.@card[1] < 29061 || .@card[1] > 29120) {
+				mes "[Enchant Subject Cape]";
+				mes "มีบางอย่างผิดพลาด.";
+				close;
+			}
+			if (.@enchant_level < 1 || .@enchant_level > 10) {
+				specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Enchant Subject Cape]";
+				mes "โชคดีที่มันระเบิดก่อนของจะหาย.";
+				close;
+			}
+			break;
+		default:
+			mes "[Enchant Subject Cape]";
+			mes "มีบางอย่างผิดพลาด.";
+			close;
+		}
+		delequip EQI_GARMENT;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		if (.@level_dt == -1) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Brave]";
+			mes "^FF0000การอัพเกรดล้มเหลว หินออฟถูกลดหนึ่งระดับ.^000000";
+			close;
+		}
+		specialeffect2 EF_FIREHIT;
+		mes "[Brave]";
+		mes "^0000cdยอดเยี่ยม เจ้าอัพเกรดสำเร็จ.^000000";
+		close;
+	case 2:
+		.@equip_id = getequipid(EQI_GARMENT);
+		switch(.@equip_id) {
+			case 480161:// GamblerII
+			case 480172:// KarduiII
+			case 480166:// SeraphimII
+				break;
+			default:
+				mes "[Enchant Subject Cape]";
+				mes "^FF0000เจ้าไม่ได้ใส่หมวก Item ขั้น 2 มาด้วย.^000000";
+				close;
+		}
+		setarray .@card[0], getequipcardid(EQI_GARMENT,0), getequipcardid(EQI_GARMENT,1), getequipcardid(EQI_GARMENT,2), getequipcardid(EQI_GARMENT,3);
+		.@refine = getequiprefinerycnt(EQI_GARMENT);
+
+		if (.@card[3] < 1) {
+			mes "[Enchant Subject Cape]";
+			mes "หมวกยังไม่ผ่านการออฟมาก่อน.";
+			close;
+		}
+		mes "[Enchant Subject Cape]";
+		mes "เจ้าสามารถเลือกประเภทลบออฟได้.";
+		mes "แบบแรกใช้เงินลบออฟ โอกาสสำเร็จ 90% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+		mes "แบบที่สอง ใช้ Silvervine Fruits สำเร็จ 100%.";
+		next;
+		switch( select( "3,000,000z", "Silvervine Fruits 2 อัน", "ยกเลิก" ) ) {
+		case 1:
+			mes "[Enchant Subject Cape]";
+			mes "โอกาสสำเร็จ 90% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+			next;
+			if (select( "ตกลง.", "ขอคิดดูก่อน." ) == 2) {
+				mes "[Enchant Subject Cape]";
+				mes "ไม่เตรียมพร้อมซะเลย.";
+				close;
+			}
+			if (Zeny < 3000000) {
+				mes "เงินมีไม่พอ.";
+				close;
+			}
+			next;
+			mes "[Enchant Subject Cape]";
+			mes "จะลบออฟแล้วนะ";
+			next;
+			progressbar "000000",1;
+			
+			if (callfunc("F_IsEquipIDHack", EQI_GARMENT, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_GARMENT, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_GARMENT, .@refine))
+			close;
+			
+			Zeny -= 3000000;
+			delequip EQI_GARMENT;
+			if ( rand(100) < 90 ) {
+			specialeffect2 EF_FIREHIT;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+			mes "[Enchant Subject Cape]";
+			mes "^0000cdลบออฟสำเร็จ.^000000";
+			close;
+			}
+		else
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Enchant Subject Cape]";
+			mes "^FF0000ของแตกจ้า.^000000";
+			close;
+		case 2:
+			mes "[Enchant Subject Cape]";
+			mes "โอกาสสำเร็จ 100%.";
+			next;
+			if (select( "ตกลง.", "ขอคิดดูก่อน." ) == 2) {
+				mes "[Enchant Subject Cape]";
+				mes "ไม่เตรียมพร้อมซะเลย.";
+				close;
+			}
+			if (countitem(6417) < 2) {
+				mes "Silvervine Fruits มีไม่พอ.";
+				close;
+			}
+			next;
+			mes "[Enchant Subject Cape]";
+			mes "จะลบออฟแล้วนะ";
+			next;
+			progressbar "000000",1;
+
+			if (callfunc("F_IsEquipIDHack", EQI_GARMENT, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_GARMENT, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_GARMENT, .@refine))
+			close;
+
+			delequip EQI_GARMENT;
+			specialeffect2 EF_FIREHIT;
+			delitem 6417,2; // Silvervine Fruits
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+			mes "[Enchant Subject Cape]";
+			mes "^0000cdลบออฟสำเร็จ.^000000";
+			close;
+		case 3:
+			mes "[Enchant Subject Cape]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+	case 3:
+		mes "[Enchant Subject Cape]";
+		mes "การออฟ Item ขั้น 2";
+		mes "ออฟช่องที่ 4 ใช้ Dungeon Coin 3 อัน.";
+		mes "ออฟช่องที่ 3 ใช้ Dungeon Coin 3 อัน.";
+		mes "ออฟช่องที่ 2 ใช้ Dungeon Coin 3 อัน.";
+		next;
+		mes "[Enchant Subject Cape]";
+		mes "การลบออฟ มีสองแบบ";
+		mes "แบบแรกใช้เงินลบออฟ โอกาสสำเร็จ 90% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+		mes "แบบที่สอง ใช้ Silvervine Fruits สำเร็จ 100%.";
+		close;
+	case 4:
+		mes "[Enchant Subject Cape]";
+		mes "ไม่เตรียมพร้อมซะเลย.";
+		close;
+	}
+OnInit:
+waitingroom "Enchant Subject Cape",0;
+end;
+}

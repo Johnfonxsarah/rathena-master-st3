@@ -1,0 +1,170 @@
+morocc,134,106,4	script	MVP Card To MVP Coin#eventhat4	423,{
+	if (checkweight(1301,1) == 0) {
+		mes "- หยุดก่อน!! -";
+		mes "- คุณบรรทุกสิ่งของมากเกินไป, -";
+		mes "- จึงไม่สามารถรับไอเทมได้อีก, -";
+		mes "- กรุณาลดน้ำหนักของคุณ, -";
+		mes "- และกลับมาอีกครั้งในภายหลัง! -";
+		close;
+	}
+	disable_items;
+	mes "[MVP Card To MVP Coin]";
+	mes "^ff0000คำเตือน ^000000";
+	mes "อ่านชื่อitem ก่อนแลกทุกครั้ง!";
+	mes "ใช้ Card MVP ที่ไม่ใช้แล้วเพื่อแลก MVP Coin!";
+	next;
+	if (select( "ใช้ Card MVP ที่ไม่ใช้แล้วเพื่อแลก MVP Coin", "อ่านรายละเอียด" ) == 2) {
+		mes "[ITEM To EGG]";
+		mes "^ff0000คำเตือน ^000000";
+		mes "อ่านชื่อ item ก่อน แลกทุกครั้ง!";
+
+		next;
+		mes "[MVP Card To MVP Coin]";
+		mes "โปรดระวังของที่คุณใส่หาย ให้นำของที่คุณใส่ไว้ในคลังหรือในรถเข็นก่อนกันคอสถูกแลกโดยไม่รู้ตัว!";
+		close;
+	}
+	mes "[" + strcharinfo(0) + "]";
+	mes "อ่านชื่อคอสก่อน แลกทุกครั้ง!";
+	next;
+	mes "[MVP Card To MVP Coin]";
+	mes "อ้อ งั้นฉันขอแลกเป็น MVP Coin ได้นะ";
+	next;
+	mes "- ค้นหา -";
+	next;
+
+
+	// ===================================================================
+	// =================== shadow ===================
+	// ===================================================================
+	.@box_list[0] = 1300019;		// Enchant_Stone_Box4
+	setarray .@item_list_0[0],
+		4121,		// C_Chick_Hat
+		4123,		// C_Chick_Hat
+		4128,		// C_Chick_Hat
+		4131,		// C_Chick_Hat
+		4132,		// C_Chick_Hat
+		4134,		// C_Chick_Hat
+		4135,		// C_Chick_Hat
+		4137,		// C_Chick_Hat
+		4143,		// C_Chick_Hat
+		4144,		// C_Chick_Hat
+		4145,		// C_Chick_Hat
+		4146,		// C_Chick_Hat
+		4147,		// C_Chick_Hat
+		4148,		// C_Chick_Hat
+		4168,		// C_Chick_Hat
+		4236,		// C_Chick_Hat
+		4425,		// C_Chick_Hat
+		4372,		// C_Chick_Hat
+		4386,		// C_Chick_Hat
+		4142,		// C_Chick_Hat
+		4441,		// C_Chick_Hat
+		4408,		// C_Chick_Hat
+		4430,		// C_Chick_Hat
+		4419,		// C_Chick_Hat
+		4376,		// C_Chick_Hat
+		4456,		// C_Chick_Hat
+		4367,		// C_Chick_Hat
+		4374,		// C_Chick_Hat
+		4352,		// C_Chick_Hat
+		4601,		// C_Chick_Hat
+		4636,		// C_Chick_Hat
+		4592,		// C_Chick_Hat
+		4562,		// C_Chick_Hat
+		4697,		// C_Chick_Hat
+		4560,		// C_Chick_Hat
+		4603,		// C_Chick_Hat
+		4563,		// C_Chick_Hat
+		4574,		// C_Chick_Hat
+		4576,		// C_Chick_Hat
+		4509,		// C_Chick_Hat
+		4566,		// C_Chick_Hat
+		4580,		// C_Chick_Hat
+		4525,		// C_Chick_Hat
+		4520,		// C_Chick_Hat
+		4652,		// C_Chick_Hat
+		4565,		// C_Chick_Hat
+		4561,		// C_Chick_Hat
+		4578,		// C_Chick_Hat
+		4507,		// C_Chick_Hat
+		4564,		// C_Chick_Hat
+		4625,		// C_Chick_Hat
+		27020,		// C_Chick_Hat
+		27126,		// C_Chick_Hat
+		27182,		// C_Chick_Hat
+		27164,		// C_Chick_Hat
+		27162,		// C_Chick_Hat
+		27106,		// C_Chick_Hat
+		31023,		// C_Chick_Hat
+		31026,		// C_Chick_Hat
+		4263,		// C_Chick_Hat
+		4276,		// C_Chick_Hat
+		4302,		// C_Chick_Hat
+		4305,		// C_Chick_Hat
+		4318,		// C_Chick_Hat
+		4324,		// C_Chick_Hat
+		4330,		// C_Chick_Hat
+		4342,		// C_Chick_Hat
+		4357,		// C_Chick_Hat
+		4359,		// C_Chick_Hat
+		4361,		// C_Chick_Hat
+		4363,		// C_Chick_Hat
+		4365,		// C_Chick_Hat
+		4399,		// C_Chick_Hat
+		4403,		// C_Chick_Hat
+		4526,		// C_Chick_Hat
+		4527,		// C_Chick_Hat
+		4528,		// C_Chick_Hat
+		4529,		// C_Chick_Hat
+		4407;		// C_Chick_Hat
+
+	while(1) {
+		for ( .@i = 0; .@i < 18; ++.@i ) {
+			if (getiteminfo(.@box_list[.@i], ITEMINFO_TYPE) == -1)	// temporary check
+				continue;
+			.@size = getarraysize( getd(".@item_list_" + .@i) );
+			for ( .@h = 0; .@h < .@size; ++.@h ) {
+				.@id = getd( ".@item_list_" + .@i + "[" + .@h + "]" );
+				if (getiteminfo(.@id, ITEMINFO_TYPE) == -1)	// temporary check
+					continue;
+				if (countitem(.@id) < 1)
+					continue;
+				mes "[MVP Card To MVP Coin]";
+				mes "คุณใช้ITEM ^3131FF" + getitemname(.@id) + "^000000. ในการแลกเปลี่ยน MVP Coin?";
+				next;
+				switch( select( "แลกเปลี่ยน", "หา Card MVP อื่นไม่ใช่ใบนี้", "ไม่แลกดีกว่า" ) ) {
+				case 1:
+					mes "[MVP Card To MVP Coin]";
+					if (countitem(.@id) < 1)
+						mes "โอ้~ จู่ๆก็มีบางอย่างหายไป...";
+					else {
+						mes "แลกเปลี่ยนสำเร็จ.";
+						delitem .@id, 1;
+						getitem .@box_list[.@i], 1;
+					}
+					mes "ขอเช็ครายการอื่นแลกครับ...";
+					next;
+					break;
+				case 2:
+					break;
+				case 3:
+					mes "[MVP Card To MVP Coin]";
+					mes "คุณกำลังจะไปไหน?";
+					close;
+				}
+			}
+		}
+		mes "[MVP Card To MVP Coin]";
+		mes "ค้นหา Card MVP ทั้งหมดในตัว";
+		next;
+		if (select( "ค้นหา Item", "Exit" ) == 2) {
+			mes "[MVP Card To MVP Coin]";
+			mes "บายๆๆๆ";
+			close;
+		}
+	}
+
+OnInit:
+	waitingroom "Card MVP แลก MVP Coin",0;
+	end;
+}

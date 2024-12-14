@@ -1,0 +1,39 @@
+morocc,176,101,3	script	ChaiRo Dungeons	611,{
+
+	mes "[ChaiRo Dungeons]";
+	mes "คุณต้องการไปล่า Monster Chai-Ro?";
+	mes "ถ้าพร้อมก็ลุยกันเลย";
+	next;
+	switch(select("ChaiRo Dungeons ["+getmapusers("pvp_y_1-2")+"/100]")) {		
+	case 1:	// Champ PvP Room
+		if (getmapusers("pvp_y_1-2") > 99) callsub S_full;
+		
+		warp "pvp_y_1-2",0,0;
+		end;
+
+		S_full:
+		mes " ";
+		mes "I'm sorry, this arena is full. Please try again later...";
+		close;
+
+OnInit:
+		waitingroom "ไปห้อง ChaiRo Dungeons",0;
+		end;
+	}
+}
+
+
+
+izlude,147,177,3	script	SHOP Dun Event	564,{
+
+	mes "[SHOP Dun Event]";
+	mes "ต้องการอะไรไหม.";
+	mes "SHOP Dun Event แลก ของมากมาย?";
+	next;
+	mes "[SHOP Dun Event]";
+	mes "โปรดเลือกของที่ต้องการ";
+	callshop "shopdun",1;
+	end;
+	
+
+}

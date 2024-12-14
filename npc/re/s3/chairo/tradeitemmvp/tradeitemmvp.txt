@@ -1,0 +1,378 @@
+morocc,173,87,3	script	Item Egg Trade#1	628,{
+	disable_items;
+	.@r = rand(5);
+	if (.@r == 0)
+		npctalk "คุณ......", "", bc_self;
+	else if (.@r == 1)
+		npctalk "ได้โปรดช่วยฉันด้วย.....", "", bc_self;
+	else if (.@r == 2)
+		npctalk "ฉันต้องการ...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Item จาก Egg", "", bc_self;
+	else
+		npctalk "คุณพอจะชาวยข้าได้หรือไม่ ?..", "", bc_self;
+	mes "[Item Egg Trade]";
+	mes "ข้าคือผู้ชำแหละ...";
+	mes "Item จาก Egg...";
+	mes "คุณคือใคร...";
+	mes "คุณพอจะมีซักชิ้นไหม..?";
+	next;
+	if (.@r == 0)
+		npctalk "ต่อให้ตาย...หรือในฝัน...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "ได้โปรด... ช่วยฉันหา Item จาก Egg...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "ได้โปรด... แค่...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "แค่ 1 ชิ้นก็ยังดี...", "", bc_self;
+	else
+		npctalk "อ๊าก...อ๊ะ...อ๊าก...", "", bc_self;
+	mes "[Item Egg Trade]";
+	mes "ถ้าเธอ...ทำได้...อาจจะ...ฉันทำได้...ให้...พวกคุณช่วย...";
+	next;
+	if (.@r == 0)
+		npctalk "เวณเถอะครับ...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "ได้โปรด...อ๊าาา...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "ได้โปรด...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "พระเจ้า... จะปกป้อง... คุณ... ถ้าคุณ... กลับใจ... บาปของคุณ... เดี๋ยวนี้เลย...", "", bc_self;
+	else
+		npctalk "...shrieking...", "", bc_self;
+	mes "[Item Egg Trade]";
+	mes "อาวุธที่ดูเหมือน...เต็มไปด้วย...แรงใจ...โทมนัส...และความเคียดแค้น...";
+	mes "ถ้าเธอ... นำ... หนึ่ง... ฉันจะคืน... มัน... เป็นพลังงาน... ชิ้น...";
+	while(true) {
+		next;
+		if (checkweight(2677,5) == 0) {
+			mes "[Item Egg Trade]";
+			mes "กระเป๋าเป้ของคุณ..";
+			mes "เอาของไปฝากคลังสะไอ้น้อง...";
+			close;
+		}
+		if (select( "ส่งมอบ Item", "จบการสนทนา." ) == 2) {
+			mes "[Item Egg Trade]";
+			mes "...เธอ...จะ...ตามหาฉัน...อีกครั้ง...";
+			close;
+		}
+		mes "[Item Egg Trade]";
+		mes "มี...Item ชิ้นไหนบ้าง...";
+		next;
+		while(true) {
+			switch( select( "กลับไปที่เมนูก่อนหน้า","Lucky Egg I", "Lucky Egg II", "Lucky Egg III", "Lucky Egg IV", "Lucky Egg VI", "Lucky Egg VII", "Lucky Egg VIII", "Lucky Egg 8", "Lucky Egg 9", "Lucky Egg 10", "Lucky Egg 11", "Lucky Egg 12", "Lucky Egg 13", "Lucky Egg 14", "Lucky Egg 15", "Lucky Egg 16", "Lucky Egg 17") ) {
+			case 1:
+				break;
+			case 2:
+				callsub S_Exchange,
+					28717,	// egg_1
+					5966,	// Catapult
+					2198,	// Catapult
+					28521,	// Catapult
+					19308,	// Big_CrossBow
+					28501,	// Falken_Blitz
+					2965,	// Mystic_Bow
+					5497,	// Mystic_Bow
+					15186,	// Mystic_Bow
+					19168,	// Mystic_Bow
+					18797,	// Mystic_Bow
+					18798,	// Mystic_Bow
+					24018,	// Mystic_Bow
+					24019,	// Mystic_Bow
+					24020,	// Mystic_Bow
+					24021,	// Mystic_Bow
+					24022,	// Mystic_Bow
+					24023;	// Red_Square_Bag
+				continue;
+			case 3:
+				callsub S_Exchange,
+					20931,	// egg_2
+					28502,	// Catapult
+					2202,	// Catapult
+					28902,	// Catapult
+					15204,	// Catapult
+					19263,	// Big_CrossBow
+					19020,	// Falken_Blitz
+					19139,	// Mystic_Bow
+					24217,	// Mystic_Bow
+					24218,	// Mystic_Bow
+					24231,	// Mystic_Bow
+					24232,	// Mystic_Bow
+					24343,	// Mystic_Bow
+					24344;	// Mental_Stick
+				continue;
+			case 4:
+				callsub S_Exchange,
+					18823,	// egg_3
+					19246,	// Falken_Blitz
+					28507,	// Mystic_Bow
+					28941,	// Mystic_Bow
+					28438,	// Mystic_Bow
+					19409,	// Mystic_Bow
+					20963,	// Mystic_Bow
+					20964,	// Mystic_Bow
+					20965,	// Mystic_Bow
+					20966,	// Mystic_Bow
+					20967,	// Mystic_Bow
+					20968,	// Weihna
+					24081,	// Weihna
+					24082,	// Weihna
+					24083;	// Weihna
+				continue;
+			case 5:
+				callsub S_Exchange,
+					19138,	// egg_4
+					19327,	// Big_CrossBow
+					28945,	// Falken_Blitz
+					19274,	// Falken_Blitz
+					20940,	// Mystic_Bow
+					19245,	// Mystic_Bow
+					19241,	// Mystic_Bow
+					24063,	// Mystic_Bow
+					24053;	// Weihna
+				continue;
+			case 6:
+				callsub S_Exchange,
+					5918,	// egg_5
+					19306,	// Big_CrossBow
+					480161,	// Falken_Blitz
+					480166,	// Falken_Blitz
+					480172,	// Mystic_Bow
+					18839,	// Mystic_Bow
+					18959,	// Mystic_Bow
+					2177,	// Mystic_Bow
+					18574,	// Mystic_Bow
+					24030,	// Mystic_Bow
+					24032,	// Mystic_Bow
+					24112,	// Mystic_Bow
+					24113,	// Mystic_Bow
+					24111;	// Weihna
+				continue;
+			case 7:
+				callsub S_Exchange,
+					450175,	// egg_6
+					480076,	// Big_CrossBow
+					22202,	// Falken_Blitz
+					5933,	// Falken_Blitz
+					19112,	// Mystic_Bow
+					20941,	// Mystic_Bow
+					28503,	// Mystic_Bow
+					28921,	// Mystic_Bow
+					24090,	// Mystic_Bow
+					24099,	// Mystic_Bow
+					24101,	// Mystic_Bow
+					24100;	// Weihna
+				continue;
+			case 8:
+				callsub S_Exchange,
+					19379,	// egg7
+					450165,	// Big_CrossBow
+					470048,	// Falken_Blitz
+					20813,	// Falken_Blitz
+					22170,	// Mystic_Bow
+					20922,	// Mystic_Bow
+					15278,	// Mystic_Bow
+					15279,	// Mystic_Bow
+					15346,	// Mystic_Bow
+					15347,	// Mystic_Bow
+					15353,	// Mystic_Bow
+					15354;	// Weihna
+				continue;
+			case 9:
+				callsub S_Exchange,
+					32203,	// egg8
+					28430,	// Big_CrossBow
+					2979,	// Falken_Blitz
+					18852,	// Falken_Blitz
+					28564,	// Mystic_Bow
+					470033,	// Mystic_Bow
+					24167,	// Mystic_Bow
+					24166,	// Mystic_Bow
+					24156,	// Mystic_Bow
+					24157,	// Falken_Blitz
+					24158,	// Falken_Blitz
+					24159,	// Mystic_Bow
+					24160,	// Mystic_Bow
+					24161,	// Mystic_Bow
+					24162,	// Mystic_Bow
+					24163,	// Mystic_Bow
+					24164,	// Falken_Blitz
+					24165;	// Weihna
+				continue;
+			case 10:
+				callsub S_Exchange,
+					480084,	// egg9
+					2182,	// Big_CrossBow
+					28598,	// Falken_Blitz
+					24473,	// Falken_Blitz
+					24474,	// Mystic_Bow
+					24475,	// Mystic_Bow
+					24491,	// Mystic_Bow
+					24492,	// Mystic_Bow
+					24493;	// Weihna
+				continue;
+			case 11:
+				callsub S_Exchange,
+					1300057,	// egg10
+					470255,	// Big_CrossBow
+					400078,	// Falken_Blitz
+					400079,	// Falken_Blitz
+					480023,	// Mystic_Bow
+					24467,	// Mystic_Bow
+					24468,	// Mystic_Bow
+					24469,	// Mystic_Bow
+					24575,	// Mystic_Bow
+					24576,	// Mystic_Bow
+					24577;	// Weihna
+				continue;
+			case 12:
+				callsub S_Exchange,
+					470263,	// egg11
+					400116,	// Big_CrossBow
+					400117,	// Falken_Blitz
+					490208,	// Falken_Blitz
+					24536,	// Mystic_Bow
+					24537,	// Mystic_Bow
+					24538,	// Mystic_Bow
+					24076,	// Mystic_Bow
+					24073;	// Weihna
+				continue;
+			case 13:
+				callsub S_Exchange,
+					4603,	// egg12
+					27164,	// Big_CrossBow
+					470267,	// Falken_Blitz
+					400098,	// Falken_Blitz
+					400099,	// Mystic_Bow
+					420076,	// Mystic_Bow
+					24399,	// Mystic_Bow
+					24400,	// Mystic_Bow
+					24500,	// Mystic_Bow
+					24501,	// Mystic_Bow
+					24502;	// Weihna
+				continue;
+			case 14:
+				callsub S_Exchange,
+					4697,	// egg13
+					470270,	// Big_CrossBow
+					400118,	// Falken_Blitz
+					400119,	// Falken_Blitz
+					490013,	// Mystic_Bow
+					24494,	// Mystic_Bow
+					24495,	// Mystic_Bow
+					24496;	// Weihna
+				continue;
+			case 15:
+				callsub S_Exchange,
+					470272,	// egg14
+					400120,	// Big_CrossBow
+					400121,	// Falken_Blitz
+					490096,	// Falken_Blitz
+					15283,	// Mystic_Bow
+					15189,	// Mystic_Bow
+					24393,	// Mystic_Bow
+					24394,	// Mystic_Bow
+					24395;	// Weihna
+				continue;
+			case 16:
+				callsub S_Exchange,
+					470258,	// egg15
+					400094,	// Big_CrossBow
+					400095,	// Falken_Blitz
+					20931,	// Falken_Blitz
+					24396,	// Mystic_Bow
+					24397,	// Mystic_Bow
+					24398;	// Weihna
+				continue;
+			case 17:
+				callsub S_Exchange,
+					1300113,	// egg16
+					410344,	// Big_CrossBow
+					490413,	// Falken_Blitz
+					20951,	// Falken_Blitz
+					24245,	// Mystic_Bow
+					24244,	// Mystic_Bow
+					24243,	// Mystic_Bow
+					24439,	// Mystic_Bow
+					24685,	// Mystic_Bow
+					24342,	// Mystic_Bow
+					24341;	// Weihna
+				continue;
+			case 18:
+				callsub S_Exchange,
+					19437,	// egg17
+					490079,	// Big_CrossBow
+					420006,	// Falken_Blitz
+					470061,	// Falken_Blitz
+					28916,	// Mystic_Bow
+					24563,	// Mystic_Bow
+					24564,	// Mystic_Bow
+					24565,	// Mystic_Bow
+					24575,	// Mystic_Bow
+					24576,	// Mystic_Bow
+					24577;	// Weihna
+				continue;
+			}
+			break;
+		}
+	}
+	end;
+
+S_Exchange:
+	.@size = getargcount();
+	.@menu$ = "กลับไปที่เมนูก่อนหน้า:";
+	for ( .@i = 0; .@i < .@size; .@i++ ) {
+		if (countitem(getarg(.@i)) < 1)
+			.@menu$ += "^999999Not enough " + getitemname(getarg(.@i)) + ".^000000:";
+		else
+			.@menu$ += "คุณมี " + getitemname(getarg(.@i)) + ".:";
+	}
+	.@s = select(.@menu$) - 2;
+	if (.@s == -1)
+		return;
+	mes "[Item Egg Trade]";
+	mes "คุณ...ได้เลือก... อาวุธ... ที่ดูเหมือนว่าจะ... เต็มไปด้วย... จิตใจที่แข็งแกร่ง... ฉัน... กำลังพยายามที่จะฟื้นฟูมัน... ให้เป็น Weapon and Armor Ticket... คุณ...เห็นด้วยหรือไม่?";
+	next;
+	if (select( "ไม่เห็นด้วยกับมัน", "ใช่ข้าเห็นด้วยอย่างยิ่ง" ) == 2) {
+		if (countitem(getarg(.@s)) < 1) {
+			mes "[Item Egg Trade]";
+			mes "คุณไม่... มี... ^006400" + getitemname(getarg(.@s)) + "^000000...";
+			mes "เธอมี...ธุระอะไรอีก...กับฉันไหม...";
+			next;
+			return;
+		}
+		donpcevent strnpcinfo(0) + "::OnBar";
+		specialeffect EF_BLACKBODY;
+		specialeffect EF_GUMGANG4;
+		specialeffect EF_DARKCASTING2;
+		specialeffect EF_RG_COIN7;
+		percentheal -50,-50;
+		specialeffect2 EF_POISONSMOKE;
+		specialeffect2 EF_NPC_BURNT;
+		delitem getarg(.@s),1;
+		.@r = rand(100);
+		if (.@r < 70)
+			.@amount = 1;
+		else if (.@r < 90)
+			.@amount = 3;
+		else
+			.@amount = 5;
+		getitem 1300083, .@amount;// Energy Fragment
+		mes "[Item Egg Trade]";
+		mes "ฉันได้สร้าง... พลังงาน... ชิ้นส่วน... โดยการฟื้นฟู ^006400" + getitemname(getarg(.@s)) + "^000000...";
+		next;
+		mes "- ฉันได้รับความเสียหายร้ายแรง - - ด้วยความยาวคลื่นอันทรงพลังของจิตใจ - - ซึ่งซึมเข้าสู่ร่างกายของฉัน. -";
+		next;
+	}
+	mes "[Item Egg Trade]";
+	mes "เธอมี...ธุระอะไรอีก...กับฉันไหม...";
+	next;
+	return;
+
+OnBar:
+	progressbar_npc "000000",5;
+	end;
+OnInit:
+waitingroom "Item Egg Trade Ticket",0;
+end;
+}

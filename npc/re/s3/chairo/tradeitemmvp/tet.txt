@@ -1,0 +1,229 @@
+morocc,177,87,3	script	Item MVP Trade#2	628,{
+	mes "[Item Trader]";
+	mes "หวัดดี, "+strcharinfo(0)+"!";
+	mes "มีอะไรให้ข้ารับใช้ไหม ?";
+	next;
+	switch(select(" > รายละเอียด: > แลกItemเป็นแต้มพอยท์: > ร้านค้าใช้พอยท์ซื้อ (^0055FF"+getd(.Points$)+"^000000): > ออก")) {
+	case 1:
+		mes "[Item Trader]";
+		mes "ข้าจะให้เจ้า  ^0055FF"+.Points[0]+" Point"+((.Points[0] == 1)?"":"s")+"^000000 ต่อชิ้น";
+		mes "^FF0000คำเตือน^000000";
+		mes "^FF0000ห้ามนำ Item ที่ไม่มีในรายชื่อลงไปขาย^000000";
+		mes "^FF0000หาก Item หายหรือขายไป จะมไม่มีการรับผิดชอบใดๆ^000000";
+		next;
+		mes "[Item Trader]";
+		mes "*** รายชื่อ Item ที่แลกแต้ม 1ชิ้น ต่อ 1แต้ม";
+		mes "<ITEM>[Sword Of Grave Keeper]<INFO>10020</INFO></ITEM>";
+		mes "<ITEM>[Orcish Sword]<INFO>1124</INFO></ITEM>";
+		mes "<ITEM>[Ice Falchon]<INFO>1131</INFO></ITEM>";
+		mes "<ITEM>[Edge]<INFO>1132</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Fire Brand]<INFO>1133</INFO></ITEM>";
+		mes "<ITEM>[Solar Sword]<INFO>1136</INFO></ITEM>";
+		mes "<ITEM>[Immaterial Sword]<INFO>1141</INFO></ITEM>";
+		mes "<ITEM>[Masamune]<INFO>1165</INFO></ITEM>";
+		mes "<ITEM>[Dragon Slayer]<INFO>1166</INFO></ITEM>";
+		mes "<ITEM>[Schweizersabel]<INFO>1167</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Altas Weapon]<INFO>1175</INFO></ITEM>";
+		mes "<ITEM>[Krasnaya]<INFO>1189</INFO></ITEM>";
+		mes "<ITEM>[Combat Knife]<INFO>1228</INFO></ITEM>";
+		mes "<ITEM>[House Auger]<INFO>1230</INFO></ITEM>";
+		mes "<ITEM>[Bazerald]<INFO>1231</INFO></ITEM>";
+		mes "<ITEM>[Assasin Dagger]<INFO>1232</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Moonlight Sword]<INFO>1234</INFO></ITEM>";
+		mes "<ITEM>[Azoth]<INFO>1235</INFO></ITEM>";
+		mes "<ITEM>[Sucsamad]<INFO>1236</INFO></ITEM>";
+		mes "<ITEM>[Grimtooth]<INFO>1237</INFO></ITEM>";
+		mes "<ITEM>[Counter Dagger]<INFO>1242</INFO></ITEM>";
+		mes "<ITEM>[Cakram]<INFO>1285</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Krieg]<INFO>13046</INFO></ITEM>";
+		mes "<ITEM>[Weihna]<INFO>13047</INFO></ITEM>";
+		mes "<ITEM>[Brood Axe]<INFO>1363</INFO></ITEM>";
+		mes "<ITEM>[Light Epsilon]<INFO>1366</INFO></ITEM>";
+		mes "<ITEM>[Doom Slayer]<INFO>1371</INFO></ITEM>";
+		mes "<ITEM>[Hurricane Fury]<INFO>1377</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Giant Axe]<INFO>1387</INFO></ITEM>";
+		mes "<ITEM>[Gungnir]<INFO>1413</INFO></ITEM>";
+		mes "<ITEM>[Brocca]<INFO>1415</INFO></ITEM>";
+		mes "<ITEM>[Hunting Spear]<INFO>1422</INFO></ITEM>";
+		mes "<ITEM>[Crescent Scythe]<INFO>1466</INFO></ITEM>";
+		mes "<ITEM>[Zephyrus]<INFO>1468</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Hellfire]<INFO>1471</INFO></ITEM>";
+		mes "<ITEM>[Wizardy Staff]<INFO>1473</INFO></ITEM>";
+		mes "<ITEM>[Crescent Scythe]<INFO>1476</INFO></ITEM>";
+		mes "<ITEM>[Spectral Spear]<INFO>1477</INFO></ITEM>";
+		mes "<ITEM>[Golden Mace]<INFO>1524</INFO></ITEM>";
+		mes "<ITEM>[Long Mace]<INFO>1525</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Death Note]<INFO>1565</INFO></ITEM>";
+		mes "<ITEM>[Erde]<INFO>16000</INFO></ITEM>";
+		mes "<ITEM>[Red Square Bag]<INFO>16001</INFO></ITEM>";
+		mes "<ITEM>[Survival Rod]<INFO>1618</INFO></ITEM>";
+		mes "<ITEM>[Staff Of Bordeaux]<INFO>1648</INFO></ITEM>";
+		mes "<ITEM>[Bow Of Rudra]<INFO>1720</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Balistar]<INFO>1722</INFO></ITEM>";
+		mes "<ITEM>[Claw Of Garm]<INFO>1815</INFO></ITEM>";
+		mes "<ITEM>[Destruction Rod]<INFO>2000</INFO></ITEM>";
+		mes "<ITEM>[Kronos]<INFO>2004</INFO></ITEM>";
+		mes "<ITEM>[Dea Staff]<INFO>2005</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Sphinx Hat]<INFO>5053</INFO></ITEM>";
+		mes "<ITEM>[Ulle's Cap]<INFO>5123</INFO></ITEM>";
+		mes "<ITEM>[Majestic]<INFO>2256</INFO></ITEM>";
+		mes "<ITEM>[Majestic [1]]<INFO>5160</INFO></ITEM>";
+		mes "<ITEM>[Tiara]<INFO>2234</INFO></ITEM>";
+		mes "<ITEM>[Crown]<INFO>2235</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Golden Gear]<INFO>2246</INFO></ITEM>";
+		mes "<ITEM>[Coronet]<INFO>2249</INFO></ITEM>";
+		mes "<ITEM>[Spiky Band]<INFO>2258</INFO></ITEM>";
+		mes "<ITEM>[Pipe]<INFO>2268</INFO></ITEM>";
+		mes "<ITEM>[Valkyrie Armor]<INFO>2234</INFO></ITEM>";
+		mes "<ITEM>[Diabolus Robe]<INFO>2374</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Diabolus Armor]<INFO>2375</INFO></ITEM>";
+		mes "<ITEM>[Variant Shoes]<INFO>2423</INFO></ITEM>";
+		mes "<ITEM>[Nidhoggur Shadow Garb]<INFO>2554</INFO></ITEM>";
+		mes "<ITEM>[Morpheus Ring]<INFO>2648</INFO></ITEM>";
+		mes "<ITEM>[Morpheus Bracelet]<INFO>2649</INFO></ITEM>";
+		mes "<ITEM>[Bloody Iron Ball]<INFO>2655</INFO></ITEM>";
+		next;
+		mes "[Item Trader]";
+		mes "<ITEM>[Ring of Flame Lord]<INFO>2678</INFO></ITEM>";
+		mes "<ITEM>[Ring of Resonance]<INFO>2679</INFO></ITEM>";
+		mes "<ITEM>[Jewel Crown]<INFO>5002</INFO></ITEM>";
+		mes "<ITEM>[Grand Circlet]<INFO>5007</INFO></ITEM>";
+		mes "<ITEM>[Corsair]<INFO>5019</INFO></ITEM>";
+		close;
+	case 2:
+		mes "[Item Trader]";
+		mes "กรุณาเลือก Items";
+		mes "ที่เจ้าต้องการแลก.";
+		if (.Level) {
+			mes " ";
+			mes "ข้าต้องการจาก";
+			mes "มอนสเตอร์ที่เลเวล";
+			mes .Level+" หรือมากกว่า.";
+		}
+		deletearray @sold_nameid[0],getarraysize(@sold_nameid);
+		callshop "item_shopp",2;
+		npcshopattach "item_shopp";
+		end;
+	case 3:
+		mes "[Item Trader]";
+		mes "เจ้ามี ^0055FF"+getd(.Points$)+"^000000 Point"+((getd(.Points$) == 1)?".":"s.");
+		callshop "item_shopp",1;
+		npcshopattach "item_shopp";
+		end;
+	case 4:
+		mes "[Item Trader]";
+		mes "*ง่าส์*";
+		mes "แล้วมาใหม่น้า!";
+		emotion ET_SLEEPY;
+		close;		
+	}
+
+OnSellItem:
+	mes "Items ที่จะขาย:";
+	mes "-----------------------------------";
+	for(set .@i,0; .@i<getarraysize(@sold_nameid); set .@i,.@i+1)
+		if (@sold_nameid[.@i] > 1000 && @sold_nameid[.@i] < 17000) {
+			if (.Level) {
+				query_sql("SELECT `LV` FROM `mob_db` WHERE `DropItemid` = "+@sold_nameid[.@i],.@lv);
+				if (.@lv < .Level) {
+					dispbottom getitemname(@sold_nameid[.@i])+" is under the minimum level.";
+					continue;
+				}
+			}
+			set .@Item_id[getarraysize(.@Item_id)], @sold_nameid[.@i];
+			set .@Item_amt[getarraysize(.@Item_amt)], @sold_quantity[.@i];
+			set .@item, compare(.ITEM$,""+@sold_nameid[.@i]);
+			mes ((.@item)?"  ^FF0000":"  ^777777")+@sold_quantity[.@i]+"x "+getitemname(@sold_nameid[.@i])+"^000000";
+			set .@Item_total, .@Item_total+(@sold_quantity[.@i]*((.@item)?.Points[1]:.Points[0]));
+		}
+	deletearray @sold_nameid[0], getarraysize(@sold_nameid);
+	deletearray @sold_quantity[0], getarraysize(@sold_quantity);
+	if (!.@Item_id) {
+		mes "  ^777777(ไม่มี Item ที่ข้ารับซื้อ)^000000";
+		emotion ET_SWEAT;
+		close;
+	}
+	mes " ";
+	mes "---------- รวมทั้งหมด: ^0055FF"+.@Item_total+" แต้ม.^000000 -------";
+	next;
+	if(select(" > ^0055FFแลกเปลี่ยน...^000000: > ^777777ยกเลิก^000000") == 2) {
+		mes "[Item Trader]";
+		mes "โอ้, ได้เลย..";
+		emotion ET_SCRATCH;
+		close;
+	}
+	for(set .@i,0; .@i<getarraysize(.@Item_id); set .@i,.@i+1)
+		delitem .@Item_id[.@i],.@Item_amt[.@i];
+	setd .Points$, getd(.Points$)+.@Item_total;
+	mes "[Item Trader]";
+	mes "เรียบร้อย!";
+	emotion ET_DELIGHT;
+	close;
+
+OnBuyItem:
+	for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1)
+		for(set .@j,0; .@j<getarraysize(.Shop); set .@j,.@j+2)
+			if (@bought_nameid[.@i] == .Shop[.@j]) {
+				set .@cost, .@cost+(.Shop[.@j+1]*@bought_quantity[.@i]);
+				break;
+			}
+	if (.@cost > getd(.Points$)) {
+		mes "[Item Trader]";
+		mes "เจ้ามีแต้มพอยท์ไม่พอ.";
+		emotion ET_HUK;
+	}
+	else {
+		mes "รายการสินค้า:";
+		mes "-----------------------------------";
+		for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1) {
+			getitem @bought_nameid[.@i], @bought_quantity[.@i];
+			mes "  ^777777"+@bought_quantity[.@i]+"x "+getitemname(@bought_nameid[.@i])+"^000000";
+		}
+		mes " ";
+		mes "---------- รวมทั้งหมด: ^0055FF"+.@cost+" แต้ม.^000000 -------";
+		setd .Points$, getd(.Points$)-.@cost;
+		emotion ET_MONEY;
+	}
+	deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+	deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+	close;
+
+OnInit:
+	//waitingroom "Item Trader",0;
+	set .Level,0;   		// Minimum monster level to trade corresponding Items.  
+	set .Points$,"#Item_Points";	// Variable to store points.
+	setarray .Shop[0],		// Item Shop items: <ID>,<point cost>
+	  1300083,1; 
+	setarray .Points[0],0,1,1;	// Points per <normal Item>,<Item> 
+	set .ITEM$,			// List of Items.
+	  "10020,1124,1131,1132,1133,1136,1141,1165,1166,1167,1175,1189,1228,1230,1231,1232,1234,1235,1236,1237,1242,1285,13046,13047,1363,1366,1371,1377,1387,1413,1415,1422,1466,1468,1471,1473,1476,1477,1524,1525,1565,16000,16001,1618,1648,1720,1722,1815,2000,2004,2005,5053,5123,2256,5160,2648,2649,2258,5019,2268,2246,5007,2679,2678,2234,2249,2554,2235,5002,2655,2357,2375,2374,2423";
+	
+	npcshopdelitem "item_shopp",908;
+	for(set .@i,0; .@i<getarraysize(.Shop); set .@i,.@i+2)
+		npcshopadditem "item_shopp",.Shop[.@i],.Shop[.@i+1];
+	waitingroom "Item Mvp แลกแต้ม",0;
+	end;
+}
+-	shop	item_shopp	-1,908:-1

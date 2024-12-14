@@ -1,0 +1,6 @@
+pvp_y_1-2,0,0	monster	Chai-Ro1	21642,8,5000
+pvp_y_1-2,0,0	monster	Chai-Ro2	21643,8,5000
+pvp_y_1-2,0,0	monster	Chai-Ro3	21644,8,5000
+pvp_y_1-2,0,0	monster	Chai-Ro4	21645,8,5000
+pvp_y_1-2,0,0	monster	Chai-Ro5	21646,8,5000
+pvp_y_1-2,0,0	monster	Chai-Ro6	21647,8,5000

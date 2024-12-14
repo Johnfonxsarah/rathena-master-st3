@@ -1,0 +1,72 @@
+
+CREATE TABLE IF NOT EXISTS `quest_point_db` (
+  `item_id` int(9) NOT NULL,
+  `quantity_min` int(5) NOT NULL,
+  `quantity_max` int(5) NOT NULL,
+  `level` int(1) NULL,
+  PRIMARY KEY (`item_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `quest_point_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `send_acc_id` int(11) NOT NULL,
+  `send_player_name` varchar(28) NOT NULL,
+  `send_acc_user` varchar(26) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `adicionar` int(1) NOT NULL default '0',
+  `remover` int(1) NOT NULL default '0',
+  `recpt_acc_id` int(11) NOT NULL,
+  `recpt_player_name` varchar(28) NOT NULL,
+  `recpt_acc_user` varchar(26) NOT NULL,
+  `log_date` varchar(30) NOT NULL,
+  `comment` TEXT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `qpItem_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acc_id` int(8) NOT NULL,
+  `char_id` int(6) NOT NULL,
+  `char_name` varchar(28) NOT NULL,
+  `item_id` int(8) NOT NULL,
+  `ant_imin` int(5) NOT NULL default '0',
+  `imin` int(5) NOT NULL default '0',
+  `ant_imax` int(5) NOT NULL default '0',
+  `imax` int(5) NOT NULL default '0',
+  `ant_level` int(1) NOT NULL default '0',
+  `level` int(1) NOT NULL default '0',
+  `add` int(1) NOT NULL default '0',
+  `edit` int(1) NOT NULL default '0',
+  `remov` int(1) NOT NULL default '0',
+  `log_date` varchar(30) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `qpReset_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acc_id` int(8) NOT NULL,
+  `char_id` int(6) NOT NULL,
+  `char_name` varchar(28) NOT NULL,
+  `player_name` varchar(28) NOT NULL default '0',
+  `player_acc` varchar(28) NOT NULL default '0',
+  `log_date` varchar(30) NOT NULL,
+  `comment` TEXT NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `qpCustom_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acc_id` int(8) NOT NULL,
+  `char_id` int(7) NOT NULL,
+  `item_id` int(9) NOT NULL,
+  `item_qtd` int(3) NOT NULL,
+  `log_date` varchar(30) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+
+ALTER TABLE `login` ADD `QuestPoint` INT(5) NOT NULL default '0';
+ALTER TABLE `login` ADD `qp_reset` INT(1) NOT NULL default '0';
+ALTER TABLE `login` ADD `MaxQPoints` INT(5) NOT NULL default '0';
+ALTER TABLE `login` ADD `MaxCustom` INT(5) NOT NULL default '0';
+ALTER TABLE `char` ADD `QP_CharPref` INT(1) NOT NULL default '0';

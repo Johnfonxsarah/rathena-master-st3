@@ -1,0 +1,138 @@
+morocc,184,75,4	script	Stone To Ticket#eventhat10	423,{
+	if (checkweight(1301,1) == 0) {
+		mes "- หยุดก่อน!! -";
+		mes "- คุณบรรทุกสิ่งของมากเกินไป, -";
+		mes "- จึงไม่สามารถรับไอเทมได้อีก, -";
+		mes "- กรุณาลดน้ำหนักของคุณ, -";
+		mes "- และกลับมาอีกครั้งในภายหลัง! -";
+		close;
+	}
+	disable_items;
+	mes "[Stone To Ticket]";
+	mes "^ff0000คำเตือน ^000000";
+	mes "อ่านชื่อitem ก่อนแลกทุกครั้ง!";
+	mes "ใช้ Stone Enchat Costume 1 ชิ้นเพื่อแลก Stone Ticket!";
+	next;
+	if (select( "ใช้ Stone Enchat Costume 1 ea", "อ่านรายละเอียด" ) == 2) {
+		mes "[Stone To Ticket]";
+		mes "^ff0000คำเตือน ^000000";
+		mes "อ่านชื่อ item ก่อน แลกทุกครั้ง!";
+
+		next;
+		mes "[Stone To Ticket]";
+		mes "โปรดระวังของที่คุณใส่หาย ให้นำของที่คุณใส่ไว้ในคลังหรือในรถเข็นก่อนกันคอสถูกแลกโดยไม่รู้ตัว!";
+		close;
+	}
+	mes "[" + strcharinfo(0) + "]";
+	mes "อ่านชื่อ Item ก่อนแลกทุกครั้ง!";
+	next;
+	mes "[Stone To Ticket]";
+	mes "อ้อ งั้นฉันขอแลกเป็น Stone Ticket ได้นะ";
+	next;
+	mes "- ค้นหา -";
+	next;
+
+
+	// ===================================================================
+	// =================== shadow ===================
+	// ===================================================================
+	.@box_list[0] = 1300084;		// Enchant_Stone_Box4
+	setarray .@item_list_0[0],
+		6642,		// C_Chick_Hat
+		6643,		// C_Chick_Hat
+		6908,		// C_Chick_Hat
+		6943,		// C_Chick_Hat
+		6944,		// C_Chick_Hat
+		6963,		// C_Chick_Hat
+		6964,		// C_Chick_Hat
+		6999,		// C_Chick_Hat
+		25000,		// C_Chick_Hat
+		25001,		// C_Chick_Hat
+		25002,		// C_Chick_Hat
+		25003,		// C_Chick_Hat
+		25004,		// C_Chick_Hat
+		25005,		// C_Chick_Hat
+		25006,		// C_Chick_Hat
+		25007,		// C_Chick_Hat
+		25008,		// C_Chick_Hat
+		25009,		// C_Chick_Hat
+		25010,		// C_Chick_Hat
+		25011,		// C_Chick_Hat
+		25012,		// C_Chick_Hat
+		25013,		// C_Chick_Hat
+		25014,		// C_Chick_Hat
+		25015,		// C_Chick_Hat
+		25016,		// C_Chick_Hat
+		25017,		// C_Chick_Hat
+		25058,		// C_Chick_Hat
+		25059,		// C_Chick_Hat
+		25060,		// C_Chick_Hat
+		25061,		// C_Chick_Hat
+		25062,		// C_Chick_Hat
+		25063,		// C_Chick_Hat
+		25064,		// C_Chick_Hat
+		25065,		// C_Chick_Hat
+		25066,		// C_Chick_Hat
+		25067,		// C_Chick_Hat
+		25068,		// C_Chick_Hat
+		25069,		// C_Chick_Hat
+		25070,		// C_Chick_Hat
+		25071,		// C_Chick_Hat
+		25072,		// C_Chick_Hat
+		25136,		// C_Chick_Hat
+		25137,		// C_Chick_Hat
+		25170,		// C_Chick_Hat
+		25176,		// C_Chick_Hat
+		25178;		// C_Chick_Hat
+
+
+	while(1) {
+		for ( .@i = 0; .@i < 18; ++.@i ) {
+			if (getiteminfo(.@box_list[.@i], ITEMINFO_TYPE) == -1)	// temporary check
+				continue;
+			.@size = getarraysize( getd(".@item_list_" + .@i) );
+			for ( .@h = 0; .@h < .@size; ++.@h ) {
+				.@id = getd( ".@item_list_" + .@i + "[" + .@h + "]" );
+				if (getiteminfo(.@id, ITEMINFO_TYPE) == -1)	// temporary check
+					continue;
+				if (countitem(.@id) < 1)
+					continue;
+				mes "[Stone To Ticket]";
+				mes "คุณใช้ITEM ^3131FF" + getitemname(.@id) + "^000000. ในการแลกเปลี่ยน Stone Ticket?";
+				next;
+				switch( select( "แลกเปลี่ยน", "ค้นหา Stone Ticket อื่น", "ไม่แลกดีกว่า" ) ) {
+				case 1:
+					mes "[Stone To Ticket]";
+					if (countitem(.@id) < 1)
+						mes "โอ้~ จู่ๆก็มีบางอย่างหายไป...";
+					else {
+						mes "แลกเปลี่ยนสำเร็จ.";
+						delitem .@id, 1;
+						getitem .@box_list[.@i], 1;
+					}
+					mes "ขอเช็ครายการอื่นแลกครับ...";
+					next;
+					break;
+				case 2:
+					break;
+				case 3:
+					mes "[Stone To Ticket]";
+					mes "คุณกำลังจะไปไหน?";
+					close;
+				}
+			}
+		}
+		mes "[Stone To Ticket]";
+		mes "ค้นหา Stone ทั้งหมดในตัว";
+		next;
+		if (select( "ค้นหา Item", "Exit" ) == 2) {
+			mes "[Stone To Ticket]";
+			mes "บายๆๆๆ";
+			close;
+		}
+	}
+
+OnInit:
+	waitingroom "Stone To Ticket",0;
+	end;
+}

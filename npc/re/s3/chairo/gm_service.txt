@@ -1,0 +1,456 @@
+//===== rAthena Script ======================================= 
+//= GM Service.
+//===== By: ================================================== 
+//= Mr.TAURUS
+//===== Current Version: ===================================== 
+//= v1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//============================================================ 
+
+izlude,126,161,5	script	ผู้ช่วย GM	4_F_KAFRA3,{
+	$@set_zeny = 0;
+	$@set_item1 = 0;
+	$@set_item2 = 0;
+	$@set_item3 = 0;
+	$@set_item4 = 0;
+	$@set_item5 = 0;
+	$@set_amount1 = 0;
+	$@set_amount2 = 0;
+	$@set_amount3 = 0;
+	$@set_amount4 = 0;
+	$@set_amount5 = 0;
+	disable_items;
+	cutin "kafra_03",2;
+	if (getgmlevel() == 99) {
+		mes .NPCname$;
+		mes "สวัสดีค่ะ, ท่าน ^1E90FF"+ strcharinfo(0) +"^000000.";
+		mes "ต้องการให้ดิฉันช่วยเหลืออะไรดีค่ะ?";
+		next;
+		switch(select(
+			""+.sb$+" แจกเงินหรือไอเท็ม",
+			""+.sb$+" คูณ EXP",
+			""+.sb$+" คูณ อัตราดรอปไอเท็ม "
+			))
+		{
+			case 1:
+				mes .NPCname$;
+				mes "กรุณากำหนดไอเท็ม ด้วยค่ะ.";
+				while (true) {
+					next;
+					.finnish = ($@set_zeny > 0) || ($@set_item1 > 0 && $@set_amount1 > 0);
+					.setitem2 = ($@set_item1 > 0 && $@set_amount1 > 0);
+					.setitem3 = ($@set_item2 > 0 && $@set_amount2 > 0);
+					.setitem4 = ($@set_item3 > 0 && $@set_amount3 > 0);
+					.setitem5 = ($@set_item4 > 0 && $@set_amount4 > 0);
+					mes .NPCname$;
+					mes "ไอเท็มที่จะแจก:";
+					if ($@set_zeny > 0) { mes "[^009900 "+callfunc("F_InsertComma",$@set_zeny)+" ^000000] z."; }
+					if ($@set_item1 > 0 && $@set_amount1 > 0) { mes "[^0000FF "+getitemname($@set_item1)+" ^000000] จำนวน [^009900 "+callfunc("F_InsertComma",$@set_amount1)+" ^000000] ea."; }
+					if ($@set_item2 > 0 && $@set_amount2 > 0) { mes "[^0000FF "+getitemname($@set_item2)+" ^000000] จำนวน [^009900 "+callfunc("F_InsertComma",$@set_amount2)+" ^000000] ea."; }
+					if ($@set_item3 > 0 && $@set_amount3 > 0) { mes "[^0000FF "+getitemname($@set_item3)+" ^000000] จำนวน [^009900 "+callfunc("F_InsertComma",$@set_amount3)+" ^000000] ea."; }
+					if ($@set_item4 > 0 && $@set_amount4 > 0) { mes "[^0000FF "+getitemname($@set_item4)+" ^000000] จำนวน [^009900 "+callfunc("F_InsertComma",$@set_amount4)+" ^000000] ea."; }
+					if ($@set_item5 > 0 && $@set_amount5 > 0) { mes "[^0000FF "+getitemname($@set_item5)+" ^000000] จำนวน [^009900 "+callfunc("F_InsertComma",$@set_amount5)+" ^000000] ea."; }
+					switch(select(
+						""+.sb$+" ยกเลิก",
+						""+.sb$+" กำหนด zeny [^009900"+callfunc("F_InsertComma",$@set_zeny)+"^000000]",
+						""+.sb$+" กำหนด Items1 [^0000FF"+$@set_item1+"^000000]|[^009900"+callfunc("F_InsertComma",$@set_amount1)+"^000000]",
+						(.setitem2) ? ""+.sb$+" กำหนด Items2 [^0000FF"+$@set_item2+"^000000]|[^009900"+callfunc("F_InsertComma",$@set_amount2)+"^000000]" : "",
+						(.setitem3) ? ""+.sb$+" กำหนด Items3 [^0000FF"+$@set_item3+"^000000]|[^009900"+callfunc("F_InsertComma",$@set_amount3)+"^000000]" : "",
+						(.setitem4) ? ""+.sb$+" กำหนด Items4 [^0000FF"+$@set_item4+"^000000]|[^009900"+callfunc("F_InsertComma",$@set_amount4)+"^000000]" : "",
+						(.setitem5) ? ""+.sb$+" กำหนด Items5 [^0000FF"+$@set_item5+"^000000]|[^009900"+callfunc("F_InsertComma",$@set_amount5)+"^000000]" : "",
+						(.finnish) ? ""+.sb$+" แจกไอเท็มให้คนที่อยู่ในเมือง" : "",
+						(.finnish) ? ""+.sb$+" แจกไอเท็มให้คนออนไลน์ทั้งหมด" : ""
+						)) 
+					{
+						case 1:
+							close2;
+							cutin "",255;
+							end;
+						case 2:
+							next;
+							mes .NPCname$;
+							mes "กรุณาใส่จำนวน Zeny:";
+							input $@set_zeny;
+							break;
+						case 3:
+							next;
+							mes .NPCname$;
+							mes "กรุณาใส่ Item ID:";
+							input $@set_item1;
+							next;
+							if ($@set_item1 == 0) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก 0 ด้วยค่ะ.";
+								break;
+							}
+							mes .NPCname$;
+							mes "กรุณาใส่ จำนวน Item:";
+							input $@set_amount1;
+							next;
+							if($@set_amount1 == 0 || $@set_amount1 >= 30000) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก";
+								mes "0 และไม่เกิน "+callfunc("F_InsertComma",30000)+" ด้วยค่ะ.";
+								break;
+							}
+							break;
+						case 4:
+							next;
+							mes .NPCname$;
+							mes "กรุณาใส่ Item ID:";
+							input $@set_item2;
+							next;
+							if ($@set_item2 == 0) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก 0 ด้วยค่ะ.";
+								break;
+							}
+							mes .NPCname$;
+							mes "กรุณาใส่ จำนวน Item:";
+							input $@set_amount2;
+							next;
+							if($@set_amount2 == 0 || $@set_amount2 >= 30000) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก";
+								mes "0 และไม่เกิน "+callfunc("F_InsertComma",30000)+" ด้วยค่ะ.";
+								break;
+							}
+							break;
+						case 5:
+							next;
+							mes .NPCname$;
+							mes "กรุณาใส่ Item ID:";
+							input $@set_item3;
+							next;
+							if ($@set_item3 == 0) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก 0 ด้วยค่ะ.";
+								break;
+							}
+							mes .NPCname$;
+							mes "กรุณาใส่ จำนวน Item:";
+							input $@set_amount3;
+							next;
+							if($@set_amount3 == 0 || $@set_amount3 >= 30000) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก";
+								mes "0 และไม่เกิน "+callfunc("F_InsertComma",30000)+" ด้วยค่ะ.";
+								break;
+							}
+							break;
+						case 6:
+							next;
+							mes .NPCname$;
+							mes "กรุณาใส่ Item ID:";
+							input $@set_item4;
+							next;
+							if ($@set_item4 == 0) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก 0 ด้วยค่ะ.";
+								break;
+							}
+							mes .NPCname$;
+							mes "กรุณาใส่ จำนวน Item:";
+							input $@set_amount4;
+							next;
+							if($@set_amount4 == 0 || $@set_amount4 >= 30000) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก";
+								mes "0 และไม่เกิน "+callfunc("F_InsertComma",30000)+" ด้วยค่ะ.";
+								break;
+							}
+							break;
+						case 7:
+							next;
+							mes .NPCname$;
+							mes "กรุณาใส่ Item ID:";
+							input $@set_item5;
+							next;
+							if ($@set_item5 == 0) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก 0 ด้วยค่ะ.";
+								break;
+							}
+							mes .NPCname$;
+							mes "กรุณาใส่ จำนวน Item:";
+							input $@set_amount5;
+							next;
+							if($@set_amount5 == 0 || $@set_amount5 >= 30000) {
+								mes .NPCname$;
+								mes "ขอโทษค่ะ";
+								mes "กรุณาใส่ตัวเลขอื่นนอกจาก";
+								mes "0 และไม่เกิน "+callfunc("F_InsertComma",30000)+" ด้วยค่ะ.";
+								break;
+							}
+							break;
+						case 8:
+							next;							
+							mes .NPCname$;
+							mes "ทำการแจกไอเท็มให้แก่ผู้เล่นทุกคนในเมือง";
+							mes "เรียบร้อยแล้วค่ะ.";
+							announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการแจกไอเท็ม แก่ผู้เล่นที่อยู่ในเมือง!",0;
+							//----------------------------------
+							addrid(1);
+							.@charid = getcharid(0);
+							.@sender$ = "GM";
+							.@title$ = "ของรางวัลกิจกรรม";
+							.@body$ = "คุณได้รับของรางวัลกิจกรรมจาก GM.";
+							.@zeny = $@set_zeny;
+							setarray .@mailitem[0],$@set_item1,$@set_item2,$@set_item3,$@set_item4,$@set_item5;
+							setarray .@mailamount[0],$@set_amount1,$@set_amount2,$@set_amount3,$@set_amount4,$@set_amount5;
+							if ( checkvending() && .novend || checkchatting() && .nopub || checkidle() > .idle_time ) end;
+							if (.@mailitem > 0) {
+								mail .@charid, .@sender$, .@title$, .@body$, .@zeny, .@mailitem, .@mailamount;
+							} else {
+								mail .@charid, .@sender$, .@title$, .@body$, .@zeny;
+							}
+							//----------------------------------
+							cutin "",255;
+							end;
+						case 9:
+							next;
+							mes .NPCname$;
+							mes "ทำการแจกไอเท็มให้แก่ผู้เล่นที่ออนไลน์ทั้งหมด";
+							mes "เรียบร้อยแล้วค่ะ.";
+							announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการแจกไอเท็ม แก่ผู้เล่นที่ออนไลน์ทั้งหมด!",0;
+							//----------------------------------
+							addrid(0);
+							.@charid = getcharid(0);
+							.@sender$ = "GM";
+							.@title$ = "ของรางวัลกิจกรรม";
+							.@body$ = "คุณได้รับของรางวัลกิจกรรมจาก GM.";
+							.@zeny = $@set_zeny;
+							setarray .@mailitem[0],$@set_item1,$@set_item2,$@set_item3,$@set_item4,$@set_item5;
+							setarray .@mailamount[0],$@set_amount1,$@set_amount2,$@set_amount3,$@set_amount4,$@set_amount5;
+							if ( checkvending() && .novend || checkchatting() && .nopub || checkidle() > .idle_time ) end;
+							if (.@mailitem > 0) {
+								mail .@charid, .@sender$, .@title$, .@body$, .@zeny, .@mailitem, .@mailamount;
+							} else {
+								mail .@charid, .@sender$, .@title$, .@body$, .@zeny;
+							}
+							//----------------------------------
+							cutin "",255;
+							end;
+					}
+				}
+				cutin "",255;
+				end;
+			case 2:
+				mes .NPCname$;
+				mes "ท่านเลือกเมนู คูณ EXP";
+				mes "ต้องการจะทำอะไรต่อดีคะ?";
+				next;
+				switch(select(
+					""+.sb$+" เปิดคูณ EXP",
+					""+.sb$+" ปิดคูณ EXP"
+					))
+				{	
+					case 1:
+						mes .NPCname$;
+						mes "โปรดกรอกอัตราคูณที่ท่านต้องการ";
+						mes "เช่น: 2 เท่ากับ x2 เท่าจากเดิม";
+						mes "ต้องเป็นเลขจำนวนเต็มเท่านั้น";
+						mes "^FF0000หากใส่ 0 จะเป็นการยกเลิก.^000000";
+						next;
+						input .@rate_up;
+						mes .NPCname$;
+						if (.@rate_up == 0) {
+							mes "ยกเลิกเรียบร้อยแล้วค่ะ";
+							close2;
+							cutin "0",255;
+							end;
+						}
+						else {
+							mes "ทำการเปิด EXP x^009900"+.@rate_up+"^000000 เท่า"; 
+							mes "เรียบร้อยแล้วค่ะ.";
+							setBattleFlag "base_exp_rate",.base_exp*.@rate_up;
+							setBattleFlag "job_exp_rate",.job_exp*.@rate_up,true;
+							announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการเปิด EXP x"+.@rate_up+" เท่า จากปกติแล้วค่ะ!",0;
+							close2;
+							cutin "0",255;
+							end;
+						}
+						end;
+
+					case 2:
+						mes .NPCname$;
+						mes "ทำการปิดการคูณ EXP"; 
+						mes "เรียบร้อยแล้วค่ะ.";
+						setBattleFlag "base_exp_rate",.base_exp;
+						setBattleFlag "job_exp_rate",.job_exp,true;
+						announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการปิดการคูณ EXP โบนัส แล้วค่ะ!",0;
+						close2;
+						cutin "0",255;
+						end;	
+				}
+			case 3:
+				mes .NPCname$;
+				mes "ท่านเลือกเมนู คูณ อัตราดรอปไอเท็ม";
+				mes "ต้องการจะทำอะไรต่อดีคะ?";
+				next;
+				switch(select(
+					""+.sb$+" อัตราดรอปไอเท็ม [Normal]",
+					""+.sb$+" อัตราดรอปไอเท็ม [MVP]",
+					""+.sb$+" ปิดคูณ อัตราดรอปไอเท็ม"
+					))
+				{	
+					case 1:
+						mes .NPCname$;
+						mes "โปรดกรอกอัตราคูณที่ท่านต้องการ";
+						mes "เช่น: 2 เท่ากับ x2 เท่าจากเดิม";
+						mes "ต้องเป็นเลขจำนวนเต็มเท่านั้น";
+						mes "^FF0000หากใส่ 0 จะเป็นการยกเลิก.^000000";
+						next;
+						input .@rate_up;
+						mes .NPCname$;
+						if (.@rate_up == 0) {
+							mes "ยกเลิกเรียบร้อยแล้วค่ะ";
+							close2;
+							cutin "0",255;
+							end;
+						}
+						else {
+							mes "ทำการเปิด อัตราดรอปไอเท็ม x^009900"+.@rate_up+"^000000 เท่า";
+							mes "สำหรับ Normal Monster";
+							mes "เรียบร้อยแล้วค่ะ.";
+							setBattleFlag "item_rate_common",.item_rate_common*.@rate_up;
+							setBattleFlag "item_rate_heal",.item_rate_heal*.@rate_up;
+							setBattleFlag "item_rate_use",.item_rate_use*.@rate_up;
+							setBattleFlag "item_rate_equip",.item_rate_equip*.@rate_up;
+							setBattleFlag "item_rate_card",.item_rate_card*.@rate_up;			
+							setBattleFlag "item_rate_adddrop",.item_rate_adddrop*.@rate_up;
+							setBattleFlag "item_rate_treasure",.item_rate_treasure*.@rate_up,true;
+							announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการเปิด อัตราดรอปไอเท็ม x"+.@rate_up+"  เท่า [Normal Monster] จากปกติแล้วค่ะ!",0;
+							close2;
+							cutin "0",255;
+							end;
+						}
+						end;
+
+					case 2:
+						mes .NPCname$;
+						mes "โปรดกรอกอัตราคูณที่ท่านต้องการ";
+						mes "เช่น: 2 เท่ากับ x2 เท่าจากเดิม";
+						mes "ต้องเป็นเลขจำนวนเต็มเท่านั้น";
+						mes "^FF0000หากใส่ 0 จะเป็นการยกเลิก.^000000";
+						next;
+						input .@rate_up;
+						mes .NPCname$;
+						if (.@rate_up == 0) {
+							mes "ยกเลิกเรียบร้อยแล้วค่ะ";
+							close2;
+							cutin "0",255;
+							end;
+						}
+						else {
+							mes "ทำการเปิด อัตราดรอปไอเท็ม x^009900"+.@rate_up+"^000000 เท่า";
+							mes "สำหรับ Boss MVP Monster";
+							mes "เรียบร้อยแล้วค่ะ.";
+							setBattleFlag "item_rate_common_boss",.item_rate_common_boss*.@rate_up;
+							setBattleFlag "item_rate_heal_boss",.item_rate_heal_boss*.@rate_up;
+							setBattleFlag "item_rate_use_boss",.item_rate_use_boss*.@rate_up;
+							setBattleFlag "item_rate_equip_boss",.item_rate_equip_boss*.@rate_up;
+							setBattleFlag "item_rate_card_boss",.item_rate_card_boss*.@rate_up;	
+							setBattleFlag "item_rate_common_mvp",.item_rate_common_mvp*.@rate_up;
+							setBattleFlag "item_rate_heal_mvp",.item_rate_heal_mvp*.@rate_up;
+							setBattleFlag "item_rate_use_mvp",.item_rate_use_mvp*.@rate_up;
+							setBattleFlag "item_rate_equip_mvp",.item_rate_equip_mvp*.@rate_up;
+							setBattleFlag "item_rate_card_mvp",.item_rate_card_mvp*.@rate_up;			
+							setBattleFlag "item_rate_adddrop",.item_rate_adddrop*.@rate_up;
+							setBattleFlag "item_rate_treasure",.item_rate_treasure*.@rate_up,true;
+							announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการเปิด อัตราดรอปไอเท็ม x"+.@rate_up+" เท่า [Boss MVP Monster] จากปกติแล้วค่ะ!",0;
+							close2;
+							cutin "0",255;
+							end;
+						}
+						end;
+
+					case 3:
+						mes .NPCname$;
+						mes "ทำการปิดการคูณ อัตราดรอปไอเท็ม"; 
+						mes "เรียบร้อยแล้วค่ะ.";
+						setBattleFlag "item_rate_common",.item_rate_common;
+						setBattleFlag "item_rate_heal",.item_rate_heal;
+						setBattleFlag "item_rate_use",.item_rate_use;
+						setBattleFlag "item_rate_equip",.item_rate_equip;
+						setBattleFlag "item_rate_card",.item_rate_card;
+						setBattleFlag "item_rate_common_boss",.item_rate_common_boss;
+						setBattleFlag "item_rate_heal_boss",.item_rate_heal_boss;
+						setBattleFlag "item_rate_use_boss",.item_rate_use_boss;
+						setBattleFlag "item_rate_equip_boss",.item_rate_equip_boss;
+						setBattleFlag "item_rate_card_boss",.item_rate_card_boss;	
+						setBattleFlag "item_rate_common_mvp",.item_rate_common_mvp;
+						setBattleFlag "item_rate_heal_mvp",.item_rate_heal_mvp;
+						setBattleFlag "item_rate_use_mvp",.item_rate_use_mvp;
+						setBattleFlag "item_rate_equip_mvp",.item_rate_equip_mvp;
+						setBattleFlag "item_rate_card_mvp",.item_rate_card_mvp;			
+						setBattleFlag "item_rate_adddrop",.item_rate_adddrop;
+						setBattleFlag "item_rate_treasure",.item_rate_treasure,true;
+						announce "[ ระบบ ] : ขณะนี้ ท่าน GM : " + strcharinfo(0) + " ได้ทำการปิดการคูณ อัตราดรอปไอเท็ม โบนัส แล้วค่ะ!",0;
+						close2;
+						cutin "0",255;
+						end;	
+				}	
+		}
+	}
+	mes .NPCname$;
+	mes "ขออภัยค่ะ";
+	mes "ระบบนี้ใช้ได้เฉพาะ GM เท่านั้น.";
+	close2;
+	cutin "0",255;
+	end;
+
+OnInit:
+	.NPCname$ = "[^0000FF "+strnpcinfo(1)+" ^000000]";
+	.sb$ = "~";
+	
+	// Ignore players who are vending?
+	// true: on | false: off
+	.novend = true;
+	
+	// Ignore players who are in pubs/chatroom?
+	// true: on | false: off
+	.nopub = true;
+	
+	// Ignore idle players? if yes, set how many seconds/min/hours to be considered as idle?
+	// sec * min * hour
+	// Default : 30 mins
+	.idle_time = 60 * 30;
+	
+	// All Rate battleflag.
+	.base_exp = getBattleFlag("base_exp_rate");
+	.job_exp = getBattleFlag("job_exp_rate");
+	.item_rate_common = getBattleFlag("item_rate_common");
+	.item_rate_common_boss = getBattleFlag("item_rate_common_boss");
+	.item_rate_common_mvp = getBattleFlag("item_rate_common_mvp");
+	.item_rate_heal = getBattleFlag("item_rate_heal");
+	.item_rate_heal_boss = getBattleFlag("item_rate_heal_boss");
+	.item_rate_heal_mvp = getBattleFlag("item_rate_heal_mvp");
+	.item_rate_use = getBattleFlag("item_rate_use");
+	.item_rate_use_boss = getBattleFlag("item_rate_use_boss");
+	.item_rate_use_mvp = getBattleFlag("item_rate_use_mvp");
+	.item_rate_equip = getBattleFlag("item_rate_equip");
+	.item_rate_equip_boss = getBattleFlag("item_rate_equip_boss");
+	.item_rate_equip_mvp = getBattleFlag("item_rate_equip_mvp");
+	.item_rate_card = getBattleFlag("item_rate_card");
+	.item_rate_card_boss = getBattleFlag("item_rate_card_boss");
+	.item_rate_card_mvp = getBattleFlag("item_rate_card_mvp");
+	.item_rate_adddrop = getBattleFlag("item_rate_adddrop");
+	.item_rate_treasure = getBattleFlag("item_rate_treasure");
+	.item_rate_mvp = getBattleFlag("item_rate_mvp");
+	end;
+}
+
+
+
+

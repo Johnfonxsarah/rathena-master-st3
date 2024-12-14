@@ -1,0 +1,961 @@
+/*
+=================================================================
+					Credit : Readparam(bStr);
+=================================================================
+*/
+
+-	script	chick_battle_v1	-1,{
+OnInit:
+	
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `chick_play_v1_logs` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`chick_name` varchar(255) NOT NULL,"+
+		"`choose_chick` int(11) NOT NULL,"+
+		"`betting` int(11) NOT NULL,"+
+		"`choose_bet` int(11) NOT NULL,"+
+		"`play_time` DATETIME NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `chick_player_v1_logs` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`chick_name` varchar(255) NOT NULL,"+
+		"`betting` int(11) NOT NULL,"+
+		"`choose_bet` int(11) NOT NULL,"+
+		"`status` int(11) NOT NULL,"+
+		"`play_time` DATETIME NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `chick_board_v1_logs` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`chick_name` varchar(255) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	
+	//	Logs รายการขึ้นเงินรางวัล
+	
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `chick_win_v1_logs` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`zeny_reward` int(11) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	
+	//	Logs เก็บข้อมูลทุกสัปดาห์
+	
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `chick_wk_player_v1_logs` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`account_id` int(11) NOT NULL,"+
+		"`char_id` int(11) NOT NULL,"+
+		"`chick_name` varchar(255) NOT NULL,"+
+		"`betting` int(11) NOT NULL,"+
+		"`choose_bet` int(11) NOT NULL,"+
+		"`status` int(11) NOT NULL,"+
+		"`play_time` DATETIME NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	
+	query_sql (
+		"CREATE TABLE IF NOT EXISTS `chick_wk_board_v1_logs` ("+
+		"`id` int(7) NOT NULL AUTO_INCREMENT,"+
+		"`chick_name` varchar(255) NOT NULL,"+
+		"PRIMARY KEY (`id`)"+
+		") ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+	);
+	
+	end;
+	
+}
+
+-	script	reward_chick_v1	-1,{
+OnInit:
+	
+	while(1){
+		
+		freeloop(1);
+		
+		query_sql("SELECT account_id,char_id,zeny_reward FROM `chick_win_v1_logs`",.account_id,.char_id,.zeny_reward);
+		sleep 500;
+		
+		for( .i=0; .i<getarraysize(.account_id); .i++ ) {
+			if(attachrid(.account_id[.i]) == 1){
+				if(.char_id[.i] == getcharid(0)){
+					Zeny = Zeny +.zeny_reward[.i];
+					dispbottom "[ระบบ] : ได้รับ "+callfunc("F_InsertComma",.zeny_reward[.i])+" Zeny จากการเดิมพัน";
+					query_sql("DELETE FROM `chick_win_v1_logs` WHERE `char_id` = "+getcharid(0)+"");
+					detachrid;
+				}
+			}
+		}
+		deletearray .account_id;
+		deletearray .char_id;
+		deletearray .zeny_reward;
+		
+		sleep 5000;
+	}
+	end;
+	
+}
+
+morocc,205,51,4	script	Board#chick_v1_down_left	858,{
+end;
+OnInit:
+	setcell "morocc",205,59,216,51,cell_shootable,0;
+	setcell "morocc",205,59,216,51,cell_walkable,0;
+	setcell "morocc",206,58,215,52,cell_walkable,1;
+	end;
+}
+
+morocc,205,59,4	script	Board#chick_v1_top_left	858,{
+end;
+}
+morocc,205,58,4	script	Board#chick_v1_top_left1	858,{
+end;
+}
+morocc,205,57,4	script	Board#chick_v1_top_left2	858,{
+end;
+}
+morocc,205,56,4	script	Board#chick_v1_top_left3	858,{
+end;
+}
+morocc,205,55,4	script	Board#chick_v1_top_left4	858,{
+end;
+}
+morocc,205,54,4	script	Board#chick_v1_top_left5	858,{
+end;
+}
+morocc,205,53,4	script	Board#chick_v1_top_left6	858,{
+end;
+}
+morocc,205,52,4	script	Board#chick_v1_top_left7	858,{
+end;
+}
+
+morocc,206,51,4	script	Board#chick_v1_dow_left2	858,{
+end;
+}
+morocc,207,51,4	script	Board#chick_v1_dow_left3	858,{
+end;
+}
+morocc,208,51,4	script	Board#chick_v1_dow_left4	858,{
+end;
+}
+morocc,209,51,4	script	Board#chick_v1_dow_left5	858,{
+end;
+}
+morocc,210,51,4	script	Board#chick_v1_dow_left6	858,{
+end;
+}
+morocc,211,51,4	script	Board#chick_v1_dow_left7	858,{
+end;
+}
+morocc,212,51,4	script	Board#chick_v1_dow_left8	858,{
+end;
+}
+morocc,213,51,4	script	Board#chick_v1_dow_left9	858,{
+end;
+}
+morocc,214,51,4	script	Board#chick_v1_dow_left10	858,{
+end;
+}
+morocc,215,51,4	script	Board#chick_v1_dow_left11	858,{
+end;
+}
+
+
+
+
+morocc,216,59,4	script	Board#chick_v1_top_right	858,{
+end;
+}
+morocc,215,59,4	script	Board#chick_v1_top_right2	858,{
+end;
+}
+morocc,214,59,4	script	Board#chick_v1_top_right3	858,{
+end;
+}
+morocc,213,59,4	script	Board#chick_v1_top_right4	858,{
+end;
+}
+morocc,212,59,4	script	Board#chick_v1_top_right5	858,{
+end;
+}
+morocc,211,59,4	script	Board#chick_v1_top_right6	858,{
+end;
+}
+morocc,210,59,4	script	Board#chick_v1_top_right7	858,{
+end;
+}
+morocc,209,59,4	script	Board#chick_v1_top_right8	858,{
+end;
+}
+morocc,208,59,4	script	Board#chick_v1_top_right9	858,{
+end;
+}
+morocc,207,59,4	script	Board#chick_v1_top_right10	858,{
+end;
+}
+morocc,206,59,4	script	Board#chick_v1_top_right11	858,{
+end;
+}
+
+morocc,216,51,4	script	Board#chick_v1_down_right	858,{
+end;
+}
+
+morocc,216,52,4	script	Board#chick_v1_down_right2	858,{
+end;
+}
+morocc,216,53,4	script	Board#chick_v1_down_right3	858,{
+end;
+}
+morocc,216,54,4	script	Board#chick_v1_down_right4	858,{
+end;
+}
+morocc,216,55,4	script	Board#chick_v1_down_right5	858,{
+end;
+}
+morocc,216,56,4	script	Board#chick_v1_down_right6	858,{
+end;
+}
+morocc,216,57,4	script	Board#chick_v1_down_right7	858,{
+end;
+}
+morocc,216,58,4	script	Board#chick_v1_down_right8	858,{
+end;
+}
+
+
+morocc,206,66,6	script	#Peco_v1	Raver_Skeleton,{
+end;
+OnInit:
+	
+	while(1){
+		delwaitingroom;
+		waitingroom "["+callfunc("F_InsertComma",$select_peco_v1)+"] คน ["+callfunc("F_InsertComma",$collect_zeny_peco_v1)+"z]",0;
+		sleep 1000;
+	}
+	end;
+	
+}
+
+morocc,215,66,4	script	#Grand_Peco_v1	LIGHTNINGGUARD,{
+end;
+OnInit:
+	
+	while(1){
+		delwaitingroom;
+		waitingroom "["+callfunc("F_InsertComma",$select_grand_peco_v1)+"] คน ["+callfunc("F_InsertComma",$collect_zeny_grand_peco_v1)+"z]",0;
+		sleep 1000;
+	}
+	end;
+	
+}
+
+morocc,210,64,6	script	กรรมการตีไก่#v1	115,{
+Start:
+	
+	query_sql("SELECT chick_name,betting,choose_bet FROM `chick_play_v1_logs` WHERE char_id = "+getcharid(0)+"",.@chick_name$,.@betting,.@choose_bet);
+	
+	if(getarraysize(.@betting) >= .max_play){
+		mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+		mes "สวัสดี : ^0000FF"+strcharinfo(0)+"^000000";
+		mes "เดิมพัน : ^FF9900"+.@chick_name$+"^000000";
+		if(.@choose_bet == 1){ .@bet_name$ = "Cash"; }
+		if(.@choose_bet == 2){ .@bet_name$ = "Zeny"; }
+		if(.@choose_bet == 3){ .@bet_name$ = ""+getitemname(.item_get)+""; }
+		mes "ราคา : ^0099FF"+callfunc("F_InsertComma",.@betting)+" "+.@bet_name$+"^000000";
+		if(.vat > 0){
+			.@r = .@betting*.get_amount;
+			.@total = .@r-(.@r*.vat/100);
+			mes "และต้องเสียค่า VAT ^FF3300"+.vat+"%^000000";
+			mes "หากชนะจะได้รับ ^009900"+callfunc("F_InsertComma",.@total)+"^009900 "+.@bet_name$+"";
+		}
+		menu	
+				"- ประวัติการเล่น ^FF3300[10 รายการล่าสุด]^000000",menu_check,
+				"- ผลการแข่ง ^FF9900[10 รายการล่าสุด]^000000",menu_check2
+				//"- ^00CC99เริ่มการจับรางวัล^000000",OnLoading
+				;
+		end;
+	}
+	
+	mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+	
+	mes "คุณมี Cash : "+callfunc("F_InsertComma",#CASHPOINTS)+" Cash";
+	mes "คุณมี Zeny : "+callfunc("F_InsertComma",Zeny)+" Zeny";
+	mes "คุณมี "+getitemname(.item_get)+" : "+callfunc("F_InsertComma",countitem(.item_get))+" ea";
+	
+	mes "หากเจ้าเลือกผู้ชนะถูก";
+	mes "จะได้รับรางวัล ^009900"+.get_amount+" เท่า^000000";
+	if(.vat > 0){
+		mes "และต้องเสียค่า VAT ^FF3300"+.vat+"%^000000";
+	}
+	
+	menu	"- ข้าเลือก^0000FF "+.name_chick_01$+"^000000",menu_choose_01,
+			"- ข้าเลือก^0000FF "+.name_chick_02$+"^000000",menu_choose_02,
+			//"- ^00CC99เริ่มการจับรางวัล^000000",OnLoading,
+			"- ประวัติการเล่น ^FF3300[10 รายการล่าสุด]^000000",menu_check,
+			"- ผลการแข่ง ^FF9900[10 รายการล่าสุด]^000000",menu_check2
+			;
+	end;
+	
+	menu_check2:
+		
+		next;
+		mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+		
+		query_sql("SELECT chick_name FROM `chick_board_v1_logs` ORDER BY id DESC LIMIT 10",.@chick_name$);
+		
+		for ( .@i=0; .@i<getarraysize(.@chick_name$); .@i++){
+			mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^009900Win^000000";
+			mes "====================";
+		}
+		
+		end;
+	
+	menu_check:
+		
+		next;
+		mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+		
+		freeloop(1);
+		
+		query_sql("SELECT chick_name,betting,choose_bet,status FROM `chick_player_v1_logs` WHERE char_id = "+getcharid(0)+" ORDER BY id DESC LIMIT 10",.@chick_name$,.@betting,.@choose_bet,.@status);
+		
+		for ( .@i=0; .@i<getarraysize(.@chick_name$); .@i++){
+			if(.@status[.@i] == 1){
+				if(.@choose_bet[.@i] == 1){
+					mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^009900Win^000000";
+					//mes ""+callfunc("F_InsertComma",.@betting[.@i])+" Cash";
+				}
+				if(.@choose_bet[.@i] == 2){
+					mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^009900Win^000000";
+					//mes ""+callfunc("F_InsertComma",.@betting[.@i])+" Zeny";
+				}
+				if(.@choose_bet[.@i] == 3){
+					mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^009900Win^000000";
+					//mes ""+callfunc("F_InsertComma",.@betting[.@i])+" "+getitemname(.item_get)+"";
+				}
+			}
+			if(.@status[.@i] == 2){
+				if(.@choose_bet[.@i] == 1){
+					mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^FF3300Lose^000000";
+					//mes ""+callfunc("F_InsertComma",.@betting[.@i])+" Cash";
+				}
+				if(.@choose_bet[.@i] == 2){
+					mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^FF3300Lose^000000";
+					//mes ""+callfunc("F_InsertComma",.@betting[.@i])+" Zeny";
+				}
+				if(.@choose_bet[.@i] == 3){
+					mes "["+(.@i+1)+"] ^0000FF"+.@chick_name$[.@i]+"^000000 ^FF3300Lose^000000";
+					//mes ""+callfunc("F_InsertComma",.@betting[.@i])+" "+getitemname(.item_get)+"";
+				}
+			}
+			//mes "====================";
+		}
+		end;
+	
+	OnLoading:
+		
+		if($loading_battle_v1 == 1){
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "ขณะนี้มีผู้เล่นกดเริ่มแล้ว กรุณารอสักครู่";
+			end;
+		}
+		
+		if(.item_use){
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "ข้าต้องการ "+getitemname(.item_use)+" x"+.am_use+" ea";
+			mes "หากต้องการเริ่มเล่น";
+			
+			menu	"- เริ่มเล่นเลย",menu_ok;
+			end;
+			
+			menu_ok:
+			
+			if(countitem(.item_use) < .am_use){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "ข้าไม่พบ "+getitemname(.item_use)+"";
+				end;
+			}
+			delitem .item_use,.am_use;
+		}
+		
+		$loading_battle_v1 = 1;
+			
+		mapannounce "morocc","[ battle Monster ] : การแข่งขันจะเริ่มอีกใน 1 นาที",bc_map,0xFFFF00;
+		donpcevent ""+strnpcinfo(3)+"::OnStartNpc";
+		end;
+	
+	menu_choose_01:
+		
+		if($playing_battle_v1 == 1){
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "ขณะนี้กิจกรรมกำลังจะเริ่ม";
+			end;
+		}
+		
+		for ( .@i=0; .@i<getarraysize(.choose_play$); .@i++ ){
+			if(.check_play[.@i] == 1){
+				.@menu_choose_play$ = .@menu_choose_play$ + "- "+.choose_play$[.@i]+"";
+			}
+			.@menu_choose_play$ = .@menu_choose_play$ + ":";
+		}
+		
+		.@choose_play = select(.@menu_choose_play$);
+		
+		if(.@choose_play == 1){
+			for ( .@i=0; .@i<getarraysize(.bet_cash); .@i++ ){
+				.@menu_select_bet$ = .@menu_select_bet$ + "- "+callfunc("F_InsertComma",.bet_cash[.@i])+" Cash";
+				.@menu_select_bet$ = .@menu_select_bet$ + ":";
+			}
+		}
+		if(.@choose_play == 2){
+			for ( .@i=0; .@i<getarraysize(.bet_zeny); .@i++ ){
+				.@menu_select_bet$ = .@menu_select_bet$ + "- "+callfunc("F_InsertComma",.bet_zeny[.@i])+" Zeny";
+				.@menu_select_bet$ = .@menu_select_bet$ + ":";
+			}
+		}
+		if(.@choose_play == 3){
+			for ( .@i=0; .@i<getarraysize(.bet_item); .@i++ ){
+				.@menu_select_bet$ = .@menu_select_bet$ + "- "+callfunc("F_InsertComma",.bet_item[.@i])+" "+getitemname(.item_get)+"";
+				.@menu_select_bet$ = .@menu_select_bet$ + ":";
+			}
+		}
+		
+		.@select_bet = select(.@menu_select_bet$) -1;
+		
+		if(.@choose_play == 1){ .@bet = .bet_cash[.@select_bet]; }
+		if(.@choose_play == 2){ .@bet = .bet_zeny[.@select_bet]; }
+		if(.@choose_play == 3){ .@bet = .bet_item[.@select_bet]; }
+		
+		.@r = .@bet*.get_amount;
+		.@total = .@r;
+		
+		if(.vat > 0){
+			.@total = .@r-(.@r*.vat/100);
+		}
+		
+		next;
+		
+		mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+		mes "เจ้าเลือก ^0000FF"+.name_chick_01$+"^000000";
+		if(.@choose_play == 1){ .@bet_name$ = "Cash"; }
+		if(.@choose_play == 2){ .@bet_name$ = "Zeny"; }
+		if(.@choose_play == 3){ .@bet_name$ = ""+getitemname(.item_get)+""; }
+		mes "เดิมพัน : ^009900"+callfunc("F_InsertComma",.@bet)+"^000000 "+.@bet_name$+"";
+		mes "หากชนะจะได้รับ : ^0099FF"+callfunc("F_InsertComma",.@total)+" "+.@bet_name$+"^000000";
+		
+		menu	"- ยืนยัน",menu_01;
+		end;
+		
+		menu_01:
+		
+		if($playing_battle_v1 == 1){
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "ขณะนี้กิจกรรมกำลังจะเริ่ม";
+			end;
+		}
+		
+		if(.@choose_play == 1){
+			if(#CASHPOINTS < .@bet){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "จำนวน Cash ของคุณไม่เพียงพอ";
+				mes "ยังขาดอีก "+callfunc("F_InsertComma",(.@bet-#CASHPOINTS))+" Cash";
+				end;
+			}
+			#CASHPOINTS = #CASHPOINTS -.@bet;
+		}
+		if(.@choose_play == 2){
+			if(Zeny < .@bet){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "จำนวน Zeny ของคุณไม่เพียงพอ";
+				mes "ยังขาดอีก "+callfunc("F_InsertComma",(.@bet-Zeny))+" Zeny";
+				end;
+			}
+			Zeny = Zeny -.@bet;
+		}
+		if(.@choose_play == 3){
+			if(countitem(.item_get) < .@bet){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "จำนวน "+getitemname(.item_get)+" ของคุณไม่เพียงพอ";
+				mes "ยังขาดอีก "+callfunc("F_InsertComma",(.@bet-countitem(.item_get)))+" ea";
+				end;
+			}
+			delitem .item_get,.@bet;
+		}
+		
+		.@name_battle$ = ""+.name_chick_01$+"";
+		
+		query_sql("INSERT INTO `chick_play_v1_logs` (account_id,char_id,chick_name,choose_chick,betting,choose_bet,play_time) VALUES ("+getcharid(3)+","+getcharid(0)+",'"+.@name_battle$+"',1,"+.@bet+","+.@choose_play+",NOW())");
+		
+		$select_peco_v1 ++;
+		
+		if(.@choose_play == 1){ $collect_cash_peco_v1 = $collect_cash_peco_v1 +.@bet; }
+		if(.@choose_play == 2){ $collect_zeny_peco_v1 = $collect_zeny_peco_v1 +.@bet; }
+		if(.@choose_play == 3){ $collect_item_peco_v1 = $collect_item_peco_v1 +.@bet; }
+		
+		mes "^009900*** บันทึกรายการเรียบร้อย ***^000000";
+		
+		end;
+	
+	menu_choose_02:
+		
+		if($playing_battle_v1 == 1){
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "ขณะนี้กิจกรรมกำลังจะเริ่ม";
+			end;
+		}
+		
+		for ( .@i=0; .@i<getarraysize(.choose_play$); .@i++ ){
+			if(.check_play[.@i] == 1){
+				.@menu_choose_play$ = .@menu_choose_play$ + "- "+.choose_play$[.@i]+"";
+			}
+			.@menu_choose_play$ = .@menu_choose_play$ + ":";
+		}
+		
+		.@choose_play = select(.@menu_choose_play$);
+		
+		if(.@choose_play == 1){
+			for ( .@i=0; .@i<getarraysize(.bet_cash); .@i++ ){
+				.@menu_select_bet$ = .@menu_select_bet$ + "- "+callfunc("F_InsertComma",.bet_cash[.@i])+" Cash";
+				.@menu_select_bet$ = .@menu_select_bet$ + ":";
+			}
+		}
+		if(.@choose_play == 2){
+			for ( .@i=0; .@i<getarraysize(.bet_zeny); .@i++ ){
+				.@menu_select_bet$ = .@menu_select_bet$ + "- "+callfunc("F_InsertComma",.bet_zeny[.@i])+" Zeny";
+				.@menu_select_bet$ = .@menu_select_bet$ + ":";
+			}
+		}
+		if(.@choose_play == 3){
+			for ( .@i=0; .@i<getarraysize(.bet_item); .@i++ ){
+				.@menu_select_bet$ = .@menu_select_bet$ + "- "+callfunc("F_InsertComma",.bet_item[.@i])+" "+getitemname(.item_get)+"";
+				.@menu_select_bet$ = .@menu_select_bet$ + ":";
+			}
+		}
+		
+		.@select_bet = select(.@menu_select_bet$) -1;
+		
+		if(.@choose_play == 1){ .@bet = .bet_cash[.@select_bet]; }
+		if(.@choose_play == 2){ .@bet = .bet_zeny[.@select_bet]; }
+		if(.@choose_play == 3){ .@bet = .bet_item[.@select_bet]; }
+		
+		.@r = .@bet*.get_amount;
+		.@total = .@r;
+		
+		if(.vat > 0){
+			.@total = .@r-(.@r*.vat/100);
+		}
+		
+		next;
+		
+		mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+		mes "เจ้าเลือก ^0000FF"+.name_chick_02$+"^000000";
+		if(.@choose_play == 1){ .@bet_name$ = "Cash"; }
+		if(.@choose_play == 2){ .@bet_name$ = "Zeny"; }
+		if(.@choose_play == 3){ .@bet_name$ = ""+getitemname(.item_get)+""; }
+		mes "เดิมพัน : ^009900"+callfunc("F_InsertComma",.@bet)+"^000000 "+.@bet_name$+"";
+		mes "หากชนะจะได้รับ : ^0099FF"+callfunc("F_InsertComma",.@total)+" "+.@bet_name$+"^000000";
+		
+		menu	"- ยืนยัน",menu_02;
+		end;
+		
+		menu_02:
+		
+		if($playing_battle_v1 == 1){
+			next;
+			mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+			mes "ขณะนี้กิจกรรมกำลังจะเริ่ม";
+			end;
+		}
+		
+		if(.@choose_play == 1){
+			if(#CASHPOINTS < .@bet){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "จำนวน Cash ของคุณไม่เพียงพอ";
+				mes "ยังขาดอีก "+callfunc("F_InsertComma",(.@bet-#CASHPOINTS))+" Cash";
+				end;
+			}
+			#CASHPOINTS = #CASHPOINTS -.@bet;
+		}
+		if(.@choose_play == 2){
+			if(Zeny < .@bet){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "จำนวน Zeny ของคุณไม่เพียงพอ";
+				mes "ยังขาดอีก "+callfunc("F_InsertComma",(.@bet-Zeny))+" Zeny";
+				end;
+			}
+			Zeny = Zeny -.@bet;
+		}
+		if(.@choose_play == 3){
+			if(countitem(.item_get) < .@bet){
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "จำนวน "+getitemname(.item_get)+" ของคุณไม่เพียงพอ";
+				mes "ยังขาดอีก "+callfunc("F_InsertComma",(.@bet-countitem(.item_get)))+" ea";
+				end;
+			}
+			delitem .item_get,.@bet;
+		}
+		
+		.@name_battle$ = ""+.name_chick_02$+"";
+		
+		query_sql("INSERT INTO `chick_play_v1_logs` (account_id,char_id,chick_name,choose_chick,betting,choose_bet,play_time) VALUES ("+getcharid(3)+","+getcharid(0)+",'"+.@name_battle$+"',2,"+.@bet+","+.@choose_play+",NOW())");
+		
+		$select_grand_peco_v1 ++;
+		
+		if(.@choose_play == 1){ $collect_cash_grand_peco_v1 = $collect_cash_grand_peco_v1 +.@bet; }
+		if(.@choose_play == 2){ $collect_zeny_grand_peco_v1 = $collect_zeny_grand_peco_v1 +.@bet; }
+		if(.@choose_play == 3){ $collect_item_grand_peco_v1 = $collect_item_grand_peco_v1 +.@bet; }
+		
+		mes "^009900*** บันทึกรายการเรียบร้อย ***^000000";
+		
+		end;
+	
+OnStartNpc:
+	
+	/*
+	if($select_peco_v1 != $select_grand_peco_v1){ goto OnFail; end; }
+	*/
+	
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 3 นาที";
+	sleep 1000*60;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 2 นาที";
+	sleep 1000*60;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 1 นาที";
+	sleep 1000*30;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 30 วินาที";
+	sleep 1000*10;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 20 วินาที";
+	sleep 1000*10;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 10 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 9 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 8 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 7 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 6 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 5 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 4 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 3 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 2 วินาที";
+	sleep 1000;
+	npctalk ""+strnpcinfo(0)+" : กิจกรรมจะเริ่มอีกใน 1 วินาที";
+	sleep 150;
+	
+	$playing_battle_v1 = 1;
+	
+	.@random = rand(1,2);
+	
+	killmonster "morocc",""+strnpcinfo(3)+"::OnDiemonster1";
+	killmonster "morocc",""+strnpcinfo(3)+"::OnDiemonster2";
+	
+	query_sql("SELECT id FROM `chick_board_v1_logs`",.@id);
+	
+	mapannounce "morocc","[ "+strnpcinfo(0)+" ] : การแข่งขันรอบที่ "+(getarraysize(.@id)+1)+" เริ่มได้",bc_map,0xFFFF00;
+	
+	if(.@random == 1){
+		monster "morocc",207,55,""+.name_chick_01$+"",.name_chick_01,1,""+strnpcinfo(3)+"::OnDiemonster1",0,1;
+		monster "morocc",214,55,""+.name_chick_02$+"",.name_chick_02,1,""+strnpcinfo(3)+"::OnDiemonster2",0,0;
+	}
+	if(.@random == 2){
+		monster "morocc",214,55,""+.name_chick_02$+"",.name_chick_02,1,""+strnpcinfo(3)+"::OnDiemonster2",0,0;
+		monster "morocc",207,55,""+.name_chick_01$+"",.name_chick_01,1,""+strnpcinfo(3)+"::OnDiemonster1",0,1;	
+	}
+	end;
+	
+	OnDiemonster1:
+		
+		freeloop(1);
+		
+		query_sql("INSERT INTO `chick_board_v1_logs` (chick_name) VALUES ('"+.name_chick_02$+"')");
+		
+		query_sql("SELECT account_id,char_id,chick_name,betting,choose_bet,play_time FROM `chick_play_v1_logs` WHERE choose_chick = 2",.@account_id,.@char_id,.@chick_name$,.@betting,.@choose_bet,.@play_time$);
+		
+		for( .@i=0; .@i<getarraysize(.@account_id); .@i++ ){
+			query_sql("INSERT INTO `chick_player_v1_logs` (account_id,char_id,chick_name,betting,choose_bet,status,play_time) VALUES ("+.@account_id[.@i]+","+.@char_id[.@i]+",'"+.@chick_name$[.@i]+"',"+.@betting[.@i]+","+.@choose_bet[.@i]+",1,'"+.@play_time$[.@i]+"')");
+			if(.rw_setting == 1){
+				.@check_bet = (.@betting[.@i]*.get_amount);
+				.@total_bet = .@check_bet;
+				if(.vat > 0){
+					.@total_bet = .@check_bet-(.@check_bet*.vat/100);
+				}
+				query_sql("INSERT INTO `chick_win_v1_logs` (account_id,char_id,zeny_reward) VALUES ("+.@account_id[.@i]+","+.@char_id[.@i]+","+.@total_bet+")");
+			}
+		}
+		
+		.@sender$	= "รางวัลกิจกรรมตีไก่";
+		.@title$	= "ท่านได้ชนะการเดิมพัน";
+		.@body$		= "ขอบคุณสำหรับการเดิมพัน";
+		
+		if(.rw_setting == 2){
+			for( .@i=0; .@i<getarraysize(.@account_id); .@i++ ){
+				if(.@choose_bet[.@i] == 1){ setarray .@mailitem[0],.item_cash; }
+				if(.@choose_bet[.@i] == 3){ setarray .@mailitem[0],.item_get; }
+				.@r = (.@betting[.@i]*.get_amount);
+				.@total = .@r;
+				if(.vat > 0){
+					.@total = .@r-(.@r*.vat/100);
+				}
+				if(.@choose_bet[.@i] == 1 || .@choose_bet[.@i] == 3){ mail .@char_id[.@i],.@sender$,.@title$,.@body$,0,.@mailitem,.@total,.@mailrefine; }
+				if(.@choose_bet[.@i] == 2){ mail .@char_id[.@i],.@sender$,.@title$,.@body$,.@total; }
+			}
+		}
+		
+		query_sql("SELECT account_id,char_id,chick_name,betting,choose_bet,play_time FROM `chick_play_v1_logs` WHERE choose_chick = 1",.@account_id2,.@char_id2,.@chick_name2$,.@betting2,.@choose_bet2,.@play_time2$);
+		
+		for( .@i=0; .@i<getarraysize(.@account_id2); .@i++ ){
+			query_sql("INSERT INTO `chick_player_v1_logs` (account_id,char_id,chick_name,betting,choose_bet,status,play_time) VALUES ("+.@account_id2[.@i]+","+.@char_id2[.@i]+",'"+.@chick_name2$[.@i]+"',"+.@betting2[.@i]+","+.@choose_bet2[.@i]+",2,'"+.@play_time2$[.@i]+"')");
+		}
+		
+		query_sql("TRUNCATE TABLE `chick_play_v1_logs`");
+		
+		mapannounce "morocc","[ "+strnpcinfo(0)+" ] : การแข่งขันครั้งนี้ "+.name_chick_02$+" เป็นผู้ชนะ",bc_map,0xFFFF00;
+		$playing_battle_v1 = 0;
+		$loading_battle_v1 = 0;
+		
+		$select_peco_v1 = 0;
+		$collect_cash_peco_v1 = 0;
+		$collect_zeny_peco_v1 = 0;
+		$collect_item_peco_v1 = 0;
+		
+		$select_grand_peco_v1 = 0;
+		$collect_cash_grand_peco_v1 = 0;
+		$collect_zeny_grand_peco_v1 = 0;
+		$collect_item_grand_peco_v1 = 0;
+		
+		$auto_chick_v1 = 0;
+		
+		end;
+	
+	OnDiemonster2:
+		
+		freeloop(1);
+		
+		query_sql("INSERT INTO `chick_board_v1_logs` (chick_name) VALUES ('"+.name_chick_01$+"')");
+		
+		query_sql("SELECT account_id,char_id,chick_name,betting,choose_bet,play_time FROM `chick_play_v1_logs` WHERE choose_chick = 1",.@account_id,.@char_id,.@chick_name$,.@betting,.@choose_bet,.@play_time$);
+		
+		for( .@i=0; .@i<getarraysize(.@account_id); .@i++ ){
+			query_sql("INSERT INTO `chick_player_v1_logs` (account_id,char_id,chick_name,betting,choose_bet,status,play_time) VALUES ("+.@account_id[.@i]+","+.@char_id[.@i]+",'"+.@chick_name$[.@i]+"',"+.@betting[.@i]+","+.@choose_bet[.@i]+",1,'"+.@play_time$[.@i]+"')");
+			if(.rw_setting == 1){
+				.@check_bet = (.@betting[.@i]*.get_amount);
+				.@total_bet = .@check_bet;
+				if(.vat > 0){
+					.@total_bet = .@check_bet-(.@check_bet*.vat/100);
+				}
+				query_sql("INSERT INTO `chick_win_v1_logs` (account_id,char_id,zeny_reward) VALUES ("+.@account_id[.@i]+","+.@char_id[.@i]+","+.@total_bet+")");
+			}
+		}
+		
+		.@sender$	= "รางวัลกิจกรรมตีไก่";
+		.@title$	= "ท่านได้ชนะการเดิมพัน";
+		.@body$		= "ขอบคุณสำหรับการเดิมพัน";
+		
+		if(.rw_setting == 2){
+			for( .@i=0; .@i<getarraysize(.@account_id); .@i++ ){
+				if(.@choose_bet[.@i] == 1){ setarray .@mailitem[0],.item_cash; }
+				if(.@choose_bet[.@i] == 3){ setarray .@mailitem[0],.item_get; }
+				.@r = (.@betting[.@i]*.get_amount);
+				.@total = .@r;
+				if(.vat > 0){
+					.@total = .@r-(.@r*.vat/100);
+				}
+				if(.@choose_bet[.@i] == 1 || .@choose_bet[.@i] == 3){ mail .@char_id[.@i],.@sender$,.@title$,.@body$,0,.@mailitem,.@total,.@mailrefine; }
+				if(.@choose_bet[.@i] == 2){ mail .@char_id[.@i],.@sender$,.@title$,.@body$,.@total; }
+			}
+		}
+		
+		query_sql("SELECT account_id,char_id,chick_name,betting,choose_bet,play_time FROM `chick_play_v1_logs` WHERE choose_chick = 2",.@account_id2,.@char_id2,.@chick_name2$,.@betting2,.@choose_bet2,.@play_time2$);
+		
+		for( .@i=0; .@i<getarraysize(.@account_id2); .@i++ ){
+			query_sql("INSERT INTO `chick_player_v1_logs` (account_id,char_id,chick_name,betting,choose_bet,status,play_time) VALUES ("+.@account_id2[.@i]+","+.@char_id2[.@i]+",'"+.@chick_name2$[.@i]+"',"+.@betting2[.@i]+","+.@choose_bet2[.@i]+",2,'"+.@play_time2$[.@i]+"')");
+		}
+		
+		query_sql("TRUNCATE TABLE `chick_play_v1_logs`");
+		
+		mapannounce "morocc","[ "+strnpcinfo(0)+" ] : การแข่งขันครั้งนี้ "+.name_chick_01$+" เป็นผู้ชนะ",bc_map,0xFFFF00;
+		$playing_battle_v1 = 0;
+		$loading_battle_v1 = 0;
+		
+		$select_peco_v1 = 0;
+		$collect_cash_peco_v1 = 0;
+		$collect_zeny_peco_v1 = 0;
+		$collect_item_peco_v1 = 0;
+		
+		$select_grand_peco_v1 = 0;
+		$collect_cash_grand_peco_v1 = 0;
+		$collect_zeny_grand_peco_v1 = 0;
+		$collect_item_grand_peco_v1 = 0;
+		
+		$auto_chick_v1 = 0;
+		
+		end;
+
+OnResetweek:
+	
+	freeloop(1);
+	
+	//	query_sql player
+	
+	query_sql("SELECT account_id,char_id,chick_name,betting,choose_bet,play_time FROM `chick_player_v1_logs`",.@account_id,.@char_id,.@chick_name$,.@betting,.@choose_bet,.@play_time$);
+	for( .@i=0; .@i<getarraysize(.@account_id); .@i++ ){
+		query_sql("INSERT INTO `chick_wk_player_v1_logs` (account_id,char_id,chick_name,betting,choose_bet,status,play_time) VALUES ("+.@account_id[.@i]+","+.@char_id[.@i]+",'"+.@chick_name$[.@i]+"',"+.@betting[.@i]+","+.@choose_bet[.@i]+",1,'"+.@play_time$[.@i]+"')");
+	}
+	query_sql("TRUNCATE TABLE `chick_player_v1_logs`");
+	
+	//	query_sql board
+	
+	query_sql("SELECT chick_name FROM `chick_board_v1_logs`",.@chick_name2$);
+	for( .@i=0; .@i<getarraysize(.@chick_name2$); .@i++ ){
+		query_sql("INSERT INTO `chick_wk_board_v1_logs` (chick_name) VALUES ('"+.@chick_name2$[.@i]+"')");
+	}
+	query_sql("TRUNCATE TABLE `chick_board_v1_logs`");
+	
+	end;
+
+OnFail:
+	
+	$auto_chick_v1 = 0;
+	end;
+
+OnInit:
+	
+	.reload = 1;
+	
+	if(.reload){
+		$playing_battle_v1 = 0;
+		$loading_battle_v1 = 0;
+		$auto_chick_v1 = 0;
+	}
+	
+	.name_chick_01$ = "Ra Skeleton ฝั่งซ้าย";			//	กำหนดชื่อมอนเตอร์ตัวแรก
+	.name_chick_02$ = "Lightning ฝั่งขวา";		//	กำหนดชื่อมอนเตอร์ตัวสอง
+	.name_chick_01 = 29540;				//	กำหนดรหัสมอนเตอร์ตัวแรก
+	.name_chick_02 = 29541;				//	กำหนดรหัสมอนเตอร์ตัวสอง
+	
+	.item_cash	= 61001;				//	กำหนดรหัสไอเทมแคช กรณีใช้ Cash ในการเล่น
+		
+	.item_get	= 7539;					//	กำหนดรหัสไอเทมสำหรับเดิมพันแบบไอเทม
+		
+	.get_amount = 2;					//	กำหนดรางวัลที่จะได้รับ x เท่า
+	.vat = 7;							//	กำหนดค่าน้ำ
+	
+	.max_play	= 1;					//	กำหนดไม้สูงสุดที่แทงได้
+	
+	.player_start = 1;					//	กำหนดผู้เล่นแทงครบทั้งสองฝั่งแล้วจะเริ่มอัตโนมัติ
+	
+	.item_use	= 7539;					//	กำหนดรหัสไอเทมที่ใช้หมุนเริ่มกิจกรรมด้วยตนเอง
+	.am_use		= 10;					//	กำหนดจำนวน
+	
+	.rw_setting = 2;					//	กำหนดการรับรางวัล	หากใส่ 1 = รางวัลจะเข้าตัวเลย	หากใส่ 2 = รับรางวัลผ่านทางระบบ Mail
+	
+	deletearray .choose_play$;
+	setarray .choose_play$[0]	
+								,"Cash"
+								,"Zeny"
+								,""+getitemname(.item_get)+""
+								;
+	
+	deletearray .check_play;
+	setarray .check_play[0]		,0		//	กำหนดการเปิดแทง Cash	0 = ยกเลิก	1 = ใช้งาน
+								,1		//	กำหนดการเปิดแทง Zeny	0 = ยกเลิก	1 = ใช้งาน
+								,0		//	กำหนดการเปิดแทง Item	0 = ยกเลิก	1 = ใช้งาน
+								;
+	
+	deletearray .bet_cash;
+										//	กำหนดเมนู Cash
+	setarray .bet_cash[0]	
+								,100
+								,200
+								,300
+								,500
+								,1000
+								//,1500
+								//,3000
+								//,5000
+								//,10000
+								;
+	
+	deletearray .bet_zeny;
+										//	กำหนดเมนู Zeny
+	setarray .bet_zeny[0]	
+								//,20000
+								//,50000
+								,1000000
+								,2000000
+								,5000000
+								,10000000
+								,50000000
+								,100000000
+								;
+	
+	deletearray .bet_item;
+										//	กำหนดเมนู Item
+	setarray .bet_item[0]	
+								,10
+								,50
+								,100
+								,200
+								,300
+								,500
+								,1000
+								,2000
+								,3000
+								,5000
+								,10000
+								;
+	
+	bindatcmd "play_chick_v1",""+strnpcinfo(3)+"::OnStartNpc",99,0;
+	
+	bindatcmd "reset_chick_v2",""+strnpcinfo(3)+"::OnResetweek",99,0;
+	
+	waitingroom "[#] Zeny Play",0;
+	
+	while(1){
+		if($select_peco_v1 >= .player_start || $select_grand_peco_v1 >= .player_start){
+			if($auto_chick_v1 == 0){
+				mapannounce "morocc","[ระบบ] : เริ่มวางเดิมพัน Monster Vs Monster คุณมีเวลา 3 นาที ให้การเดิมพัน อยากรวยมาหน้า โรงแรม Morocc",bc_map,0xFFFF00;
+				donpcevent ""+strnpcinfo(3)+"::OnStartNpc";
+				$auto_chick_v1 = 1;
+				$loading_battle_v1 = 1;
+			}
+		}
+		sleep 1000;
+	}
+	
+end;
+
+}

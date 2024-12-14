@@ -1,0 +1,51 @@
+//===== rAthena Script =======================================
+//= Rental NPC Support 3rd/4th job Suit Mado Gear and Dragon
+//===== By: ==================================================
+//= BeWan
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A simple rental npc
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+-	script	Universal Rental NPC	-1,{
+
+	if (ismounting()) {
+		message strcharinfo(0),"ก่อนอื่นเจ้าต้องลงจากสัตว์ขี่ของเจ้าก่อน.";
+		end;
+	} else if (((eaclass()&EAJ_THIRDMASK)==EAJ_RANGER) && !countitem(6124)) {
+		if (!checkfalcon() && getskilllv("HT_FALCON") && !checkwug()) {
+			if(select(" ~ Falcon: ~ Warg")==1) setfalcon;
+			else getitem 6124,1; //Wolf's_Flute
+		} else getitem 6124,1; //Wolf's_Flute
+	} else if (((eaclass()&EAJ_THIRDMASK)==EAJ_MECHANIC) && !checkcart() && getskilllv("MC_PUSHCART")) {
+		if (!checkmadogear() && getskilllv("NC_MADOLICENCE")) {
+			if(select(" ~ Cart: ~ Mado")==1) setcart;
+			else setmadogear;
+		} else setcart;
+	} else if (!checkcart() && getskilllv("MC_PUSHCART")) setcart;
+	else if (!checkfalcon() && getskilllv("HT_FALCON") && !checkwug()) setfalcon;
+	else if (!checkriding() && !checkdragon() && getskilllv("KN_RIDING")) {
+		if ((eaclass()&EAJ_THIRDMASK)==EAJ_RUNE_KNIGHT) setdragon;
+		else setriding;
+	} else if (!checkmadogear() && getskilllv("NC_MADOLICENCE")) setmadogear;
+	else {
+		message strcharinfo(0),"เจ้ามีคุณสมบัติไม่ตรงตามข้อกำหนดในการเช่า.";
+		end;
+	}
+	specialeffect2 EF_TEIHIT3;
+	end;
+	
+OnInit:
+	waitingroom "บริการเช่าสัตว์ขี่/นก",0;
+	end;
+}
+
+morocc,168,107,3	duplicate(Universal Rental NPC)	Rental NPC#prt	4_M_JOB_HUNTER
+
+morocc,218,69,3	duplicate(Universal Rental NPC)	Rental NPC#prt2	4_M_JOB_HUNTER
+morocc,64,66,3	duplicate(Universal Rental NPC)	Rental NPC#prt3	4_M_JOB_HUNTER

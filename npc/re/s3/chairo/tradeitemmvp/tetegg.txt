@@ -1,0 +1,128 @@
+morocc,182,83,3	script	Item egg Trade T#4	628,{
+	mes "[Item Trader]";
+	mes "หวัดดี, "+strcharinfo(0)+"!";
+	mes "มีอะไรให้ข้ารับใช้ไหม ?";
+	next;
+	switch(select(" > รายละเอียด: > แลกItemเป็นแต้มพอยท์: > ร้านค้าใช้พอยท์ซื้อ (^0055FF"+getd(.Points$)+"^000000): > ออก")) {
+	case 1:
+		mes "[Item Trader]";
+		mes "ข้าจะให้เจ้า  ^0055FF"+.Points[0]+" Point"+((.Points[0] == 1)?"":"s")+"^000000 ต่อชิ้น";
+		mes "^FF0000คำเตือน^000000";
+		mes "^FF0000ห้ามนำ Item ที่ไม่มีในรายในใข่^000000";
+		mes "^FF0000หาก Item หายหรือขายไป จะมไม่มีการรับผิดชอบใดๆ^000000";
+		close;
+	case 2:
+		mes "[Item Trader]";
+		mes "กรุณาเลือก Items";
+		mes "ที่เจ้าต้องการแลก.";
+		if (.Level) {
+			mes " ";
+			mes "ข้าต้องการจาก";
+			mes "มอนสเตอร์ที่เลเวล";
+			mes .Level+" หรือมากกว่า.";
+		}
+		deletearray @sold_nameid[0],getarraysize(@sold_nameid);
+		callshop "item_shoppegg1",2;
+		npcshopattach "item_shoppegg1";
+		end;
+	case 3:
+		mes "[Item Trader]";
+		mes "เจ้ามี ^0055FF"+getd(.Points$)+"^000000 Point"+((getd(.Points$) == 1)?".":"s.");
+		callshop "item_shoppegg1",1;
+		npcshopattach "item_shoppegg1";
+		end;
+	case 4:
+		mes "[Item Trader]";
+		mes "*ง่าส์*";
+		mes "แล้วมาใหม่น้า!";
+		emotion ET_SLEEPY;
+		close;		
+	}
+
+OnSellItem:
+	mes "Items ที่จะขาย:";
+	mes "-----------------------------------";
+	for(set .@i,0; .@i<getarraysize(@sold_nameid); set .@i,.@i+1)
+		if (@sold_nameid[.@i] > 1000 && @sold_nameid[.@i] < 840028) {
+			if (.Level) {
+				query_sql("SELECT `LV` FROM `mob_db` WHERE `DropItemid` = "+@sold_nameid[.@i],.@lv);
+				if (.@lv < .Level) {
+					dispbottom getitemname(@sold_nameid[.@i])+" is under the minimum level.";
+					continue;
+				}
+			}
+			set .@Item_id[getarraysize(.@Item_id)], @sold_nameid[.@i];
+			set .@Item_amt[getarraysize(.@Item_amt)], @sold_quantity[.@i];
+			set .@item, compare(.ITEM$,""+@sold_nameid[.@i]);
+			mes ((.@item)?"  ^FF0000":"  ^777777")+@sold_quantity[.@i]+"x "+getitemname(@sold_nameid[.@i])+"^000000";
+			set .@Item_total, .@Item_total+(@sold_quantity[.@i]*((.@item)?.Points[1]:.Points[0]));
+		}
+	deletearray @sold_nameid[0], getarraysize(@sold_nameid);
+	deletearray @sold_quantity[0], getarraysize(@sold_quantity);
+	if (!.@Item_id) {
+		mes "  ^777777(ไม่มี Item ที่ข้ารับซื้อ)^000000";
+		emotion ET_SWEAT;
+		close;
+	}
+	mes " ";
+	mes "---------- รวมทั้งหมด: ^0055FF"+.@Item_total+" แต้ม.^000000 -------";
+	next;
+	if(select(" > ^0055FFแลกเปลี่ยน...^000000: > ^777777ยกเลิก^000000") == 2) {
+		mes "[Item Trader]";
+		mes "โอ้, ได้เลย..";
+		emotion ET_SCRATCH;
+		close;
+	}
+	for(set .@i,0; .@i<getarraysize(.@Item_id); set .@i,.@i+1)
+		delitem .@Item_id[.@i],.@Item_amt[.@i];
+	setd .Points$, getd(.Points$)+.@Item_total;
+	mes "[Item Trader]";
+	mes "เรียบร้อย!";
+	emotion ET_DELIGHT;
+	close;
+
+OnBuyItem:
+	for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1)
+		for(set .@j,0; .@j<getarraysize(.Shop); set .@j,.@j+2)
+			if (@bought_nameid[.@i] == .Shop[.@j]) {
+				set .@cost, .@cost+(.Shop[.@j+1]*@bought_quantity[.@i]);
+				break;
+			}
+	if (.@cost > getd(.Points$)) {
+		mes "[Item Trader]";
+		mes "เจ้ามีแต้มพอยท์ไม่พอ.";
+		emotion ET_HUK;
+	}
+	else {
+		mes "รายการสินค้า:";
+		mes "-----------------------------------";
+		for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1) {
+			getitem @bought_nameid[.@i], @bought_quantity[.@i];
+			mes "  ^777777"+@bought_quantity[.@i]+"x "+getitemname(@bought_nameid[.@i])+"^000000";
+		}
+		mes " ";
+		mes "---------- รวมทั้งหมด: ^0055FF"+.@cost+" แต้ม.^000000 -------";
+		setd .Points$, getd(.Points$)-.@cost;
+		emotion ET_MONEY;
+	}
+	deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+	deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+	close;
+
+OnInit:
+	//waitingroom "Item Trader",0;
+	set .Level,0;   		// Minimum monster level to trade corresponding Items.  
+	set .Points$,"#Itemegg_Points";	// Variable to store points.
+	setarray .Shop[0],		// Item Shop items: <ID>,<point cost>
+	  1300083,1; 
+	setarray .Points[0],0,2,2;	// Points per <normal Item>,<Item> 
+	set .ITEM$,			// List of Items.
+	  "28717,5966,2198,28521,19308,28501,2965,5497,15186,19168,18797,18798,24018,24019,24020,24021,24022,24023,20931,28502,2202,28902,15204,19263,19020,19139,24217,24218,24231,24232,24343,24344,18823,19246,28507,28941,28438,19409,20963,20964,20965,20966,20967,20968,24081,24082,24083,19138,19327,28945,19274,20940,19245,19241,24063,24053,5918,19306,480161,480166,480172,18839,18959,2177,18574,24030,24032,24112,24113,24111,450175,480076,22202,5933,19112,20941,28503,28921,24090,24099,24101,24100,19379,450165,470048,20813,22170,20922,15278,15279,15346,15347,15353,15354,32203,28430,2979,18852,28564,470033,24167,24166,24156,24157,24158,24159,24160,24161,24162,24163,24164,24165,480084,2182,28598,24473,24474,24475,24491,24492,24493,1300057,470255,400078,400079,480023,24467,24468,24469,24575,24576,24577,470263,400116,400117,490208,24536,24537,24538,24076,24073,4603,27164,470267,400098,400099,420076,24399,24400,24500,24501,24502,4697,470270,400118,400119,490013,24494,24495,24496,470272,400120,400121,490096,15283,15189,24393,24394,24395,470258,400094,400095,20931,24396,24397,24398,410344,490413,20951,24439,24685,24342,24341,24243,24244,24245,19437,490079,420006,470061,28916,24563,24564,24565,24575,24576,24577";
+	
+	npcshopdelitem "item_shoppegg1",908;
+	for(set .@i,0; .@i<getarraysize(.Shop); set .@i,.@i+2)
+		npcshopadditem "item_shoppegg1",.Shop[.@i],.Shop[.@i+1];
+	waitingroom "Item Egg แลกแต้ม",0;
+	end;
+}
+-	shop	item_shoppegg1	-1,908:-1

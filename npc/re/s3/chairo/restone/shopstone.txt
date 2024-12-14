@@ -1,0 +1,9 @@
+morocc,190,75,3	script	Shop Stone Ticket	564,{
+
+	callshop "shop_stone_ticket",1;
+	end;
+	
+OnInit:
+	waitingroom "Shop Stone Ticket",0;
+	end;
+}

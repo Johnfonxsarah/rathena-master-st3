@@ -1,0 +1,523 @@
+//===== Script =======================================
+//= Temporal Circlet Enchantment
+//= By JumBo
+//= ดัดแปลงมาจากออฟหมวกแลป 5
+//====================================================
+morocc,123,79,4	script	EnChant Itemส่วนหูขั้น2	2_SLOT_MACHINE,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[OSC0005]";
+	mes "ข้าสามารถออฟ ITEM ขั้น 2 ได้.";
+	mes "เพียงเจ้ามี Dungeon Coin มาด้วย.";
+	mes "^FF0000ออฟติด 100%^000000 ในช่องที่ 4 3 และ 2.";
+	next;
+	switch( select( "ออฟ ITEM ขั้น 2", "ลบออฟ ITEM ขั้น 2", "รายละเอียด", "ออก" ) ) {
+	case 1:
+		.@equip_id = getequipid(EQI_HEAD_MID);
+		switch(.@equip_id) {
+			case 460024:// GamblerII
+			case 500064:// KarduiII
+			case 480128:// SeraphimII
+			case 480113:// CrowTengu
+			case 18824:// ImperialII
+			case 90205:// DiaboII
+				break;
+			default:
+				mes "[OSC0005]";
+				mes "^FF0000เจ้าไม่ได้ใส่หู ขั้น 2 มาด้วย.^000000";
+				close;
+		}
+		mes "[OSC0005]";
+
+		setarray .@card[0], getequipcardid(EQI_HEAD_MID,0), getequipcardid(EQI_HEAD_MID,1), getequipcardid(EQI_HEAD_MID,2), getequipcardid(EQI_HEAD_MID,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_MID);
+	
+		if (.@card[3] == 0) {
+			.@slot = 3;
+			.@reqitem = 1300085; // Chai-Ro Coin
+			.@requirement = 1;
+			mes "ออฟช่องที่ 4 จะสุ่ม ^0000cdINT^000000 1-4, ^0000cdSTR^000000 1-4, ^0000cdVIT^000000 1-4, ^0000cdLUK^000000 1-4.";
+			mes "^0000cdSharp^000000 1-4, ^0000cdExpert Archer^000000 1-4, ^0000cdASPD^000000 1-4, ^0000cdSpell^000000 1-4.";
+		}
+		else if (.@card[2] == 0) {
+			mes "ออฟช่องที่ 3.";
+			mes "สุ่ม ^0000cdINT STR VIT LUK";
+			mes "^0000cdSharp^000000 1-4, ^0000cdExpert Archer^000000 1-4, ^0000cdASPD^000000 1-4, ^0000cdSpell^000000 1-4.";
+			switch( select( "-> ออฟต่อ", "-> ยกเลิก")) {
+			case 1:
+				.@slot = 2;
+				.@reqitem = 1300085; // Chai-Ro Coin
+				.@requirement = 1;
+				break;
+			case 2:
+				close;
+			}
+		}
+		else if (.@card[1] == 0) {
+			.@slot = 1;
+			.@reqitem = 1300085; // Chai-Ro Coin
+			.@requirement = 3;
+			mes "ออฟช่องที่ 2 จะสุ่ม ^0000cdSharp^000000 1-4, ^0000cdExpert Archer^000000 1-4, ^0000cdASPD^000000 1-4, ^0000cdSpell^000000 1-4.";
+			mes "และมีโอกาสได้ ^0000cdMettle, Affection, Adamantine, Master Archer, Magic Essence, Acute.^000000";
+			mes "ซึ่งสามารถอัพเกรดเลเวลหินออฟได้.";
+		}
+		else {
+			switch( .@card[1] ) {
+			case 29061:	// Mettle1
+			case 29071:	// MagicEessence1
+			case 29081:	// Acute1
+			case 29091:	// MasterArcher1
+			case 29101:	// Adamatine1
+			case 29111:	// Affection1
+				mes "^0000cdอัพเกรดหินเลวล 2.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Chai-Ro Coin
+				.@requirement = 6;
+				.@enchant_level = 1;
+				.@enchant_rate = 80;
+				break;
+			case 29062:	// Mettle2
+			case 29072:	// MagicEessence2
+			case 29082:	// Acute2
+			case 29092:	// MasterArcher2
+			case 29102:	// Adamatine2
+			case 29112:	// Affection2
+				mes "^0000cdอัพเกรดหินเลวล 3.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Chai-Ro Coin
+				.@requirement = 9;
+				.@enchant_level = 2;
+				.@enchant_rate = 70;
+				break;
+			case 29063:	// Mettle3
+			case 29073:	// MagicEessence3
+			case 29083:	// Acute3
+			case 29093:	// MasterArcher3
+			case 29103:	// Adamatine3
+			case 29113:	// Affection3
+				mes "^0000cdอัพเกรดหินเลวล 4.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 12;
+				.@enchant_level = 3;
+				.@enchant_rate = 50;
+				break;
+			case 29064:	// Mettle4
+			case 29074:	// MagicEessence4
+			case 29084:	// Acute4
+			case 29094:	// MasterArcher4
+			case 29104:	// Adamatine4
+			case 29114:	// Affection4
+				mes "^0000cdอัพเกรดหินเลวล 5.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 15;
+				.@enchant_level = 4;
+				.@enchant_rate = 20;
+				break;
+			case 29065:	// Mettle5
+			case 29075:	// MagicEessence5
+			case 29085:	// Acute5
+			case 29095:	// MasterArcher5
+			case 29105:	// Adamatine5
+			case 29115:	// Affection5
+				mes "^0000cdัพเกรดหินเลวล 6.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 18;
+				.@enchant_level = 5;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29066:	// Mettle6
+			case 29076:	// MagicEessence6
+			case 29086:	// Acute6
+			case 29096:	// MasterArcher6
+			case 29106:	// Adamatine6
+			case 29116:	// Affection6
+				mes "^0000cdอัพเกรดหินเลวล 7.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 21;
+				.@enchant_level = 6;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29067:	// Mettle7
+			case 29077:	// MagicEessence7
+			case 29087:	// Acute7
+			case 29097:	// MasterArcher7
+			case 29107:	// Adamatine7
+			case 29117:	// Affection7
+				mes "^0000cdอัพเกรดหินเลวล 8.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 24;
+				.@enchant_level = 7;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29068:	// Mettle8
+			case 29078:	// MagicEessence8
+			case 29088:	// Acute8
+			case 29098:	// MasterArcher8
+			case 29108:	// Adamatine8
+			case 29118:	// Affection8
+				mes "^0000cdอัพเกรดหินเลวล 9.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 27;
+				.@enchant_level = 8;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29069:	// Mettle9
+			case 29079:	// MagicEessence9
+			case 29089:	// Acute9
+			case 29099:	// MasterArcher9
+			case 29109:	// Adamatine9
+			case 29119:	// Affection9
+				mes "^0000cdอัพเกรดหินเลวล 10.^000000";
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@reqitem = 1300085; // Temporal Spell
+				.@requirement = 30;
+				.@enchant_level = 9;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29070:	// Mettle10
+			case 29080:	// MagicEessence10
+			case 29090:	// Acute10
+			case 29100:	// MasterArcher10
+			case 29110:	// Adamatine10
+			case 29120:	// Affection10
+			default:
+				mes "^FF0000เจ้ามาถึงจุดสูงสุดของหินออฟแล้ว.^000000";
+				close;
+			}
+			.@slot = 999;
+		}
+		next;
+		mes "[OSC0005]";
+		mes "วัตถุดิบที่ต้องใช้ ^0000cd" +getitemname(.@reqitem) + "^000000 จำนวน ^FF0000" + .@requirement + "^000000 อัน.";
+		next;
+		if (select( "ตกลง.", "ไปหาก่อน." ) == 2) {
+			mes "[OSC0005]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+		if (countitem(.@reqitem) < .@requirement) {
+			mes "[OSC0005]";
+			mes "เจ้ามี ^0000cd" +getitemname(.@reqitem) + "^000000 ไม่ถึง ^FF0000" + .@requirement + "^000000 อัน.";
+			close;
+		}
+		mes "[OSC0005]";
+		mes "^FF0000ของสวมใส่จะไม่สูญหาย หากอัพเกรดล้มเหลว.^000000";
+		next;
+		if (select( "พร้อมที่จะออฟแล้ว.", "ขอคิดดูก่อน." ) == 2) {
+			mes "[OSC0005]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem .@reqitem, .@requirement;
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HEAD_MID, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_MID, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_MID, .@refine))
+			close;
+
+		switch(.@slot) {
+		case 3:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 2:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 22:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812;	// Spell4
+			.@card[2] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 1:
+			setarray .@enchant[0],
+				4818,	// Sharp1
+				4817,	// Sharp2
+				4816,	// Sharp3
+				4843,	// Sharp4
+				4832,	// Expert_Archer1
+				4833,	// Expert_Archer2
+				4834,	// Expert_Archer3
+				4835,	// Expert_Archer4
+				4869,	// Attack_Delay_1
+				4872,	// Attack_Delay_2
+				4873,	// Attack_Delay_3
+				4881,	// Attack_Delay_4
+				4815,	// Spell1
+				4814,	// Spell2
+				4813,	// Spell3
+				4812,	// Spell4
+				29061,	// Mettle1
+				29071,	// MagicEessence1
+				29081,	// Acute1
+				29091,	// MasterArcher1
+				29101,	// Adamatine1
+				29111;	// Affection1
+			.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			break;
+		case 999:
+			if (.@enchant_rate > rand(100))
+				.@level_dt = 1;
+			else
+				.@level_dt = -1;
+			.@enchant_level += .@level_dt;
+			.@card[1] += .@level_dt;
+			if (.@card[1] < 29061 || .@card[1] > 29120) {
+				mes "[Brave]";
+				mes "มีบางอย่างผิดพลาด.";
+				close;
+			}
+			if (.@enchant_level < 1 || .@enchant_level > 10) {
+				specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Brave]";
+				mes "โชคดีที่มันระเบิดก่อนของจะหาย.";
+				close;
+			}
+			break;
+		default:
+			mes "[Brave]";
+			mes "มีบางอย่างผิดพลาด.";
+			close;
+		}
+		delequip EQI_HEAD_MID;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		if (.@level_dt == -1) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Brave]";
+			mes "^FF0000การอัพเกรดล้มเหลว หินออฟถูกลดหนึ่งระดับ.^000000";
+			close;
+		}
+		specialeffect2 EF_FIREHIT;
+		mes "[Brave]";
+		mes "^0000cdยอดเยี่ยม เจ้าอัพเกรดสำเร็จ.^000000";
+		close;
+	case 2:
+		.@equip_id = getequipid(EQI_HEAD_MID);
+		switch(.@equip_id) {
+			case 460024:// GamblerII
+			case 500064:// KarduiII
+			case 480128:// SeraphimII
+			case 480113:// CrowTengu
+			case 18824:// ImperialII
+			case 90205:// DiaboII
+				break;
+			default:
+				mes "[Brave]";
+				mes "^FF0000เจ้าไม่ได้ใส่หมวก Item ขั้น 2 มาด้วย.^000000";
+				close;
+		}
+		setarray .@card[0], getequipcardid(EQI_HEAD_MID,0), getequipcardid(EQI_HEAD_MID,1), getequipcardid(EQI_HEAD_MID,2), getequipcardid(EQI_HEAD_MID,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_MID);
+
+		if (.@card[3] < 1) {
+			mes "[Brave]";
+			mes "หมวกยังไม่ผ่านการออฟมาก่อน.";
+			close;
+		}
+		mes "[Brave]";
+		mes "เจ้าสามารถเลือกประเภทลบออฟได้.";
+		mes "แบบแรกใช้เงินลบออฟ โอกาสสำเร็จ 70% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+		mes "แบบที่สอง ใช้ Silvervine Fruits สำเร็จ 100%.";
+		next;
+		switch( select( "3,000,000z", "Silvervine Fruits 10 อัน", "ยกเลิก" ) ) {
+		case 1:
+			mes "[Brave]";
+			mes "โอกาสสำเร็จ 90% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+			next;
+			if (select( "ตกลง.", "ขอคิดดูก่อน." ) == 2) {
+				mes "[Brave]";
+				mes "ไม่เตรียมพร้อมซะเลย.";
+				close;
+			}
+			if (Zeny < 3000000) {
+				mes "เงินมีไม่พอ.";
+				close;
+			}
+			next;
+			mes "[Brave]";
+			mes "จะลบออฟแล้วนะ";
+			next;
+			progressbar "000000",1;
+			
+			if (callfunc("F_IsEquipIDHack", EQI_HEAD_MID, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_MID, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_MID, .@refine))
+			close;
+			
+			Zeny -= 3000000;
+			delequip EQI_HEAD_MID;
+			if ( rand(100) < 90 ) {
+			specialeffect2 EF_FIREHIT;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+			mes "[Brave]";
+			mes "^0000cdลบออฟสำเร็จ.^000000";
+			close;
+			}
+		else
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Brave]";
+			mes "^FF0000ของแตกจ้า.^000000";
+			close;
+		case 2:
+			mes "[Brave]";
+			mes "โอกาสสำเร็จ 100%.";
+			next;
+			if (select( "ตกลง.", "ขอคิดดูก่อน." ) == 2) {
+				mes "[Brave]";
+				mes "ไม่เตรียมพร้อมซะเลย.";
+				close;
+			}
+			if (countitem(6417) < 10) {
+				mes "Silvervine Fruits มีไม่พอ.";
+				close;
+			}
+			next;
+			mes "[ออฟหมวกจ๊ะ]";
+			mes "จะลบออฟแล้วนะ";
+			next;
+			progressbar "000000",1;
+
+			if (callfunc("F_IsEquipIDHack", EQI_HEAD_MID, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_MID, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_MID, .@refine))
+			close;
+
+			delequip EQI_HEAD_MID;
+			specialeffect2 EF_FIREHIT;
+			delitem 6417,10; // Silvervine Fruits
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+			mes "[ออฟหมวกจ๊ะ]";
+			mes "^0000cdลบออฟสำเร็จ.^000000";
+			close;
+		case 3:
+			mes "[ออฟหมวกจ๊ะ]";
+			mes "ไม่เตรียมพร้อมซะเลย.";
+			close;
+		}
+	case 3:
+		mes "[ออฟหมวกจ๊ะ]";
+		mes "การออฟ Item ขั้น 2";
+		mes "ออฟช่องที่ 4 ใช้ Dungeon Coin 1 อัน.";
+		mes "ออฟช่องที่ 3 ใช้ Dungeon Coin 1 อัน.";
+		mes "ออฟช่องที่ 2 ใช้ Dungeon Coin 1 อัน.";
+		next;
+		mes "[ออฟหมวกจ๊ะ]";
+		mes "หากออฟติด Mettle, Affection, Adamantine, Master Archer, Magic Essence, Acute";
+		mes "สามารถอัพเกรดหินได้.";
+		mes "โดยใช้ Dungeon Coin มากขึ้นตามระดับเลเวลหินออฟ.";
+		next;
+		mes "[ออฟหมวกจ๊ะ]";
+		mes "การลบออฟ มีสองแบบ";
+		mes "แบบแรกใช้เงินลบออฟ โอกาสสำเร็จ 70% ^FF0000ถ้าล้มเหลวไอเท็มจะถูกทำลาย.^000000";
+		mes "แบบที่สอง ใช้ Silvervine Fruits สำเร็จ 100%.";
+		close;
+	case 4:
+		mes "[ออฟหมวกจ๊ะ]";
+		mes "ไม่เตรียมพร้อมซะเลย.";
+		close;
+	}
+}

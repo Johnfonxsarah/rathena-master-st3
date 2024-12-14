@@ -1,0 +1,12 @@
+morocc,117,73,6	script	Shop Shop Event Refine	651,{
+
+
+	callshop "guarantee_eve",1;
+	end;
+	
+OnInit:
+	waitingroom "Shop Event Refine",0;
+	end;
+}
+
+morocc,123,73,6	shop	Shop Refine Event#1	900,18662:10000000

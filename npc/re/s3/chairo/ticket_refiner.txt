@@ -1,0 +1,181 @@
+//===== rAthena Script ======================================= 
+//= Ticket Refiner
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Refiner that uses +5~9/+11 refine tickets to refine
+//= equipment with no chance of failure.
+//= NOTE: This NPC is currently disabled on official servers.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//= 1.1 Do not refine above ticket level. [Euphy]
+//============================================================
+
+// Main NPC :: safety_Ref_NPC
+//============================================================
+morocc,128,79,4	script	Refine Master	851,{
+	disable_items;
+	if (countitem(6864) || countitem(6875) || countitem(6874) || countitem(6873) || countitem(6872) || countitem(6871) || countitem(6870) || countitem(6584) || countitem(6238) || countitem(6993) || countitem(6228) || countitem(6229) || countitem(6230) || countitem(6231) || countitem(6456))
+		set .@bWeaponUp,1;
+	if (countitem(6865) || countitem(6881) || countitem(6880) || countitem(6879) || countitem(6878) || countitem(6877) || countitem(6876) || countitem(6585) || countitem(6239) || countitem(6994) || countitem(6232) || countitem(6233) || countitem(6234) || countitem(6235) || countitem(6457))
+		set .@bArmorUp,1;
+	if (!.@bWeaponUp && !.@bArmorUp) {
+		mes "[Refine Master]";
+		mes "สวัสดี";
+		mes "มีอะไรให้ช่วยไหมครับ";
+		mes "ข้าคือ ผู้ที่ค่อยช่วยในการอัพเกรด ITEM โดย";
+		mes "^006400Guarantee Weapon ticket^000000 และ";
+		mes "^006400Guarantee Armor ticket^000000";
+		next;
+		switch(select("เดี๋ยวข้ากลับมาใหม่:ที่มาของตั๋วอัพเกรด")) {
+		case 1:
+			mes "[Refine Master]";
+			mes "แล้วกลับมาใหม่นะท่าน";
+			close;
+		case 2:
+			mes "[Refine Master]";
+			mes "หาได้จากกิจกรรมต่างๆในเซิฟเวอร์";
+			mes "บาย....บาย!!!!!!!";
+			close;
+		}
+	}
+	emotion ET_SURPRISE;
+	mes "[Refine Master]";
+	mes "สวัสดีครับท่าน เป็นอย่างไรบ้าง";
+	mes "ข้าคือ ผู้ที่ค่อยช่วยในการอัพเกรด ITEM โดย ";
+	mes "^006400Guarantee ticket^000000.";
+	next;
+	if(select("ไว้ข้ากลับมาลองใหม่ที่หลังก็แล้วกัน:อัพเกรด Item ด้วยบัตรอัพเกรด") == 1) {
+		mes "[Refine Master]";
+		mes "โอเครจ้า";
+		mes "ไปไหนก็ไป 555";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "คุณต้องการที่จะอัพเกรด Item อะไร";
+	next;
+	setarray .@position$[1],"Head upper","Armor","Left hand","Right hand","Robe","Shoes","Accessory 1","Accessory 2","Head middle","Head lower";
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for(set .@i,1; .@i<=10; set .@i,.@i+1)
+		set .@menu$, .@menu$+((getequipisequiped(.@indices[.@i]))?getequipname(.@indices[.@i]):.@position$[.@i]+"- [Empty]")+":";
+	set .@part, .@indices[ select(.@menu$) ];
+	if (!getequipisequiped(.@part)) {
+		mes "[Refine Master]";
+		mes "คุณไม่ได้ใส่ Item ไอ้ฟาย กลับไปใส่ Item มาสะแล้วกลับมาคุยใหม่";
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		emotion ET_OTL;
+		mes "[Refine Master]";
+		mes "Oh, I'm sorry.";
+		mes "This item is impossible to refine.";
+		close;
+	}
+	.@refineitemid = getequipid(.@part); // save id of the item
+	.@refinerycnt = getequiprefinerycnt(.@part); //save refinery count
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	switch(getequipweaponlv(.@part)) {
+	default:
+	case 0:
+		setarray .@tickets[0],6457,6235,6234,6233,6232,6994,6239,6585,6876,6877,6878,6879,6880,6881,6865;
+		setarray .@levels[0],5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
+		set .@type$,"Armor";
+		set .@check,.@bArmorUp;
+		break;
+OnInit:
+	waitingroom "ใช้ตั๋วตีบวก",0;
+	end;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		setarray .@tickets[0],6456,6231,6230,6229,6228,6993,6238,6584,6870,6871,6872,6873,6874,6875,6864;
+		setarray .@levels[0],5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
+		set .@type$,"Weapon";
+		set .@check,.@bWeaponUp;
+		break;
+	}
+	if (!.@check) {
+		emotion ET_THINK;
+		mes "[Refine Master]";
+		mes "คุณไม่มีตั๋วอัพเกรด ^006400"+.@type$+"^000000, โปรดนำตั๋ว ^006400"+.@type$+" Refine Ticket^000000 ใว้ในตัวด้วย";
+		mes "แล้วค่อยกลับมาใหม่!";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "กรุณาเลือก ^006400"+.@type$+"^000000";
+	mes "ที่ท่านต้องการใช้";
+	next;
+	set .@menu$,"";
+	for(set .@i,0; .@i<getarraysize(.@tickets); set .@i,.@i+1)
+		set .@menu$, .@menu$+getitemname(.@tickets[.@i])+":";
+	set .@select, select(.@menu$)-1;
+	set .@ticket_lv, .@levels[.@select];
+	set .@ticket_id, .@tickets[.@select];
+	if (countitem(.@ticket_id) == 0) {
+		emotion ET_QUESTION;
+		mes "[Refine Master]";
+		mes getitemname(.@ticket_id)+" คุณไม่มีตั๋วอยู่ในตัวกรุณเช็คตั๋วในรถเข็นหรือในคาฟา";
+		mes "แล้วค่อยกลับมาใหม่";
+		close;
+	}
+	if (getequiprefinerycnt(.@part) >= .@ticket_lv) {
+		emotion ET_PROFUSELY_SWEAT;
+		mes "[Refine Master]";
+		mes "^8B4513คุณไม่สามารถอัพเกรดที่ระดับเดิมได้ กรุณาอัพใช้ใบอัพเกรดที่สูงกว่าเดิม^000000";
+		mes "ไปเอาตั๋วที่สูงกว่าอันเดิม แล้วค่อยมาใหม่";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "ข้าจะเริ่มอัพเกรด ^006400"+getequipname(.@part)+"^8B4513 แล้วนะโดยท่านจะได้รับ +"+.@ticket_lv+" level^000000 ซึ่งต้องแลกกับ ^006400"+getitemname(.@ticket_id)+"^000000.";
+	mes "ให้ข้าเริ่มเลยไหม?";
+	next;
+	if(select("ช้าก่อน:แน่นอน") == 1) {
+		emotion ET_THINK;
+		mes "[Refine Master]";
+		mes "รอไรวัยรุ่น";
+		mes "ไปไหนก็ไป";
+		mes "พร้อมแล้วค่อยกลับมาใหม่แล้วกัน";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "เยื่อม";
+	mes "ได้อย่างที่เจ้าต้องการ!";
+	mes "ข้ามีวิธีอัพเกรดที่ไม่เหมือนใครแน่นอน";
+	mes "..............!";
+	specialeffect EF_SUI_EXPLOSION;
+	if (countitem(.@ticket_id)) {
+		delitem .@ticket_id,1;
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) ||
+			callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3])) {
+			mes "[Refine Master]";
+			emotion ET_FRET;
+			mes "Wait a second...";
+			mes "Do you think I'm stupid?!";
+			mes "You switched the item while I wasn't looking! Get out of here!";
+			close;
+		}
+	} else {
+		next;
+		mes "Error!";
+		mes "Please report this.";
+		close;
+	}
+	successrefitem .@part, .@ticket_lv - getequiprefinerycnt(.@part);
+	next;
+	emotion ET_DELIGHT;
+	mes "[Refine Master]";
+	mes "ขอขอบพระคุณ";
+	mes "คุณ  ^0000FF"+strcharinfo(0)+"^000000!";
+	mes "ที่มาใช้บริการอัพเกรด ^006400"+.@type$+"^000000";
+	mes "แล้วไว้กลับมาใช้บริการใหม่นะครับ!";
+	mes "บายๆๆๆๆๆๆ~!";
+	close;
+}

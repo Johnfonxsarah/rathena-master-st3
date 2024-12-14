@@ -1,0 +1,28 @@
+morocc,133,79,3	script	นักตีบวก	4_M_03,{
+	if( getbattleflag( "feature.refineui" ) ){
+		mes "[นักตีบวก]";
+		mes "ฉันเป็นช่างตีเหล็กที่สามารถปรับแต่งอาวุธและอุปกรณ์ได้.";
+		mes "คุณมีรายการใด ๆ ที่คุณต้องการปรับแต่งหรือไม่?";
+		close2;
+		refineui();
+		end;
+	}else{
+		callfunc "refinemain","Hollgrehenn",0;
+		end;
+	}
+OnInit:
+waitingroom "ช่างตีบวก",0;
+end;
+}
+
+morocc,138,79,3	script	Repairman#iii	86,{
+	callfunc "repairmain","Repairman";
+	end;
+OnInit:
+waitingroom "ซ่อมของแตก",0;
+end;
+}
+
+
+
+

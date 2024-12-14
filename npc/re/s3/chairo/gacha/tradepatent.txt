@@ -1,0 +1,168 @@
+izlude,95,132,6	script	Patent Weapon Trade#5	615,{
+	disable_items;
+	.@r = rand(5);
+	if (.@r == 0)
+		npctalk "คุณ......", "", bc_self;
+	else if (.@r == 1)
+		npctalk "ได้โปรดช่วยฉันด้วย.....", "", bc_self;
+	else if (.@r == 2)
+		npctalk "ฉันต้องการ...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Item จาก Boss MVP", "", bc_self;
+	else
+		npctalk "คุณพอจะชาวยข้าได้หรือไม่ ?..", "", bc_self;
+	mes "[Patent Weapon Trade]";
+	mes "ข้าคือผู้ชำแหละ...";
+	mes "Item จาก Boss...";
+	mes "คุณคือใคร...";
+	mes "คุณพอจะมีซักชิ้นไหม..?";
+	next;
+	if (.@r == 0)
+		npctalk "ต่อให้ตาย...หรือในฝัน...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "ได้โปรด... ช่วยฉันหา Item จาก Boss MVP...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "ได้โปรด... แค่...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "แค่ 1 ชิ้นก็ยังดี...", "", bc_self;
+	else
+		npctalk "อ๊าก...อ๊ะ...อ๊าก...", "", bc_self;
+	mes "[Patent Weapon Trade]";
+	mes "ถ้าเธอ...ทำได้...อาจจะ...ฉันทำได้...ให้...พวกคุณช่วย...";
+	next;
+	if (.@r == 0)
+		npctalk "เวณเถอะครับ...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "ได้โปรด...อ๊าาา...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "ได้โปรด...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "พระเจ้า... จะปกป้อง... คุณ... ถ้าคุณ... กลับใจ... บาปของคุณ... เดี๋ยวนี้เลย...", "", bc_self;
+	else
+		npctalk "...shrieking...", "", bc_self;
+	mes "[Patent Weapon Trade]";
+	mes "อาวุธที่ดูเหมือน...เต็มไปด้วย...แรงใจ...โทมนัส...และความเคียดแค้น...";
+	mes "ถ้าเธอ... นำ... หนึ่ง... ฉันจะคืน... มัน... เป็นพลังงาน... ชิ้น...";
+	while(true) {
+		next;
+		if (checkweight(2677,5) == 0) {
+			mes "[Patent Weapon Trade]";
+			mes "กระเป๋าเป้ของคุณ..";
+			mes "เอาของไปฝากคลังสะไอ้น้อง...";
+			close;
+		}
+		if (select( "ส่งมอบ Item", "จบการสนทนา." ) == 2) {
+			mes "[Patent Weapon Trade]";
+			mes "...เธอ...จะ...ตามหาฉัน...อีกครั้ง...";
+			close;
+		}
+		mes "[Patent Weapon Trade]";
+		mes "มี...Item ชิ้นไหนบ้าง...";
+		next;
+		while(true) {
+			switch( select( "กลับไปที่เมนูก่อนหน้า", "Ancient Heros Weapon"    ) ) {
+			case 1:
+				break;
+			case 2:
+				callsub S_Exchange,
+					1847,	// Krishna
+					2048,	// Agent_Katar
+					13345,	// Chakram
+					13485,	// Chakram
+					18164,	// Chakram
+					18170,	// Chakram
+					21038,	// Chakram
+					26118,	// Chakram
+					26154,	// Chakram
+					26155,	// Chakram
+					28039,	// Chakram
+					28130,	// Chakram
+					28255,	// Chakram
+					28256,	// Chakram
+					28257,	// Chakram
+					28258,	// Chakram
+					28630,	// Chakram
+					28631,	// Chakram
+					28744,	// Chakram
+					28763,	// Chakram
+					28764,	// Chakram
+					32018,	// Chakram
+					32302,	// Chakram
+					500003,	// Chakram
+					500004,	// Chakram
+					510006,	// Chakram
+					550007,	// Chakram
+					560002,	// Chakram
+					570002,	// Chakram
+					580002,	// Chakram
+					590002,	// Chakram
+					590003,	// Chakram
+					600004,	// Chakram
+					610003,	// Chakram
+					640004,	// Chakram
+					700003;	// Chakram
+				continue;
+			}
+			break;
+		}
+	}
+	end;
+
+S_Exchange:
+	.@size = getargcount();
+	.@menu$ = "กลับไปที่เมนูก่อนหน้า:";
+	for ( .@i = 0; .@i < .@size; .@i++ ) {
+		if (countitem(getarg(.@i)) < 1)
+			.@menu$ += "^999999Not enough " + getitemname(getarg(.@i)) + ".^000000:";
+		else
+			.@menu$ += "คุณมี " + getitemname(getarg(.@i)) + ".:";
+	}
+	.@s = select(.@menu$) - 2;
+	if (.@s == -1)
+		return;
+	mes "[Patent Weapon Trade]";
+	mes "คุณ...ได้เลือก... อาวุธ... ที่ดูเหมือนว่าจะ... เต็มไปด้วย... จิตใจที่แข็งแกร่ง... ฉัน... กำลังพยายามที่จะฟื้นฟูมัน... ให้เป็น Weapon and Armor Ticket... คุณ...เห็นด้วยหรือไม่?";
+	next;
+	if (select( "ไม่เห็นด้วยกับมัน", "ใช่ข้าเห็นด้วยอย่างยิ่ง" ) == 2) {
+		if (countitem(getarg(.@s)) < 1) {
+			mes "[Item MVP Trade]";
+			mes "คุณไม่... มี... ^006400" + getitemname(getarg(.@s)) + "^000000...";
+			mes "เธอมี...ธุระอะไรอีก...กับฉันไหม...";
+			next;
+			return;
+		}
+		donpcevent strnpcinfo(0) + "::OnBar";
+		specialeffect EF_BLACKBODY;
+		specialeffect EF_GUMGANG4;
+		specialeffect EF_DARKCASTING2;
+		specialeffect EF_RG_COIN7;
+		percentheal -50,-50;
+		specialeffect2 EF_POISONSMOKE;
+		specialeffect2 EF_NPC_BURNT;
+		delitem getarg(.@s),1;
+		.@r = rand(100);
+		if (.@r < 70)
+			.@amount = 1;
+		else if (.@r < 90)
+			.@amount = 1;
+		else
+			.@amount = 1;
+		getitem 1300085, .@amount;// Energy Fragment
+		mes "[Patent Weapon Trade]";
+		mes "ฉันได้สร้าง... พลังงาน... ชิ้นส่วน... โดยการฟื้นฟู ^006400" + getitemname(getarg(.@s)) + "^000000...";
+		next;
+		mes "- ฉันได้รับความเสียหายร้ายแรง - - ด้วยความยาวคลื่นอันทรงพลังของจิตใจ - - ซึ่งซึมเข้าสู่ร่างกายของฉัน. -";
+		next;
+	}
+	mes "[Patent Weapon Trade]";
+	mes "เธอมี...ธุระอะไรอีก...กับฉันไหม...";
+	next;
+	return;
+
+OnBar:
+	progressbar_npc "000000",5;
+	end;
+OnInit:
+waitingroom "Patent Weapon Trade",0;
+end;
+}

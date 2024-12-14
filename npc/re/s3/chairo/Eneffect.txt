@@ -1,0 +1,152 @@
+morocc,187,68,3	script	Enchant Effect Mid#cos_ect	4_FROG,{
+	disable_items;
+	mes "[Enchant Effect Mid]";
+	mes "ยินดีตอนรับ!!";
+	mes "ข้าคือผู้ Effect ให้กับคอสส่วนหู.";
+	next;
+	mes "[Enchant Effect Mid]";
+	mes "คุณจะต้องมี ^ff0000Costume Mid^000000 และ ^ff0000Effect Stone(Mid)^000000";
+	mes "จึงจะสามารถเสริมพลังได้!";
+	next;
+	if (select( "เริ่ม....ทำการเสริมพลัง.", "ไม่....ยังไม่พร้อม." ) == 2) {
+		mes "[Enchant Effect Mid]";
+		mes "ใช้? ในข้าค้นหาคอสในตัวเจ้าก่อน?";
+		close;
+	}
+	if (checkweight(1119,3) == 0) {
+		mes "[Enchant Effect Mid]";
+		mes "Well... Your shoulder doesn't look possilbe for any more upgrade...!";
+		mes "Don't be cruel to your shoulder!";
+		next;
+		mes "It seems you have too many items on you.";
+		mes "Come back after clearing some inventory spaces.";
+		close;
+	}
+	.@part = EQI_COSTUME_HEAD_MID;
+	.@equip_id = getequipid(.@part);
+	if (.@equip_id == -1) {
+		mes "[Enchant Effect Mid]";
+		mes "คุณไม่ได้ส่วมใส่คอสหู";
+		mes "คุณควรใส่คอสหูมาก่อนแล้วกลับมาหาข้า";
+		close;
+	}
+
+
+
+
+
+	// costume garment list allowed (incomplete)
+	switch(.@equip_id) {
+		case 18742:	// C_MoonStar_Accessory
+		case 19510:	//
+		case 31568:	//
+		case 31716:	//
+		case 31673:	//
+		case 31699:	//
+		case 31715:	//
+		case 31601:	//
+		case 19769:	//
+		case 31527:	//
+		case 31600:	//
+		case 31718:	//
+		case 31439:	//
+		case 31437:	//
+		case 31449:	//
+		case 31461:	//
+		case 20314:	//
+		case 31687:	//
+		case 20404:	//
+		case 20318:	//
+		case 31798:	//
+		case 20123:	//
+		case 410005:	//
+		case 31133:	//
+		case 19954:	//
+		case 31615:	//
+		case 20144:	//
+		case 20010:	//
+		case 19810:	//
+		case 19776:	//
+		case 410048:	//
+		case 31542:	//
+		case 20221:	//
+		case 31561:	//
+
+		break;
+	default:
+		mes "[Lace La Zard]";
+		mes "I need to have a look at it to check for upgrading posibility..";// custom
+		close;
+	}
+
+	.@equip_refine = getequiprefinerycnt(.@part);
+	setarray .@card[0], getequipcardid(.@part, 0), getequipcardid(.@part, 1), getequipcardid(.@part, 2), getequipcardid(.@part, 3);
+
+	mes "[Lace La Zard]";
+	mes "คุณใช้ ^0000FF" + getitemname(.@equip_id) + "^000000!!! ในการเสริม Effect?";
+	mes "เลือกหินที่คุณจะใช้เสริมพลังได้เลย!!";
+	next;
+	setarray .@data$[0],
+		25136, 29142, "da",	// ASPDStone_Robe	Atk_Speed1
+		25137, 29143, "da",	// ASPDStone_Robe	Atk_Speed1
+		25176, 29160, "da",	// ASPDStone_Robe	Atk_Speed1
+		25178, 29161, "da",	// ASPDStone_Robe	Atk_Speed1
+		25058, 29041, "da",	// ASPDStone_Robe	Atk_Speed1
+		25059, 29040, "da";	// ASPDStone_Robe	Atk_Speed1
+	.@size = getarraysize(.@data$);
+	for ( .@i = 0; .@i < .@size; .@i += 3 ) {
+		.@id = atoi(.@data$[.@i]);
+		.@menu$ += sprintf( "%d. %s (%d) left:", (.@j+1), getitemname(.@id), countitem(.@id) );
+		.@j++;
+	}
+	.@menu$ += "End Conversation.";
+	.@s = (select(.@menu$) - 1) * 3;
+	if (.@s == .@size) {
+		mes "[Lace La Zard]";
+		mes "Yes? Your want to look more?";
+		close;
+	}
+	.@id = atoi(.@data$[.@s]);
+	.@enchant = atoi(.@data$[.@s+1]);
+	if (getequipid(.@part) < 0 || countitem(.@id) < 1) {
+		mes "[Lace La Zard]";
+		mes "You must have both costume item and ability stone for this upgrading work.";
+		close;
+	}
+	mes "^FF0000   !!! คำเตือน !!!^000000";
+	mes "^FF0000มีโอกาศในการเสริมพลังล้มเหลว.^000000";
+	mes "^FF0000หากเสริมพลังล้มเหลว,^000000";
+	mes "^FF0000คอสของคุณจะยังอยู่.^000000";
+	mes "^FF0000แต่หินในการเสริมพลังจะหายไป?^000000";
+	next;
+	if (select( "Yes.", "No." ) == 2) {
+		mes "[Lace La Zard]";
+		mes "Yes? Your want to look more?";
+		close;
+	}
+
+	// anti-hack
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine))
+		close;
+
+	delitem .@id, 1;
+	delequip .@part;
+	if (rand(100) < 50) {
+		mes "[Lace La Zard]";
+		mes "ว้าววววววววววว!!";
+		mes "คุณโชคดี........เสริม Effect สำเร็จ!";
+		.@card[3] = .@enchant;
+	}
+	else {
+		mes "[Lace La Zard]";
+		mes "คุณเสริมพลัง";
+		mes "ล้มเหลว";
+		mes "ไว้เอารอบหน้ามาใหม่นะ";
+		.@card[0] = 0;
+	}
+	getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+	close;
+OnInit:
+	waitingroom "Enchant Effect หู",0;
+	end;
+}

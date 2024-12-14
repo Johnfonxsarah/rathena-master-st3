@@ -1,0 +1,1 @@
+ALTER TABLE `char` ADD `QP_CharPref` INT(1) NOT NULL default '0';

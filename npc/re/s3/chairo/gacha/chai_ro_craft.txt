@@ -1,0 +1,912 @@
+//	======================	//
+//	@hotweek_craft = คำสั่งพิเศษ	//
+//	======================	//
+
+-	shop	hotweek_craft_shop	-1,909:-1
+
+morocc,138,101,5	script	Craft Item Dungeon	790,{
+Start:
+	
+	dispbottom "อุปกรณ์สามารถทำได้ "+getarraysize($item_hotweek_craft)+" รายการ";
+	callshop "hotweek_craft_shop",1;
+	npcshopattach "hotweek_craft_shop";
+	end;
+	
+OnBuyItem:
+	
+	//							ไม่ต้องแก้ไข									กำหนดรหัสไอเทมวัตถุดิบ							กำหนดจำนวนของวัตถุดิบ							กำหนดเงินที่จะใช้ ใส่ 0 หากไม่ต้องการ		กำหนด cash ใส่ 0 หากไม่ต้องการ					ไม่ต้องแก้ไข					กำหนด % การ Craft
+	
+	if(@bought_nameid == $item_hotweek_craft[0]){ setarray .@item_quest[0],1300108,1300109,1300110;		setarray .@amount_quest[0],100,100,100;			.@zeny_use = 2000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_01; .@rate_true = 50; }
+	if(@bought_nameid == $item_hotweek_craft[1]){ setarray .@item_quest[0],1300108,1300109,1300110;		setarray .@amount_quest[0],100,100,100;			.@zeny_use = 2000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_02; .@rate_true = 50; }
+	if(@bought_nameid == $item_hotweek_craft[2]){ setarray .@item_quest[0],1300108,1300109,1300110;		setarray .@amount_quest[0],100,100,100;			.@zeny_use = 2000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_03; .@rate_true = 50; }
+	if(@bought_nameid == $item_hotweek_craft[3]){ setarray .@item_quest[0],1300108,1300109,1300110;		setarray .@amount_quest[0],100,100,100;			.@zeny_use = 2000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_04; .@rate_true = 50; }
+	if(@bought_nameid == $item_hotweek_craft[4]){ setarray .@item_quest[0],1300108,1300109,1300110;		setarray .@amount_quest[0],100,100,100;			.@zeny_use = 2000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_05; .@rate_true = 50; }
+	if(@bought_nameid == $item_hotweek_craft[5]){ setarray .@item_quest[0],1300108,1300109,1300110;		setarray .@amount_quest[0],100,100,100;			.@zeny_use = 2000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_06; .@rate_true = 50; }
+	if(@bought_nameid == $item_hotweek_craft[6]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_07; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[7]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_08; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[8]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_09; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[9]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_10; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[10]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_11; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[11]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_12; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[12]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_13; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[13]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_14; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[14]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_15; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[15]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_16; .@rate_true = 20; }
+	if(@bought_nameid == $item_hotweek_craft[16]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_17; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[17]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_18; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[18]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_19; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[19]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 5000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_20; .@rate_true = 20; }
+	if(@bought_nameid == $item_hotweek_craft[20]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_21; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[21]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_22; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[22]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_23; .@rate_true = 20; }
+	if(@bought_nameid == $item_hotweek_craft[23]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_24; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[24]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_25; .@rate_true = 10; }
+	if(@bought_nameid == $item_hotweek_craft[25]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_26; .@rate_true = 20; }
+	if(@bought_nameid == $item_hotweek_craft[26]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,100,100,100;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_27; .@rate_true = 15; }
+	if(@bought_nameid == $item_hotweek_craft[27]){ setarray .@item_quest[0],18823,1300108,1300109,1300110;		setarray .@amount_quest[0],1,500,500,500;			.@zeny_use = 50000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_28; .@rate_true = 60; }
+	if(@bought_nameid == $item_hotweek_craft[28]){ setarray .@item_quest[0],5966,1300108,1300109,1300110;		setarray .@amount_quest[0],1,500,500,500;			.@zeny_use = 50000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_29; .@rate_true = 60; }
+	if(@bought_nameid == $item_hotweek_craft[29]){ setarray .@item_quest[0],490221,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_30; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[30]){ setarray .@item_quest[0],490221,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_31; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[31]){ setarray .@item_quest[0],490229,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_32; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[32]){ setarray .@item_quest[0],490229,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_33; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[33]){ setarray .@item_quest[0],490334,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_34; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[34]){ setarray .@item_quest[0],490334,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_35; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[35]){ setarray .@item_quest[0],490239,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_36; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[36]){ setarray .@item_quest[0],490239,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_37; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[37]){ setarray .@item_quest[0],490400,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_38; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[38]){ setarray .@item_quest[0],490400,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_39; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[39]){ setarray .@item_quest[0],490288,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_40; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[40]){ setarray .@item_quest[0],490288,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_41; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[41]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,1000,1000,1000;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_42; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[42]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,1000,1000,1000;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_43; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[43]){ setarray .@item_quest[0],19138,1300108,1300109,1300110;		setarray .@amount_quest[0],1,500,500,500;			.@zeny_use = 50000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_44; .@rate_true = 60; }
+	if(@bought_nameid == $item_hotweek_craft[44]){ setarray .@item_quest[0],5918,1300108,1300109,1300110;		setarray .@amount_quest[0],1,500,500,500;			.@zeny_use = 50000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_45; .@rate_true = 60; }
+	if(@bought_nameid == $item_hotweek_craft[45]){ setarray .@item_quest[0],5933,1300108,1300109,1300110;		setarray .@amount_quest[0],1,500,500,500;			.@zeny_use = 50000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_46; .@rate_true = 60; }
+	if(@bought_nameid == $item_hotweek_craft[46]){ setarray .@item_quest[0],490221,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_47; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[47]){ setarray .@item_quest[0],490400,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_48; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[48]){ setarray .@item_quest[0],490229,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_49; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[49]){ setarray .@item_quest[0],490239,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_50; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[50]){ setarray .@item_quest[0],490288,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_51; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[51]){ setarray .@item_quest[0],490334,1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],1,10,500,500,500;			.@zeny_use = 20000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_52; .@rate_true = 30; }
+	if(@bought_nameid == $item_hotweek_craft[52]){ setarray .@item_quest[0],1300085,1300108,1300109,1300110;		setarray .@amount_quest[0],10,500,500,500;			.@zeny_use = 10000000;		.@cash_use = 0;		.@stock_item = $stock_hotweek_craft_53; .@rate_true = 20; }
+
+
+
+	if(.@stock_item <= 0){
+		mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+		mes "ไอเทม ^0000FF"+getitemname(@bought_nameid)+"^000000";
+		mes "สต๊อกไอเทมหมดแล้ว";
+		mes "กรุณาเลือกสินค้าชิ้นอื่น";
+		end;
+	}
+				
+
+	
+	recheck_percent:
+				
+	mes "^FF3300[ เงื่อนไขการแลกของ ]^000000";
+	mes "โอกาสสำเร็จ : ^0099FF"+(.@rate_true+.@up_percent)+"%^000000";
+	if(.@stock_item > 0){ mes "จำนวนคงเหลือ : ^009900"+.@stock_item+" ea^000000"; }
+	if(.@stock_item <= 0){ mes "จำนวนคงเหลือ : ^FF3300หมด^000000"; }
+	
+	if(.@zeny_use > 0){ mes "ใช้เงินจำนวน "+callfunc("F_InsertComma",.@zeny_use)+" Zeny"; }
+	if(.@cash_use > 0){ mes "ต้องการ "+callfunc("F_InsertComma",.@cash_use)+" Cash"; }
+	
+	for ( .@i = 0; .@i < getarraysize(.@item_quest); .@i ++){
+		if(getiteminfo(.@item_quest[.@i],ITEMINFO_SLOT) == 0){ mes "<ITEM>• "+getitemname(.@item_quest[.@i])+" ("+countitem(.@item_quest[.@i])+"/"+.@amount_quest[.@i]+") ea<INFO>"+.@item_quest[.@i]+"</INFO></ITEM>"; }
+		if(getiteminfo(.@item_quest[.@i],ITEMINFO_SLOT) > 0){ mes "<ITEM>• "+getitemname(.@item_quest[.@i])+"["+getiteminfo(.@item_quest[.@i],ITEMINFO_SLOT)+"] ("+countitem(.@item_quest[.@i])+"/"+.@amount_quest[.@i]+") ea<INFO>"+.@item_quest[.@i]+"</INFO></ITEM>"; }
+	}
+	
+	if(@bought_nameid == @bought_nameid){
+		
+		Switch(Select("- ยืนยันการคราฟ ^0000FF"+getitemname(@bought_nameid)+"^000000")){
+			
+			case 1:
+				
+				if(@bought_nameid == $item_hotweek_craft[0]){ .@stock_item = $stock_hotweek_craft_01; }
+				if(@bought_nameid == $item_hotweek_craft[1]){ .@stock_item = $stock_hotweek_craft_02; }
+				if(@bought_nameid == $item_hotweek_craft[2]){ .@stock_item = $stock_hotweek_craft_03; }
+				if(@bought_nameid == $item_hotweek_craft[3]){ .@stock_item = $stock_hotweek_craft_04; }
+				if(@bought_nameid == $item_hotweek_craft[4]){ .@stock_item = $stock_hotweek_craft_05; }
+				if(@bought_nameid == $item_hotweek_craft[5]){ .@stock_item = $stock_hotweek_craft_06; }
+				if(@bought_nameid == $item_hotweek_craft[6]){ .@stock_item = $stock_hotweek_craft_07; }
+				if(@bought_nameid == $item_hotweek_craft[7]){ .@stock_item = $stock_hotweek_craft_08; }
+				if(@bought_nameid == $item_hotweek_craft[8]){ .@stock_item = $stock_hotweek_craft_09; }
+				if(@bought_nameid == $item_hotweek_craft[9]){ .@stock_item = $stock_hotweek_craft_10; }
+				if(@bought_nameid == $item_hotweek_craft[10]){ .@stock_item = $stock_hotweek_craft_11; }
+				if(@bought_nameid == $item_hotweek_craft[11]){ .@stock_item = $stock_hotweek_craft_12; }
+				if(@bought_nameid == $item_hotweek_craft[12]){ .@stock_item = $stock_hotweek_craft_13; }
+				if(@bought_nameid == $item_hotweek_craft[13]){ .@stock_item = $stock_hotweek_craft_14; }
+				if(@bought_nameid == $item_hotweek_craft[14]){ .@stock_item = $stock_hotweek_craft_15; }
+				if(@bought_nameid == $item_hotweek_craft[15]){ .@stock_item = $stock_hotweek_craft_16; }
+				if(@bought_nameid == $item_hotweek_craft[16]){ .@stock_item = $stock_hotweek_craft_17; }
+				if(@bought_nameid == $item_hotweek_craft[17]){ .@stock_item = $stock_hotweek_craft_18; }
+				if(@bought_nameid == $item_hotweek_craft[18]){ .@stock_item = $stock_hotweek_craft_19; }
+				if(@bought_nameid == $item_hotweek_craft[19]){ .@stock_item = $stock_hotweek_craft_20; }
+				if(@bought_nameid == $item_hotweek_craft[20]){ .@stock_item = $stock_hotweek_craft_21; }
+				if(@bought_nameid == $item_hotweek_craft[21]){ .@stock_item = $stock_hotweek_craft_22; }
+				if(@bought_nameid == $item_hotweek_craft[22]){ .@stock_item = $stock_hotweek_craft_23; }
+				if(@bought_nameid == $item_hotweek_craft[23]){ .@stock_item = $stock_hotweek_craft_24; }
+				if(@bought_nameid == $item_hotweek_craft[24]){ .@stock_item = $stock_hotweek_craft_25; }
+				if(@bought_nameid == $item_hotweek_craft[25]){ .@stock_item = $stock_hotweek_craft_26; }
+				if(@bought_nameid == $item_hotweek_craft[26]){ .@stock_item = $stock_hotweek_craft_27; }
+				if(@bought_nameid == $item_hotweek_craft[27]){ .@stock_item = $stock_hotweek_craft_28; }
+				if(@bought_nameid == $item_hotweek_craft[28]){ .@stock_item = $stock_hotweek_craft_29; }
+				if(@bought_nameid == $item_hotweek_craft[29]){ .@stock_item = $stock_hotweek_craft_30; }
+				if(@bought_nameid == $item_hotweek_craft[30]){ .@stock_item = $stock_hotweek_craft_31; }
+				if(@bought_nameid == $item_hotweek_craft[31]){ .@stock_item = $stock_hotweek_craft_32; }
+				if(@bought_nameid == $item_hotweek_craft[32]){ .@stock_item = $stock_hotweek_craft_33; }
+				if(@bought_nameid == $item_hotweek_craft[33]){ .@stock_item = $stock_hotweek_craft_34; }
+				if(@bought_nameid == $item_hotweek_craft[34]){ .@stock_item = $stock_hotweek_craft_35; }
+				if(@bought_nameid == $item_hotweek_craft[35]){ .@stock_item = $stock_hotweek_craft_36; }
+				if(@bought_nameid == $item_hotweek_craft[36]){ .@stock_item = $stock_hotweek_craft_37; }
+				if(@bought_nameid == $item_hotweek_craft[37]){ .@stock_item = $stock_hotweek_craft_38; }
+				if(@bought_nameid == $item_hotweek_craft[38]){ .@stock_item = $stock_hotweek_craft_39; }
+				if(@bought_nameid == $item_hotweek_craft[39]){ .@stock_item = $stock_hotweek_craft_40; }
+				if(@bought_nameid == $item_hotweek_craft[40]){ .@stock_item = $stock_hotweek_craft_41; }
+				if(@bought_nameid == $item_hotweek_craft[41]){ .@stock_item = $stock_hotweek_craft_42; }
+				if(@bought_nameid == $item_hotweek_craft[42]){ .@stock_item = $stock_hotweek_craft_43; }
+				if(@bought_nameid == $item_hotweek_craft[43]){ .@stock_item = $stock_hotweek_craft_44; }
+				if(@bought_nameid == $item_hotweek_craft[44]){ .@stock_item = $stock_hotweek_craft_45; }
+				if(@bought_nameid == $item_hotweek_craft[45]){ .@stock_item = $stock_hotweek_craft_46; }
+				if(@bought_nameid == $item_hotweek_craft[46]){ .@stock_item = $stock_hotweek_craft_47; }
+				if(@bought_nameid == $item_hotweek_craft[47]){ .@stock_item = $stock_hotweek_craft_48; }
+				if(@bought_nameid == $item_hotweek_craft[48]){ .@stock_item = $stock_hotweek_craft_49; }
+				if(@bought_nameid == $item_hotweek_craft[49]){ .@stock_item = $stock_hotweek_craft_50; }
+				if(@bought_nameid == $item_hotweek_craft[50]){ .@stock_item = $stock_hotweek_craft_51; }
+				if(@bought_nameid == $item_hotweek_craft[51]){ .@stock_item = $stock_hotweek_craft_52; }
+				if(@bought_nameid == $item_hotweek_craft[52]){ .@stock_item = $stock_hotweek_craft_53; }
+			
+				if(.@stock_item <= 0){
+					mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+					mes "ไอเทม ^0000FF"+getitemname(@bought_nameid)+"^000000";
+					mes "สต๊อกไอเทมหมดแล้ว";
+					mes "กรุณาเลือกสินค้าชิ้นอื่น";
+					end;
+				}
+				
+				if(.item_broken > 0){
+					if(.@broken == 1){
+						if(countitem(.item_broken) < .amount_broken){
+							next;
+							mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+							mes "ไอเทม ^FF9900"+getitemname(.item_broken)+"^000000 ไม่เพียงพอ";
+							mes "ต้องการอีก "+callfunc("F_InsertComma",(.amount_broken-countitem(.item_broken)))+" ea";
+							end;
+						}
+					}
+				}
+				if(.item_percent > 0){
+					if(.@up_percent > 0){
+						if(countitem(.item_percent) < .amount_percent){
+							next;
+							mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+							mes "ไอเทม ^FF9900"+getitemname(.item_percent)+"^000000 ไม่เพียงพอ";
+							mes "ต้องการอีก "+callfunc("F_InsertComma",(.item_percent-countitem(.item_percent)))+" ea";
+							end;
+						}
+					}
+				}
+				
+				if(.@zeny_use > 0){
+					if(Zeny < .@zeny_use){
+						next;
+						mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+						mes "จำนวนเงินของท่านไม่เพียงพอ";
+						mes "ต้องการอีก "+callfunc("F_InsertComma",(.@zeny_use-Zeny))+" Zeny";
+						end;
+					}
+				}
+				
+				if(.@cash_use > 0){
+					if(#CASHPOINTS < .@cash_use){
+						next;
+						mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+						mes "จำนวน Cash ของท่านไม่เพียงพอ";
+						mes "ต้องการอีก "+callfunc("F_InsertComma",(.@cash_use-#CASHPOINTS))+" Cash";
+						end;
+					}
+				}
+				
+				for ( .@a = 0; .@a < getarraysize(.@item_quest); .@a ++){
+					if(countitem(.@item_quest[.@a]) < .@amount_quest[.@a]){
+						next;
+						mes "^FF3300[ เงื่อนไขการแลกของ ]^000000";
+						mes ""+getitemname(.@item_quest[.@a])+" ไม่เพียงพอ";
+						mes "ต้องการอีก "+(.@amount_quest[.@a]-countitem(.@item_quest[.@a]))+" ea";
+						end;
+					}
+				}
+				
+				.@r = rand(1,100);
+				
+				dispbottom ""+.@r+" "+.@rate_true+" "+.@up_percent+"";
+				
+				if(.@r <= (.@rate_true+.@up_percent)){ goto menu_succes; end; }
+				if(.@r > (.@rate_true+.@up_percent)){ goto menu_not_succes; end; }
+				
+				end;
+				
+				menu_succes:
+				
+				next;
+				
+				if(@bought_nameid == $item_hotweek_craft[0]){ .@stock_item = $stock_hotweek_craft_01; }
+				if(@bought_nameid == $item_hotweek_craft[1]){ .@stock_item = $stock_hotweek_craft_02; }
+				if(@bought_nameid == $item_hotweek_craft[2]){ .@stock_item = $stock_hotweek_craft_03; }
+				if(@bought_nameid == $item_hotweek_craft[3]){ .@stock_item = $stock_hotweek_craft_04; }
+				if(@bought_nameid == $item_hotweek_craft[4]){ .@stock_item = $stock_hotweek_craft_05; }
+				if(@bought_nameid == $item_hotweek_craft[5]){ .@stock_item = $stock_hotweek_craft_06; }
+				if(@bought_nameid == $item_hotweek_craft[6]){ .@stock_item = $stock_hotweek_craft_07; }
+				if(@bought_nameid == $item_hotweek_craft[7]){ .@stock_item = $stock_hotweek_craft_08; }
+				if(@bought_nameid == $item_hotweek_craft[8]){ .@stock_item = $stock_hotweek_craft_09; }
+				if(@bought_nameid == $item_hotweek_craft[9]){ .@stock_item = $stock_hotweek_craft_10; }
+				if(@bought_nameid == $item_hotweek_craft[10]){ .@stock_item = $stock_hotweek_craft_11; }
+				if(@bought_nameid == $item_hotweek_craft[11]){ .@stock_item = $stock_hotweek_craft_12; }
+				if(@bought_nameid == $item_hotweek_craft[12]){ .@stock_item = $stock_hotweek_craft_13; }
+				if(@bought_nameid == $item_hotweek_craft[13]){ .@stock_item = $stock_hotweek_craft_14; }
+				if(@bought_nameid == $item_hotweek_craft[14]){ .@stock_item = $stock_hotweek_craft_15; }
+				if(@bought_nameid == $item_hotweek_craft[15]){ .@stock_item = $stock_hotweek_craft_16; }
+				if(@bought_nameid == $item_hotweek_craft[16]){ .@stock_item = $stock_hotweek_craft_17; }
+				if(@bought_nameid == $item_hotweek_craft[17]){ .@stock_item = $stock_hotweek_craft_18; }
+				if(@bought_nameid == $item_hotweek_craft[18]){ .@stock_item = $stock_hotweek_craft_19; }
+				if(@bought_nameid == $item_hotweek_craft[19]){ .@stock_item = $stock_hotweek_craft_20; }
+				if(@bought_nameid == $item_hotweek_craft[20]){ .@stock_item = $stock_hotweek_craft_21; }
+				if(@bought_nameid == $item_hotweek_craft[21]){ .@stock_item = $stock_hotweek_craft_22; }
+				if(@bought_nameid == $item_hotweek_craft[22]){ .@stock_item = $stock_hotweek_craft_23; }
+				if(@bought_nameid == $item_hotweek_craft[23]){ .@stock_item = $stock_hotweek_craft_24; }
+				if(@bought_nameid == $item_hotweek_craft[24]){ .@stock_item = $stock_hotweek_craft_25; }
+				if(@bought_nameid == $item_hotweek_craft[25]){ .@stock_item = $stock_hotweek_craft_26; }
+				if(@bought_nameid == $item_hotweek_craft[26]){ .@stock_item = $stock_hotweek_craft_27; }
+				if(@bought_nameid == $item_hotweek_craft[27]){ .@stock_item = $stock_hotweek_craft_28; }
+				if(@bought_nameid == $item_hotweek_craft[28]){ .@stock_item = $stock_hotweek_craft_29; }
+				if(@bought_nameid == $item_hotweek_craft[29]){ .@stock_item = $stock_hotweek_craft_30; }
+				if(@bought_nameid == $item_hotweek_craft[30]){ .@stock_item = $stock_hotweek_craft_31; }
+				if(@bought_nameid == $item_hotweek_craft[31]){ .@stock_item = $stock_hotweek_craft_32; }
+				if(@bought_nameid == $item_hotweek_craft[32]){ .@stock_item = $stock_hotweek_craft_33; }
+				if(@bought_nameid == $item_hotweek_craft[33]){ .@stock_item = $stock_hotweek_craft_34; }
+				if(@bought_nameid == $item_hotweek_craft[34]){ .@stock_item = $stock_hotweek_craft_35; }
+				if(@bought_nameid == $item_hotweek_craft[35]){ .@stock_item = $stock_hotweek_craft_36; }
+				if(@bought_nameid == $item_hotweek_craft[36]){ .@stock_item = $stock_hotweek_craft_37; }
+				if(@bought_nameid == $item_hotweek_craft[37]){ .@stock_item = $stock_hotweek_craft_38; }
+				if(@bought_nameid == $item_hotweek_craft[38]){ .@stock_item = $stock_hotweek_craft_39; }
+				if(@bought_nameid == $item_hotweek_craft[39]){ .@stock_item = $stock_hotweek_craft_40; }
+				if(@bought_nameid == $item_hotweek_craft[40]){ .@stock_item = $stock_hotweek_craft_41; }
+				if(@bought_nameid == $item_hotweek_craft[41]){ .@stock_item = $stock_hotweek_craft_42; }
+				if(@bought_nameid == $item_hotweek_craft[42]){ .@stock_item = $stock_hotweek_craft_43; }
+				if(@bought_nameid == $item_hotweek_craft[43]){ .@stock_item = $stock_hotweek_craft_44; }
+				if(@bought_nameid == $item_hotweek_craft[44]){ .@stock_item = $stock_hotweek_craft_45; }
+				if(@bought_nameid == $item_hotweek_craft[45]){ .@stock_item = $stock_hotweek_craft_46; }
+				if(@bought_nameid == $item_hotweek_craft[46]){ .@stock_item = $stock_hotweek_craft_47; }
+				if(@bought_nameid == $item_hotweek_craft[47]){ .@stock_item = $stock_hotweek_craft_48; }
+				if(@bought_nameid == $item_hotweek_craft[48]){ .@stock_item = $stock_hotweek_craft_49; }
+				if(@bought_nameid == $item_hotweek_craft[49]){ .@stock_item = $stock_hotweek_craft_50; }
+				if(@bought_nameid == $item_hotweek_craft[50]){ .@stock_item = $stock_hotweek_craft_51; }
+				if(@bought_nameid == $item_hotweek_craft[51]){ .@stock_item = $stock_hotweek_craft_52; }
+				if(@bought_nameid == $item_hotweek_craft[52]){ .@stock_item = $stock_hotweek_craft_53; }
+
+
+				if(.@stock_item <= 0){
+					mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+					mes "ไอเทม ^0000FF"+getitemname(@bought_nameid)+"^000000";
+					mes "สต๊อกไอเทมหมดแล้ว";
+					mes "กรุณาเลือกสินค้าชิ้นอื่น";
+					end;
+				}
+				
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "ยินดีกับคุณ "+strcharinfo(0)+" ด้วย";
+				mes "คุณได้ทำ "+getitemname(@bought_nameid)+" สำเร็จ";
+				
+				for ( .@b = 0; .@b < getarraysize(.@item_quest); .@b ++){
+					delitem .@item_quest[.@b],.@amount_quest[.@b];
+				}
+				
+				if(.@zeny_use > 0){ Zeny = Zeny -.@zeny_use; }
+				if(.@cash_use > 0){ #CASHPOINTS = #CASHPOINTS -.@cash_use; }
+				if(.@broken == 1){ delitem .item_broken,.amount_broken; }
+				if(.@up_percent > 0){ delitem .item_percent,.amount_percent; }
+				
+				specialeffect2 154;
+				
+				.@randomoption = rand(1,48);
+		
+				if(.@randomoption == 1){	.@opt01 = 259;	.@val01 = rand(1,5); }	//	ATK%
+				if(.@randomoption == 2){	.@opt01 = 14;	.@val01 = rand(1,5); }	//	MATK%
+				if(.@randomoption == 3){	.@opt01 = 170;	.@val01 = rand(1,5); }	//	ลดร่าย
+				if(.@randomoption == 4){	.@opt01 = 16;	.@val01 = rand(1,10); }	//	ASPD%
+				if(.@randomoption == 5){	.@opt01 = 17;	.@val01 = rand(1,20); }	//	ATK
+				if(.@randomoption == 6){	.@opt01 = 19;	.@val01 = rand(1,20); }	//	MATK
+				if(.@randomoption == 7){	.@opt01 = 166;	.@val01 = rand(1,5); }	//	โจมตีระยะไกล%
+				if(.@randomoption == 8){	.@opt01 = 164;	.@val01 = rand(1,5); }	//	โจมตีคริแรงขึ้น%
+				if(.@randomoption == 9){	.@opt01 = 157;	.@val01 = rand(1,5); }	//	โจมขนาด%
+				if(.@randomoption == 10){	.@opt01 = 158;	.@val01 = rand(1,5); }	//	โจมขนาด%
+				if(.@randomoption == 11){	.@opt01 = 159;	.@val01 = rand(1,5); }	//	โจมขนาด%
+				if(.@randomoption == 12){	.@opt01 = 148;	.@val01 = rand(1,5); }	//	โจมตีบอส%
+				if(.@randomoption == 13){	.@opt01 = 94;	.@val01 = rand(1,5); }	//	ป้องกันมนุษย์%
+				if(.@randomoption == 14){	.@opt01 = 160;	.@val01 = rand(1,5); }	//	ป้องกันขนาด%
+				if(.@randomoption == 15){	.@opt01 = 161;	.@val01 = rand(1,5); }	//	ป้องกันขนาด%
+				if(.@randomoption == 16){	.@opt01 = 162;	.@val01 = rand(1,5); }	//	ป้องกันขนาด%
+				if(.@randomoption == 17){	.@opt01 = 167;	.@val01 = rand(1,5); }	//	ป้องกันไกล%
+				if(.@randomoption == 18){	.@opt01 = 155;	.@val01 = rand(1,5); }	//	ไม่สน Mdef%
+				if(.@randomoption == 19){	.@opt01 = 208;	.@val01 = rand(1,5); }	//	โจมกายภาพมนุษย์%
+				if(.@randomoption == 20){	.@opt01 = 210;	.@val01 = rand(1,5); }	//	โจมเวทย์มนุษย์%
+				if(.@randomoption == 21){	.@opt01 = 1;	.@val01 = rand(50,300); }	//	HP
+				if(.@randomoption == 22){	.@opt01 = 2;	.@val01 = rand(1,50); }	//	SP
+				if(.@randomoption == 23){	.@opt01 = 9;	.@val01 = rand(1,5); }	//	HP%
+				if(.@randomoption == 24){	.@opt01 = 10;	.@val01 = rand(1,3); }	//	SP%
+				if(.@randomoption == 25){	.@opt01 = 242;	.@val01 = rand(1,10); }	//	EXP%
+				if(.@randomoption == 26){	.@opt01 = 258;	.@val01 = rand(1,10); }	//	DROP%
+				if(.@randomoption == 27){	.@opt01 = 18;	.@val01 = rand(1,20); }	//	HIT
+				if(.@randomoption == 28){	.@opt01 = 24;	.@val01 = rand(1,10); }	//	CRI
+				if(.@randomoption == 29){	.@opt01 = 22;	.@val01 = rand(1,20); }	//	FLEE
+				if(.@randomoption == 30){	.@opt01 = 20;	.@val01 = rand(1,5); }	//	DEF
+				if(.@randomoption == 31){	.@opt01 = 21;	.@val01 = rand(1,5); }	//	MDEF
+				if(.@randomoption == 32){	.@opt01 = 1;	.@val01 = rand(50,300); }	//	HP
+				if(.@randomoption == 33){	.@opt01 = 2;	.@val01 = rand(1,50); }	//	SP
+				if(.@randomoption == 34){	.@opt01 = 9;	.@val01 = rand(1,5); }	//	HP%
+				if(.@randomoption == 35){	.@opt01 = 10;	.@val01 = rand(1,3); }	//	SP%
+				if(.@randomoption == 36){	.@opt01 = 242;	.@val01 = rand(1,10); }	//	EXP%
+				if(.@randomoption == 37){	.@opt01 = 258;	.@val01 = rand(1,10); }	//	DROP%
+				if(.@randomoption == 38){	.@opt01 = 18;	.@val01 = rand(1,20); }	//	HIT
+				if(.@randomoption == 39){	.@opt01 = 24;	.@val01 = rand(1,10); }	//	CRI
+				if(.@randomoption == 40){	.@opt01 = 22;	.@val01 = rand(1,20); }	//	FLEE
+				if(.@randomoption == 41){	.@opt01 = 20;	.@val01 = rand(1,5); }	//	DEF
+				if(.@randomoption == 42){	.@opt01 = 21;	.@val01 = rand(1,5); }	//	MDEF
+				if(.@randomoption == 43){	.@opt01 = 3;	.@val01 = rand(1,3); }	//	STR
+				if(.@randomoption == 44){	.@opt01 = 4;	.@val01 = rand(1,3); }	//	AGI
+				if(.@randomoption == 45){	.@opt01 = 5;	.@val01 = rand(1,3); }	//	VIT
+				if(.@randomoption == 46){	.@opt01 = 6;	.@val01 = rand(1,3); }	//	INT
+				if(.@randomoption == 47){	.@opt01 = 7;	.@val01 = rand(1,3); }	//	DEX
+				if(.@randomoption == 48){	.@opt01 = 8;	.@val01 = rand(1,3); }	//	LUK
+							
+				setarray .@OptID[0],.@opt01,300,300,300,300;
+				setarray .@OptVal[0],.@val01,0,0,0,0;
+				
+				.@param = 0;
+				
+				getitem3 @bought_nameid,1,1,0,0,0,0,0,0,.@OptID,.@OptVal,.@param;
+				
+				announce "["+strnpcinfo(0)+"] : ยินดีด้วย คุณ "+strcharinfo(0)+" ได้ทำการคราฟ "+getitemname(@bought_nameid)+" สำเร็จ",bc_all,0xFFFF00;
+				
+				//	หากเพิ่มรายการสินค้า เพิ่มเติมในส่วนนี้ด้วย
+				
+				if(@bought_nameid == $item_hotweek_craft[0]){ $stock_hotweek_craft_01 = $stock_hotweek_craft_01 -1; }
+				if(@bought_nameid == $item_hotweek_craft[1]){ $stock_hotweek_craft_02 = $stock_hotweek_craft_02 -1; }
+				if(@bought_nameid == $item_hotweek_craft[2]){ $stock_hotweek_craft_03 = $stock_hotweek_craft_03 -1; }
+				if(@bought_nameid == $item_hotweek_craft[3]){ $stock_hotweek_craft_04 = $stock_hotweek_craft_04 -1; }
+				if(@bought_nameid == $item_hotweek_craft[4]){ $stock_hotweek_craft_05 = $stock_hotweek_craft_05 -1; }
+				if(@bought_nameid == $item_hotweek_craft[5]){ $stock_hotweek_craft_06 = $stock_hotweek_craft_06 -1; }
+				if(@bought_nameid == $item_hotweek_craft[6]){ $stock_hotweek_craft_07 = $stock_hotweek_craft_07 -1; }
+				if(@bought_nameid == $item_hotweek_craft[7]){ $stock_hotweek_craft_08 = $stock_hotweek_craft_08 -1; }
+				if(@bought_nameid == $item_hotweek_craft[8]){ $stock_hotweek_craft_09 = $stock_hotweek_craft_09 -1; }
+				if(@bought_nameid == $item_hotweek_craft[9]){ $stock_hotweek_craft_10 = $stock_hotweek_craft_10 -1; }
+				if(@bought_nameid == $item_hotweek_craft[10]){ $stock_hotweek_craft_11 = $stock_hotweek_craft_11 -1; }
+				if(@bought_nameid == $item_hotweek_craft[11]){ $stock_hotweek_craft_12 = $stock_hotweek_craft_12 -1; }
+				if(@bought_nameid == $item_hotweek_craft[12]){ $stock_hotweek_craft_13 = $stock_hotweek_craft_13 -1; }
+				if(@bought_nameid == $item_hotweek_craft[13]){ $stock_hotweek_craft_14 = $stock_hotweek_craft_14 -1; }
+				if(@bought_nameid == $item_hotweek_craft[14]){ $stock_hotweek_craft_15 = $stock_hotweek_craft_15 -1; }
+				if(@bought_nameid == $item_hotweek_craft[15]){ $stock_hotweek_craft_16 = $stock_hotweek_craft_16 -1; }
+				if(@bought_nameid == $item_hotweek_craft[16]){ $stock_hotweek_craft_17 = $stock_hotweek_craft_17 -1; }
+				if(@bought_nameid == $item_hotweek_craft[17]){ $stock_hotweek_craft_18 = $stock_hotweek_craft_18 -1; }
+				if(@bought_nameid == $item_hotweek_craft[18]){ $stock_hotweek_craft_19 = $stock_hotweek_craft_19 -1; }
+				if(@bought_nameid == $item_hotweek_craft[19]){ $stock_hotweek_craft_20 = $stock_hotweek_craft_20 -1; }
+				if(@bought_nameid == $item_hotweek_craft[20]){ $stock_hotweek_craft_21 = $stock_hotweek_craft_21 -1; }
+				if(@bought_nameid == $item_hotweek_craft[21]){ $stock_hotweek_craft_22 = $stock_hotweek_craft_22 -1; }
+				if(@bought_nameid == $item_hotweek_craft[22]){ $stock_hotweek_craft_23 = $stock_hotweek_craft_23 -1; }
+				if(@bought_nameid == $item_hotweek_craft[23]){ $stock_hotweek_craft_24 = $stock_hotweek_craft_24 -1; }
+				if(@bought_nameid == $item_hotweek_craft[24]){ $stock_hotweek_craft_25 = $stock_hotweek_craft_25 -1; }
+				if(@bought_nameid == $item_hotweek_craft[25]){ $stock_hotweek_craft_26 = $stock_hotweek_craft_26 -1; }
+				if(@bought_nameid == $item_hotweek_craft[26]){ $stock_hotweek_craft_27 = $stock_hotweek_craft_27 -1; }
+				if(@bought_nameid == $item_hotweek_craft[27]){ $stock_hotweek_craft_28 = $stock_hotweek_craft_28 -1; }
+				if(@bought_nameid == $item_hotweek_craft[28]){ $stock_hotweek_craft_29 = $stock_hotweek_craft_29 -1; }
+				if(@bought_nameid == $item_hotweek_craft[29]){ $stock_hotweek_craft_30 = $stock_hotweek_craft_30 -1; }
+				if(@bought_nameid == $item_hotweek_craft[30]){ $stock_hotweek_craft_31 = $stock_hotweek_craft_31 -1; }
+				if(@bought_nameid == $item_hotweek_craft[31]){ $stock_hotweek_craft_32 = $stock_hotweek_craft_32 -1; }
+				if(@bought_nameid == $item_hotweek_craft[32]){ $stock_hotweek_craft_33 = $stock_hotweek_craft_33 -1; }
+				if(@bought_nameid == $item_hotweek_craft[33]){ $stock_hotweek_craft_34 = $stock_hotweek_craft_34 -1; }
+				if(@bought_nameid == $item_hotweek_craft[34]){ $stock_hotweek_craft_35 = $stock_hotweek_craft_35 -1; }
+				if(@bought_nameid == $item_hotweek_craft[35]){ $stock_hotweek_craft_36 = $stock_hotweek_craft_36 -1; }
+				if(@bought_nameid == $item_hotweek_craft[36]){ $stock_hotweek_craft_37 = $stock_hotweek_craft_37 -1; }
+				if(@bought_nameid == $item_hotweek_craft[37]){ $stock_hotweek_craft_38 = $stock_hotweek_craft_38 -1; }
+				if(@bought_nameid == $item_hotweek_craft[38]){ $stock_hotweek_craft_39 = $stock_hotweek_craft_39 -1; }
+				if(@bought_nameid == $item_hotweek_craft[39]){ $stock_hotweek_craft_40 = $stock_hotweek_craft_40 -1; }
+				if(@bought_nameid == $item_hotweek_craft[40]){ $stock_hotweek_craft_41 = $stock_hotweek_craft_41 -1; }
+				if(@bought_nameid == $item_hotweek_craft[41]){ $stock_hotweek_craft_42 = $stock_hotweek_craft_42 -1; }
+				if(@bought_nameid == $item_hotweek_craft[42]){ $stock_hotweek_craft_43 = $stock_hotweek_craft_43 -1; }
+				if(@bought_nameid == $item_hotweek_craft[43]){ $stock_hotweek_craft_44 = $stock_hotweek_craft_44 -1; }
+				if(@bought_nameid == $item_hotweek_craft[44]){ $stock_hotweek_craft_45 = $stock_hotweek_craft_45 -1; }
+				if(@bought_nameid == $item_hotweek_craft[45]){ $stock_hotweek_craft_46 = $stock_hotweek_craft_46 -1; }
+				if(@bought_nameid == $item_hotweek_craft[46]){ $stock_hotweek_craft_47 = $stock_hotweek_craft_47 -1; }
+				if(@bought_nameid == $item_hotweek_craft[47]){ $stock_hotweek_craft_48 = $stock_hotweek_craft_48 -1; }
+				if(@bought_nameid == $item_hotweek_craft[48]){ $stock_hotweek_craft_49 = $stock_hotweek_craft_49 -1; }
+				if(@bought_nameid == $item_hotweek_craft[49]){ $stock_hotweek_craft_50 = $stock_hotweek_craft_50 -1; }
+				if(@bought_nameid == $item_hotweek_craft[50]){ $stock_hotweek_craft_51 = $stock_hotweek_craft_51 -1; }
+				if(@bought_nameid == $item_hotweek_craft[51]){ $stock_hotweek_craft_52 = $stock_hotweek_craft_52 -1; }
+				if(@bought_nameid == $item_hotweek_craft[52]){ $stock_hotweek_craft_53 = $stock_hotweek_craft_53 -1; }
+
+
+				goto OnUpdate;
+				
+				end;
+				
+				menu_not_succes:
+				
+				next;
+				
+				mes "เสียใจกับคุณ "+strcharinfo(0)+" ด้วย";
+				mes "คุณได้ทำ "+getitemname(@bought_nameid)+" ไม่สำเร็จ";
+				
+				if(.@up_percent > 0){ delitem .item_percent,.amount_percent; }
+				if(.@broken == 1){
+					mes "แต่ข้าได้รักษาวัตถุดิบไว้ได้ทั้งหมด";
+					specialeffect2 155;
+					delitem .item_broken,.amount_broken;
+					end;
+				}
+				
+				for ( .@b = 0; .@b < getarraysize(.@item_quest); .@b ++){
+					delitem .@item_quest[.@b],.@amount_quest[.@b];
+				}
+				
+				if(.@zeny_use > 0){ Zeny = Zeny -.@zeny_use; }
+				if(.@cash_use > 0){ #CASHPOINTS = #CASHPOINTS -.@cash_use; }
+				
+				specialeffect2 155;
+				
+				end;
+			
+		}
+		
+	}
+	
+end;
+
+
+
+OnloadCommand:
+	
+	mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+	
+	Switch(Select("- Clear หรือ เติมสต๊อกไอเทม:- เปิด HotWeek รอบพิเศษ:- ปิด HotWeek รอบพิเศษ")){
+		case 1:
+			
+			menu	"- เติมสต๊อกทีละชิ้น",menu_update,
+					"- ^009900เติมสต๊อกทั้งหมด^000000",Update_stock,
+					"- ^FF3300ลบสต๊อกทั้งหมด^000000",Del_stock;
+			end;
+			
+			menu_update:
+				
+				for ( .@i = 0; .@i < getarraysize($item_hotweek_craft); .@i ++) {
+					set .@menu$, .@menu$ + "- ^0000FF"+getitemname($item_hotweek_craft[.@i])+" ["+getiteminfo($item_hotweek_craft[.@i],ITEMINFO_SLOT)+"]^000000";
+					set .@menu$, .@menu$ + ":";
+				}
+				set .@part, select(.@menu$) - 1;
+				
+				next;
+				
+				if(.@part == 0){ .@stock = $stock_hotweek_craft_01; }
+				if(.@part == 1){ .@stock = $stock_hotweek_craft_02; }
+				if(.@part == 2){ .@stock = $stock_hotweek_craft_03; }
+				if(.@part == 3){ .@stock = $stock_hotweek_craft_04; }
+				if(.@part == 4){ .@stock = $stock_hotweek_craft_05; }
+				if(.@part == 5){ .@stock = $stock_hotweek_craft_06; }
+				if(.@part == 6){ .@stock = $stock_hotweek_craft_07; }
+				if(.@part == 7){ .@stock = $stock_hotweek_craft_08; }
+				if(.@part == 8){ .@stock = $stock_hotweek_craft_09; }
+				if(.@part == 9){ .@stock = $stock_hotweek_craft_10; }
+				if(.@part == 10){ .@stock = $stock_hotweek_craft_11; }
+				if(.@part == 11){ .@stock = $stock_hotweek_craft_12; }
+				if(.@part == 12){ .@stock = $stock_hotweek_craft_13; }
+				if(.@part == 13){ .@stock = $stock_hotweek_craft_14; }
+				if(.@part == 14){ .@stock = $stock_hotweek_craft_15; }
+				if(.@part == 15){ .@stock = $stock_hotweek_craft_16; }
+				if(.@part == 16){ .@stock = $stock_hotweek_craft_17; }
+				if(.@part == 17){ .@stock = $stock_hotweek_craft_18; }
+				if(.@part == 18){ .@stock = $stock_hotweek_craft_19; }
+				if(.@part == 19){ .@stock = $stock_hotweek_craft_20; }
+				if(.@part == 20){ .@stock = $stock_hotweek_craft_21; }
+				if(.@part == 21){ .@stock = $stock_hotweek_craft_22; }
+				if(.@part == 22){ .@stock = $stock_hotweek_craft_23; }
+				if(.@part == 23){ .@stock = $stock_hotweek_craft_24; }
+				if(.@part == 24){ .@stock = $stock_hotweek_craft_25; }
+				if(.@part == 25){ .@stock = $stock_hotweek_craft_26; }
+				if(.@part == 26){ .@stock = $stock_hotweek_craft_27; }
+				if(.@part == 27){ .@stock = $stock_hotweek_craft_28; }
+				if(.@part == 28){ .@stock = $stock_hotweek_craft_29; }
+				if(.@part == 29){ .@stock = $stock_hotweek_craft_30; }
+				if(.@part == 30){ .@stock = $stock_hotweek_craft_31; }
+				if(.@part == 31){ .@stock = $stock_hotweek_craft_32; }
+				if(.@part == 32){ .@stock = $stock_hotweek_craft_33; }
+				if(.@part == 33){ .@stock = $stock_hotweek_craft_34; }
+				if(.@part == 34){ .@stock = $stock_hotweek_craft_35; }
+				if(.@part == 35){ .@stock = $stock_hotweek_craft_36; }
+				if(.@part == 36){ .@stock = $stock_hotweek_craft_37; }
+				if(.@part == 37){ .@stock = $stock_hotweek_craft_38; }
+				if(.@part == 38){ .@stock = $stock_hotweek_craft_39; }
+				if(.@part == 39){ .@stock = $stock_hotweek_craft_40; }
+				if(.@part == 40){ .@stock = $stock_hotweek_craft_41; }
+				if(.@part == 41){ .@stock = $stock_hotweek_craft_42; }
+				if(.@part == 42){ .@stock = $stock_hotweek_craft_43; }
+				if(.@part == 43){ .@stock = $stock_hotweek_craft_44; }
+				if(.@part == 44){ .@stock = $stock_hotweek_craft_45; }
+				if(.@part == 45){ .@stock = $stock_hotweek_craft_46; }
+				if(.@part == 46){ .@stock = $stock_hotweek_craft_47; }
+				if(.@part == 47){ .@stock = $stock_hotweek_craft_48; }
+				if(.@part == 48){ .@stock = $stock_hotweek_craft_49; }
+				if(.@part == 49){ .@stock = $stock_hotweek_craft_50; }
+				if(.@part == 50){ .@stock = $stock_hotweek_craft_51; }
+				if(.@part == 51){ .@stock = $stock_hotweek_craft_52; }
+				if(.@part == 52){ .@stock = $stock_hotweek_craft_53; }
+
+
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "ITEM# : ^0000FF"+getitemname($item_hotweek_craft[.@part])+" ["+getiteminfo($item_hotweek_craft[.@part],ITEMINFO_SLOT)+"]^000000";
+				mes "STOCK# : ^FF9900"+.@stock+" ea^000000";
+				mes "โปรดกำหนด STOCK ใหม่";
+				input .@new;
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "ITEM# : ^0000FF"+getitemname($item_hotweek_craft[.@part])+" ["+getiteminfo($item_hotweek_craft[.@part],ITEMINFO_SLOT)+"]^000000";
+				mes "STOCK# : ^FF9900"+.@new+" ea^000000";
+				menu	"- ยืนยันการบันทึกข้อมูล",menu_ok_stock;
+				end;
+				
+				menu_ok_stock:
+					
+					if(.@part == 0){ $stock_hotweek_craft_01 = .@new; }
+					if(.@part == 1){ $stock_hotweek_craft_02 = .@new; }
+					if(.@part == 2){ $stock_hotweek_craft_03= .@new; }
+					if(.@part == 3){ $stock_hotweek_craft_04 = .@new; }
+					if(.@part == 4){ $stock_hotweek_craft_05 = .@new; }
+					if(.@part == 5){ $stock_hotweek_craft_06 = .@new; }
+					if(.@part == 6){ $stock_hotweek_craft_07 = .@new; }
+					if(.@part == 7){ $stock_hotweek_craft_08 = .@new; }
+					if(.@part == 8){ $stock_hotweek_craft_09 = .@new; }
+					if(.@part == 9){ $stock_hotweek_craft_10 = .@new; }
+					if(.@part == 10){ $stock_hotweek_craft_11 = .@new; }
+					if(.@part == 11){ $stock_hotweek_craft_12 = .@new; }
+					if(.@part == 12){ $stock_hotweek_craft_13 = .@new; }
+					if(.@part == 13){ $stock_hotweek_craft_14 = .@new; }
+					if(.@part == 14){ $stock_hotweek_craft_15 = .@new; }
+					if(.@part == 15){ $stock_hotweek_craft_16 = .@new; }
+					if(.@part == 16){ $stock_hotweek_craft_17 = .@new; }
+					if(.@part == 17){ $stock_hotweek_craft_18 = .@new; }
+					if(.@part == 18){ $stock_hotweek_craft_19 = .@new; }
+					if(.@part == 19){ $stock_hotweek_craft_20 = .@new; }
+					if(.@part == 20){ $stock_hotweek_craft_21 = .@new; }
+					if(.@part == 21){ $stock_hotweek_craft_22 = .@new; }
+					if(.@part == 22){ $stock_hotweek_craft_23 = .@new; }
+					if(.@part == 23){ $stock_hotweek_craft_24 = .@new; }
+					if(.@part == 24){ $stock_hotweek_craft_25 = .@new; }
+					if(.@part == 25){ $stock_hotweek_craft_26 = .@new; }
+					if(.@part == 26){ $stock_hotweek_craft_27 = .@new; }
+					if(.@part == 27){ $stock_hotweek_craft_28 = .@new; }
+					if(.@part == 28){ $stock_hotweek_craft_29 = .@new; }
+					if(.@part == 29){ $stock_hotweek_craft_30 = .@new; }
+					if(.@part == 30){ $stock_hotweek_craft_31 = .@new; }
+					if(.@part == 31){ $stock_hotweek_craft_32 = .@new; }
+					if(.@part == 32){ $stock_hotweek_craft_33 = .@new; }
+					if(.@part == 33){ $stock_hotweek_craft_34 = .@new; }
+					if(.@part == 34){ $stock_hotweek_craft_35 = .@new; }
+					if(.@part == 35){ $stock_hotweek_craft_36 = .@new; }
+					if(.@part == 36){ $stock_hotweek_craft_37 = .@new; }
+					if(.@part == 37){ $stock_hotweek_craft_38 = .@new; }
+					if(.@part == 38){ $stock_hotweek_craft_39 = .@new; }
+					if(.@part == 39){ $stock_hotweek_craft_40 = .@new; }
+					if(.@part == 40){ $stock_hotweek_craft_41 = .@new; }
+					if(.@part == 41){ $stock_hotweek_craft_42 = .@new; }
+					if(.@part == 42){ $stock_hotweek_craft_43 = .@new; }
+					if(.@part == 43){ $stock_hotweek_craft_44 = .@new; }
+					if(.@part == 44){ $stock_hotweek_craft_45 = .@new; }
+					if(.@part == 45){ $stock_hotweek_craft_46 = .@new; }
+					if(.@part == 46){ $stock_hotweek_craft_47 = .@new; }
+					if(.@part == 47){ $stock_hotweek_craft_48 = .@new; }
+					if(.@part == 48){ $stock_hotweek_craft_49 = .@new; }
+					if(.@part == 49){ $stock_hotweek_craft_50 = .@new; }
+					if(.@part == 50){ $stock_hotweek_craft_51 = .@new; }
+					if(.@part == 51){ $stock_hotweek_craft_52 = .@new; }
+					if(.@part == 52){ $stock_hotweek_craft_53 = .@new; }
+
+					message strcharinfo(0),"[ระบบ] : บันทึกรายการเรียบร้อย";
+					goto OnUpdate;
+					end;
+				
+			Update_stock:
+				
+				next;
+				
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "โปรดกำหนด STOCK ใหม่ทั้งหมด";
+				input .@new;
+				next;
+				mes "^FF3300[ "+strnpcinfo(0)+" ]^000000";
+				mes "STOCK ทุกชิ้น# : ^FF9900"+.@new+" ea^000000";
+				menu	"- ยืนยันการบันทึกข้อมูล",menu_ok_stock2;
+				end;
+				
+				menu_ok_stock2:
+				
+				$stock_hotweek_craft_01 = .@new;
+				$stock_hotweek_craft_02 = .@new;
+				$stock_hotweek_craft_03 = .@new;
+				$stock_hotweek_craft_04 = .@new;
+				$stock_hotweek_craft_05 = .@new;
+				$stock_hotweek_craft_06 = .@new;
+				$stock_hotweek_craft_07 = .@new;
+				$stock_hotweek_craft_08 = .@new;
+				$stock_hotweek_craft_09 = .@new;
+				$stock_hotweek_craft_10 = .@new;
+				$stock_hotweek_craft_11 = .@new;
+				$stock_hotweek_craft_12 = .@new;
+				$stock_hotweek_craft_13 = .@new;
+				$stock_hotweek_craft_14 = .@new;
+				$stock_hotweek_craft_15 = .@new;
+				$stock_hotweek_craft_16 = .@new;
+				$stock_hotweek_craft_17 = .@new;
+				$stock_hotweek_craft_18 = .@new;
+				$stock_hotweek_craft_19 = .@new;
+				$stock_hotweek_craft_20 = .@new;
+				$stock_hotweek_craft_21 = .@new;
+				$stock_hotweek_craft_22 = .@new;
+				$stock_hotweek_craft_23 = .@new;
+				$stock_hotweek_craft_24 = .@new;
+				$stock_hotweek_craft_25 = .@new;
+				$stock_hotweek_craft_26 = .@new;
+				$stock_hotweek_craft_27 = .@new;
+				$stock_hotweek_craft_28 = .@new;
+				$stock_hotweek_craft_29 = .@new;
+				$stock_hotweek_craft_30 = .@new;
+				$stock_hotweek_craft_31 = .@new;
+				$stock_hotweek_craft_32 = .@new;
+				$stock_hotweek_craft_33 = .@new;
+				$stock_hotweek_craft_34 = .@new;
+				$stock_hotweek_craft_35 = .@new;
+				$stock_hotweek_craft_36 = .@new;
+				$stock_hotweek_craft_37 = .@new;
+				$stock_hotweek_craft_38 = .@new;
+				$stock_hotweek_craft_39 = .@new;
+				$stock_hotweek_craft_40 = .@new;
+				$stock_hotweek_craft_41 = .@new;
+				$stock_hotweek_craft_42 = .@new;
+				$stock_hotweek_craft_43 = .@new;
+				$stock_hotweek_craft_44 = .@new;
+				$stock_hotweek_craft_45 = .@new;
+				$stock_hotweek_craft_46 = .@new;
+				$stock_hotweek_craft_47 = .@new;
+				$stock_hotweek_craft_48 = .@new;
+				$stock_hotweek_craft_49 = .@new;
+				$stock_hotweek_craft_50 = .@new;
+				$stock_hotweek_craft_51 = .@new;
+				$stock_hotweek_craft_52 = .@new;
+				$stock_hotweek_craft_53 = .@new;
+
+				mes "^009900** บันทึกรายการเรียบร้อย **";
+				goto OnUpdate;
+				end;
+			
+			Del_stock:
+				
+				$stock_hotweek_craft_01 = 0;
+				$stock_hotweek_craft_02 = 0;
+				$stock_hotweek_craft_03 = 0;
+				$stock_hotweek_craft_04 = 0;
+				$stock_hotweek_craft_05 = 0;
+				$stock_hotweek_craft_06 = 0;
+				$stock_hotweek_craft_07 = 0;
+				$stock_hotweek_craft_08 = 0;
+				$stock_hotweek_craft_09 = 0;
+				$stock_hotweek_craft_10 = 0;
+				$stock_hotweek_craft_11 = 0;
+				$stock_hotweek_craft_12 = 0;
+				$stock_hotweek_craft_13 = 0;
+				$stock_hotweek_craft_14 = 0;
+				$stock_hotweek_craft_15 = 0;
+				$stock_hotweek_craft_16 = 0;
+				$stock_hotweek_craft_17 = 0;
+				$stock_hotweek_craft_18 = 0;
+				$stock_hotweek_craft_19 = 0;
+				$stock_hotweek_craft_20 = 0;
+				$stock_hotweek_craft_21 = 0;
+				$stock_hotweek_craft_22 = 0;
+				$stock_hotweek_craft_23 = 0;
+				$stock_hotweek_craft_24 = 0;
+				$stock_hotweek_craft_25 = 0;
+				$stock_hotweek_craft_26 = 0;
+				$stock_hotweek_craft_27 = 0;
+				$stock_hotweek_craft_28 = 0;
+				$stock_hotweek_craft_29 = 0;
+				$stock_hotweek_craft_30 = 0;
+				$stock_hotweek_craft_31 = 0;
+				$stock_hotweek_craft_32 = 0;
+				$stock_hotweek_craft_33 = 0;
+				$stock_hotweek_craft_34 = 0;
+				$stock_hotweek_craft_35 = 0;
+				$stock_hotweek_craft_36 = 0;
+				$stock_hotweek_craft_37 = 0;
+				$stock_hotweek_craft_38 = 0;
+				$stock_hotweek_craft_39 = 0;
+				$stock_hotweek_craft_40 = 0;
+				$stock_hotweek_craft_41 = 0;
+				$stock_hotweek_craft_42 = 0;
+				$stock_hotweek_craft_43 = 0;
+				$stock_hotweek_craft_44 = 0;
+				$stock_hotweek_craft_45 = 0;
+				$stock_hotweek_craft_46 = 0;
+				$stock_hotweek_craft_47 = 0;
+				$stock_hotweek_craft_48 = 0;
+				$stock_hotweek_craft_49 = 0;
+				$stock_hotweek_craft_50 = 0;
+				$stock_hotweek_craft_51 = 0;
+				$stock_hotweek_craft_52 = 0;
+				$stock_hotweek_craft_53 = 0;
+				
+				mes "^009900** บันทึกรายการเรียบร้อย **";
+				goto OnUpdate;
+				end;
+			
+		case 2:
+			goto Onopen_npc;
+			end;
+		case 3:
+			goto Onclose_npc;
+			end;
+	}
+	end;
+
+OnUpdate:
+	
+	deletearray $item_hotweek_craft;
+	deletearray $stock_hotweek_craft;
+	
+	npcshopdelitem "hotweek_craft_shop",909;
+	
+	//							ตั้งค่ารหัสไอเทมที่ต้องการเปิดให้ Craft
+	
+	setarray $item_hotweek_craft[0]	,490221
+									,490400
+									,490229
+									,490239
+									,490288
+									,490334
+									,28565
+									,28594
+									,32258
+									,490098
+									,32204
+									,32242
+									,490038
+									,490037
+									,490096
+									,490149
+									,490118
+									,490130
+									,490104
+									,490193
+									,490068
+									,28551
+									,490146
+									,490029
+									,32222
+									,32237
+									,490113
+									,18824
+									,500064
+									,90211
+									,490402
+									,90208
+									,90219
+									,90217
+									,90210
+									,90218
+									,90213
+									,90220
+									,90221
+									,90212
+									,490415
+									,90222
+									,90223
+									,480128
+									,460024
+									,480113
+									,490376
+									,490430
+									,490394
+									,490411
+									,490418
+									,490436
+									,32263
+									;
+	
+	//							เพิ่มเติม Code สต๊อกหากเพิ่มรายการ
+	
+	setarray $stock_hotweek_craft[0]	,$stock_hotweek_craft_01
+								,$stock_hotweek_craft_02
+								,$stock_hotweek_craft_03
+								,$stock_hotweek_craft_04
+								,$stock_hotweek_craft_05
+								,$stock_hotweek_craft_06
+								,$stock_hotweek_craft_07
+								,$stock_hotweek_craft_08
+								,$stock_hotweek_craft_09
+								,$stock_hotweek_craft_10
+								,$stock_hotweek_craft_11
+								,$stock_hotweek_craft_12
+								,$stock_hotweek_craft_13
+								,$stock_hotweek_craft_14
+								,$stock_hotweek_craft_15
+								,$stock_hotweek_craft_16
+								,$stock_hotweek_craft_17
+								,$stock_hotweek_craft_18
+								,$stock_hotweek_craft_19
+								,$stock_hotweek_craft_20
+								,$stock_hotweek_craft_21
+								,$stock_hotweek_craft_22
+								,$stock_hotweek_craft_23
+								,$stock_hotweek_craft_24
+								,$stock_hotweek_craft_25
+								,$stock_hotweek_craft_26
+								,$stock_hotweek_craft_27
+								,$stock_hotweek_craft_28
+								,$stock_hotweek_craft_29
+								,$stock_hotweek_craft_30
+								,$stock_hotweek_craft_31
+								,$stock_hotweek_craft_32
+								,$stock_hotweek_craft_33
+								,$stock_hotweek_craft_34
+								,$stock_hotweek_craft_35
+								,$stock_hotweek_craft_36
+								,$stock_hotweek_craft_37
+								,$stock_hotweek_craft_38
+								,$stock_hotweek_craft_39
+								,$stock_hotweek_craft_40
+								,$stock_hotweek_craft_41
+								,$stock_hotweek_craft_42
+								,$stock_hotweek_craft_43
+								,$stock_hotweek_craft_44
+								,$stock_hotweek_craft_45
+								,$stock_hotweek_craft_46
+								,$stock_hotweek_craft_47
+								,$stock_hotweek_craft_48
+								,$stock_hotweek_craft_49
+								,$stock_hotweek_craft_50
+								,$stock_hotweek_craft_51
+								,$stock_hotweek_craft_52
+								,$stock_hotweek_craft_53
+								;
+	
+	for ( .@a = 0; .@a < getarraysize($item_hotweek_craft); .@a ++ ){
+		npcshopdelitem "hotweek_craft_shop",$item_hotweek_craft[.@a];
+	}
+	
+	for ( .@i = 0; .@i < getarraysize($item_hotweek_craft); .@i ++ ){
+		npcshopadditem "hotweek_craft_shop",$item_hotweek_craft[.@i],$stock_hotweek_craft[.@i];
+	}
+	
+	end;
+	
+OnInit:
+	
+	//hideonnpc ""+strnpcinfo(0)+"";	
+	
+	.item_broken = 1300086;			//	ใส่เลขไอเทม กันแตก
+	.amount_broken = 100;				//	กำหนดจำนวน กันแตก
+	.item_percent = 1300087;		//	ใส่เลขไอเทม ใบเพิ่ม % สำเร็จ
+	.amount_percent = 100;			//	กำหนดจำนวน ใบเพิ่ม %
+	.percent_up = 20;				//	ใส่ % ใช้ใบเพิ่มโอกาสสำเร็จ
+	
+	waitingroom "Craft Item",0;		//	ตั้งชือป้าย Waitingroom
+	
+	//	===================================================================================================	//
+	//	0 = Sunday / 1 = Monday / 2 = Tuesday / 3 = Wednesday / 4 = Thursday / 5 = Friday / 6 = Saturday	//
+	//	===================================================================================================	//
+		$day_of_hotweek_craft = 0;		//	ตั้งค่าสำหรับวันที่จะรีเซ็ตอันดับ
+	//	===================================================================================================	//	
+
+	bindatcmd "hotweek_craft",strnpcinfo(3) + "::OnloadCommand",99,0;
+	goto OnUpdate;		
+	end;
+
+}
+

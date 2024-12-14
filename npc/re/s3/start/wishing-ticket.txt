@@ -1,0 +1,156 @@
+prontera,147,171,6	script	ลูกแก้วแห่งความปรารถนา	10308,{
+	if($isEndOfService)
+	menu "ระบุเลข Item ที่ต้องการเลย",L_EndOfService,"ใช้งาน NPC ตามปกติ",-;
+	.@weaponCost = 25;
+	.@equipmentCost = 5;
+	.@cardCost = 100;
+	.@enchantmentCost = 250;
+	mes "ใช้ " + mesitemlink($wishingTicketItemId,true) + " ในการสุ่ม";
+	mes "Weapon ใช้ [^af1ada" + F_InsertComma(.@weaponCost) + " ชิ้น^000000]";
+	mes "Armor ใช้ [^af1ada" + F_InsertComma(.@equipmentCost) + " ชิ้น^000000]";
+	mes "Card ใช้ [^af1ada" + F_InsertComma(.@cardCost) + " ชิ้น^000000]";
+	mes "Enchantment ใช้ [^af1ada" + F_InsertComma(.@enchantmentCost) + " ชิ้น^000000]";
+	.@wishingTicketAmount = countitem($wishingTicketItemId);
+	if(!.@wishingTicketAmount){
+		next;
+		mes mesitemlink($wishingTicketItemId,true) + " ไม่เพียงพอ";
+		close;		
+	}
+	next;
+	menu
+	"Weapon",-
+	,"Armor",L_Armor
+	,"Card",L_Card
+	,"Enchantment",L_Enchantment
+	;
+	
+	setarray .@subType$[0],"One-Handed Sword","Two-Handed Sword","Dagger","Katar","One-Handed Axe","Two-Handed Axe","Huuma","Mace","One-Handed Spear","Two-Handed Spear","Two-Handed Staff","Book","Staff","Bow","Knuckle","Musical","Whip","Revolver","Rifle","Shotgun","Gatling Gun","Grenade Launcher";
+	for(.@i = 0; .@i < getarraysize(.@subType$); .@i++)
+	.@menu$ += .@subType$[.@i] + ":";
+
+	.@index = (select(.@menu$) - 1);
+	.@saveIndex = .@index;
+	if(.@index >= 14)
+	.@index++;
+	if(.@index >= 18)
+	.@index++;
+
+	.@variableName$ = $subType$[.@index];
+	.@cost = .@weaponCost;
+	.@mes$ = "ต้องการสุ่ม " + .@subType$[.@saveIndex] + " กี่รอบ?";
+	goto L_Confirmation;
+	
+	L_Armor:
+	setarray .@location$[0],"Shield","Head-Middle","Head-Top","Head-Low","Head-Middle-Top","Head-Low-Middle-Top","Head-Low-Middle","Armor","Shoes","Garment","Accessory","Head-Low-Top","Head-Top-Middle","Costume Head-Top","Costume Head-Middle","Costume Head-Low","Shadow Armor","Left Accessory","Costume Garment","Head-Top-Middle-Low","Head-Middle-Low","Head-Top-Low","Costume Head-Middle-Low","Costume Head-Top-Middle","Costume Head-Top-Middle-Low","Costume Head-Top-Low","Shadow Weapon","Shadow Shield","Shadow Shoes","Shadow Right Accessory","Shadow Left Accessory","Right Accessory";
+	for(.@i = 0; .@i < getarraysize(.@location$); .@i++)
+	.@menu$ += .@location$[.@i] + ":";
+
+	.@index = (select(.@menu$) - 1);
+
+	.@variableName$ = $location$[.@index];
+	.@cost = .@equipmentCost;
+	.@mes$ = "ต้องการสุ่ม " + .@location$[.@index] + " กี่รอบ?";
+	goto L_Confirmation;
+	
+	L_Card:
+	.@variableName$ = "card2Ids";
+	.@cost = .@cardCost;
+	.@mes$ = "ต้องการสุ่ม Card กี่รอบ?";
+	goto L_Confirmation;
+	
+	L_Enchantment:
+	.@variableName$ = "enchant2Ids";
+	.@cost = .@enchantmentCost;
+	.@mes$ = "ต้องการสุ่ม Enchantment กี่รอบ?";
+	goto L_Confirmation;
+	
+	L_Confirmation:
+	.@wishingTicketAmount = .@wishingTicketAmount / .@cost;
+	if(!.@wishingTicketAmount){
+		mes mesitemlink($wishingTicketItemId,true) + " ไม่เพียงพอ";
+		close;		
+	}
+	mes .@mes$;
+	mes "(0~" + F_InsertComma(.@wishingTicketAmount) + ")";
+	mes "^d32323(ระบุ 99999 เพื่อใช้ระบบ สุ่มแล้วทิ้งจนกว่าจะเจอ Item ที่ต้องการ)^000000";
+	mes "^1c9311(หากมี " + mesitemlink($godTicketItemId,true) + " จะทำให้เจอง่ายขึ้น 20%)^000000";
+	input .@i;
+	if(.@i == 99999){
+		mes "โปรดระบุ Item ID ที่ต้องการในหมวดนี้";
+		input .@wishItemId;
+		clear;
+		if(.@wishItemId <= 0){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		freeloop(1);
+		for(.@i = 0; .@i < getarraysize(getd("$" + .@variableName$)); .@i++){
+			if(.@wishItemId == getd("$" + .@variableName$ + "[" + .@i + "]")){
+				.@isFoundWishItemId = 1;
+				break;
+			}
+		}
+		freeloop(0);
+		if(!.@isFoundWishItemId){
+			mes "ยกเลิกเรียบร้อยแล้ว";
+			close;
+		}
+		mes "คุณต้องการ " + mesitemlink(.@wishItemId,true);
+		mes "ใช้ [^af1ada" + mesitemlink($wishingTicketItemId,true) + " " + F_InsertComma(.@cost) + " ชิ้น^000000] ไปเรื่อย ๆ จนกว่าจะเจอ";
+		next;
+		menu "ยกเลิก",-,"ยืนยัน",L_WishConfirm;
+		close;
+		L_WishConfirm:
+		.@i = .@wishingTicketAmount;
+	}
+	if((.@i <= 0) || (.@i > .@wishingTicketAmount)){
+		mes "ยกเลิกเรียบร้อยแล้ว";
+		close;
+	}
+	freeloop(1);
+	specialeffect2 509;
+	while(.@i){
+		if(IsInventoryFull()){
+			mes "ไม่สามารถแบกของเพิ่มได้อีกแล้ว";
+			close;
+		}
+		.@i--;
+		delitem $wishingTicketItemId,.@cost;
+		if(.@wishItemId){
+			if(countitem($godTicketItemId)){
+				delitem $godTicketItemId,1;
+				if(rand(100) < 20){
+					getitem .@wishItemId,1;
+					announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ! (โดยใช้ " + getitemname($godTicketItemId) + " ด้วย)",bc_all;
+					break;
+				}
+			}
+			.@currentRewardItemId = getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]");
+			if(.@wishItemId != .@currentRewardItemId)
+			dispbottom "คุณสุ่มได้ " + getitemname(.@currentRewardItemId) + " และทิ้งไป";
+			else{
+				getitem .@wishItemId,1;
+				announce strcharinfo(0) + " สุ่มจนกว่าจะเจอ " + getitemname(.@wishItemId) + " สำเร็จ!",bc_all;
+				break;
+			}
+		}
+		else
+		getitem getd("$" + .@variableName$ + "[" + rand(getarraysize(getd("$" + .@variableName$))) + "]"),1;
+	}
+	freeloop(0);
+	close;
+	
+	L_EndOfService:
+	mes "ระบุ Item ID ที่ต้องการ";
+	next;
+	input .@itemId;
+	mes "ระบุจำนวน Item ที่ต้องการ";
+	next;
+	input .@itemAmount;
+	getitem .@itemId,.@itemAmount;
+	close;
+	
+OnInit:
+	waitingroom "สุ่มรับ Item",0;
+	end;
+}

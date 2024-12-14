@@ -1,0 +1,95 @@
+//===== rAthena Script =======================================
+//= Mysterious Combination Bundle
+//===== By: ================================================== 
+//= mr.TAURUS
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//============================================================
+
+function	script	Bs_Making_S	{
+	//Script for item 23817 : Mysterious Combination Scroll Bundle
+	//Item List.
+	setarray .ITEM_LIST,
+		23818,	//Orc Hero Headdress Combination
+		23819,	//Crimson Rose Combination Scroll
+		23820,	//Grand Peco Headdress Combination Scroll
+		23821,	//Moonlight Flower Hat Combination Scroll
+		23822,	//8Way Wings of Purgatory Combination Scroll
+		23823,	//Drooping Neko Crew Combination Scroll
+		23824,	//World Cup Hat of Honor Combination Scroll
+		23825,	//Evil Marching Hat Combination Scroll
+		23826,	//Wandering Wolf King Helmet Combination Scroll
+		23827,	//Status Shadow Combination Scroll
+		23828,	//Elegant Shadow Combination Scroll
+		23829,	//Tension Shadow Combination Scroll
+		23830,	//Restore Shadow Combination Scroll
+		23831,	//Healing Shadow Combination Scroll
+		23832,	//Amistr Cap Combination Scroll
+		23833,	//Tiger King Doll Hat Combination Scroll
+		23834,	//Bacsojin Doll Hat Combination Scroll
+		23835,	//Candy Pouch Bag Combination Scroll
+		23836,	//Gold Fish Head Hat Combination Scroll
+		23837,	//Survival Combination Scroll
+		23838,	//Toy Syringe Combination Scroll
+		23839,	//Blue Rear Ribbon Combination Scroll
+		23840,	//Magical Booster Combination Scroll
+		23841,	//Rosario Necklace Combination Scroll
+		23842,	//Elemental Crown Combination Scroll
+		23843,	//Palace Guard Cap Combination Scroll
+		23844,	//Bandit's Bandana Combination Scroll
+		23845,	//Fallen Angel Blessing Combination Scroll
+		23846,	//Rabbit Magic hat Combination Scroll
+		23847,	//Anubis Helm Combination Scroll
+		23848,	//Imp Hat Combination Scroll
+		23849,	//Red Marching Hat Combination Scroll
+		23850,	//Mask of Ifrit Combination Scroll
+		23851,	//Drooping Incarnation of Morocc Combination Scroll
+		23852,	//Samambaia Combination Scroll
+		23853,	//Chick Hat Combination Scroll
+		23854,	//Class Shadow Combination Scroll
+		23855,	//Spell Shadow Combination Scroll
+		23856,	//Size Shadow Combination Scroll
+		23857,	//Race Shadow Combination Scroll
+		23858,	//Stability Shadow Combination Scroll
+		23859,	//Special Shadow Combination Scroll
+		23860,	//Physical Shadow Combination Scroll
+		23861,	//Magical Shadow Combination Scroll
+		23862,	//EXP Shadow Combination Scroll
+		23863,	//Mad Bunny Combination Scroll
+		23864,	//Archangel's Wings Combination Scroll
+		23865,	//Smokey's Transformation Leaf Combination Scroll
+		23866,	//Ears of Ifrit Combination Scroll
+		23867,	//Heart Wings Hairband Combination Scroll
+		23868,	//Sigrun's Wings Combination Scroll
+		23869,	//Cat Headdress Combination Scroll
+		23870,	//Noble Mask Combination Scroll
+		23871,	//Gemstone Shadow Combination Scroll
+		23872,	//Bearer's Shadow Combination Scroll
+		23873,	//Hasty Shadow Combination Scroll
+		23874,	//Critical Shadow Combination Scroll
+		23875,	//Mortal Blow Shadow Combination Scroll
+		23876,	//Fallen Angel Wings Combination Scroll
+		23877,	//Adventurer's Backpack Combination Scroll
+		23879,	//Spell Circuit Combination Scroll
+		23880,	//New Wave Sunglasses Combination Scroll
+		23881,	//Gigant Snake's Breath Combination Scroll
+		23882,	//Judge Hat Combination Scroll
+		23883,	//Dog Officer Combination Scroll
+		23884,	//Classical Feather Hat Combination Scroll
+		23885,	//Amistr Beret Combination Scroll
+		23886,	//General's Helm Combination Scroll
+		23887,	//Cursed Knight's Shield Combination Scroll
+		23888,	//Penetration Shadow Combination Scroll
+		23889,	//Tempest Shadow Combination Scroll
+		23890,	//Blitz Shadow Combination Scroll
+		23891,	//Reload Shadow Combination Scroll
+		23892,	//Force&Spirit Shadow Combination Scroll
+		23893,	//Infinity Shadow Combination Scroll
+		23894;	//Wickebine's Black Cat Ears Combination Scroll
+		
+	.@i = .ITEM_LIST[rand(getarraysize(.ITEM_LIST))];
+	getitem .@i,1;
+	end; 
+}

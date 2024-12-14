@@ -1,0 +1,424 @@
+morocc,148,87,2	script	Event Wandering Mind#JCv3	4_CENERE,{
+	disable_items;
+	npctalk "Kkk... ฉันสามารถ... รู้สึกได้...", "", bc_self;
+	mes "[Wandering Mind]";
+	mes "Kkk... ฉันสามารถ... สัมผัสได้... ความเคียดแค้น... ของ...วิชานับไม่ถ้วน...";
+	next;
+	npctalk "ฉันเป็นใคร?...", "", bc_self;
+	mes "[Wandering Mind]";
+	mes "ที่ไหน... ที่นี่?... ที่นี่?... อ๊าก... ใคร... คือ... ฉัน?... ฉันจำไม่ได้...";
+	next;
+	mes "[Wandering Mind]";
+	mes "ฉันต้องการ... ความแค้น... ความแค้น... ความแข็งแกร่ง... พลัง... มันจะช่วย... ทั้งฉัน... และคุณ... ทั้งหมด... Kkk...";
+	next;
+	switch( select( "เสริมพลัง Old Helmet", "รีเซ็ต Old Helmet", "คำอธิบายการเสรีมพลัง Old Helmet" ) ) {
+	case 1:
+		npctalk "หยิบยื่น...แค้น...แค้น...", "", bc_self;
+		mes "[Wandering Mind]";
+		mes "กร๊ากกก...อิอิ...มอบ...ความแค้น...ความแค้น...พลังอันแรงกล้า...ฉันจะเสก...พลังพิเศษ...ใส่หมวกกันน็อค...";
+		mes "^FF0000*หากคุณนำ Cursed Fragment มาด้วย คุณสามารถเสริมพลัง Old Helmet ได้*^000000";
+		next;
+		.@equip_id = getequipid(EQI_HEAD_TOP);
+		switch(.@equip_id) {
+			case 18971:// Old_Rune_Circlet
+			case 18972:// Old_Mitra
+			case 18973:// Old_Driver_Band_R
+			case 18974:// Old_Driver_Band_Y
+			case 18975:// Old_Shadow_Handicraft
+			case 18976:// Old_Minstrel_Song_Hat
+			case 18977:// Old_Midas_Whisper
+			case 18978:// Old_Magic_Stone_Hat
+			case 18979:// Old_Blazing_Soul
+			case 18980:// Old_Wind_Whisper
+			case 18981:// Old_Dying_Swan
+			case 18982:// Old_Circlet_Of_Bone
+			case 18983:// Old_Protect_Of_Crown
+			case 18984:// Old_Camo_RabbitHood
+				break;
+			default:
+				npctalk "ทำลายมัน... ทำลายมัน...", "", bc_self;
+				mes "[Wandering Mind]";
+				mes "นี่มัน...น่าสนใจ...ในหมวกใบนั้น...ไม่มีน้ำหอม...เต็มไปด้วยพลังพิเศษ...คุณต้องการ...การทำลายล้าง...? kkk...";
+				mes "^FF0000*ใช้ Cursed Fragment เสริมพลังหมวก Old Helmet.*^000000";
+				close;
+		}
+		mes "[Wandering Mind]";
+	
+		.@requirement = 10;	// 10 Cursed Fragments by default
+		setarray .@card[0], getequipcardid(EQI_HEAD_TOP,0), getequipcardid(EQI_HEAD_TOP,1), getequipcardid(EQI_HEAD_TOP,2), getequipcardid(EQI_HEAD_TOP,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+	
+		if (.@card[3] == 0) {
+			.@slot = 3;
+			mes "เอาไงดี...เริ่ม...เบาๆ?...ทดสอบ...ดวง...คริ..ฮิฮิ...";
+			mes "^FF0000*พยายามร่ายมนตร์ไปที่ช่องที่ 4 สถานะหนึ่งใน 6 สถานะถูกทำให้ลุ่มหลงแบบสุ่ม.*^000000";
+		}
+		else if (.@card[2] == 0) {
+			.@slot = 2;
+			mes "Kr... hehe... Do... you like... your... first... enchantment?...";
+			mes "^FF0000*พยายามร่ายมนตร์ไปที่ช่องที่ 3 สถานะหนึ่งใน 6 สถานะถูกทำให้ลุ่มหลงแบบสุ่ม*^000000";
+		}
+		else if (.@card[1] == 0) {
+			.@slot = 1;
+			mes "คริ...อิอิ... จะมี... ประตู... ที่จะได้มา... พลังที่แข็งแกร่งกว่านี้อีกไหม... จะ... ตัดสินใจ... เอาล่ะ...";
+			mes "^FF0000*พยายามร่ายมนตร์ไปยังช่องที่ 2";
+			mes "เมื่อคุณประสบความสำเร็จใน Mettle, Magic Essence, Acute, Master Archer, Adamantine, เสน่ห์เสน่หา จะสามารถเสริมกำลังได้*^000000";
+		}
+		else {
+			// enchant leveling
+			switch( .@card[1] ) {
+			case 29061:	// Ambition1Lv
+			case 29071:	// Tab1Lv
+			case 29081:	// Expect1Lv
+			case 29091:	// ArchLine1Lv
+			case 29101:	// Steel1Lv
+			case 29111:	// Mercy1Lv
+				mes "ค...เขา...เขา...คุณ...โชคดี...ขอให้...ประสบผลสำเร็จทุกประการ!...จากนั้น...คุณจะมาเยี่ยมฉัน...กับอีก แค้น... ผมว่า...";
+				.@requirement = 20;
+				.@enchant_level = 1;
+				.@enchant_rate = 90;
+				break;
+			case 29062:	// Ambition2Lv
+			case 29072:	// Tab2Lv
+			case 29082:	// Expect2Lv
+			case 29092:	// ArchLine2Lv
+			case 29102:	// Steel2Lv
+			case 29112:	// Mercy2Lv
+				mes "ระดับที่ 3... ระดับ... การเสริมกำลัง?... หากคุณทำสำเร็จ... คุณจะ... ได้รับ... พลังที่แข็งแกร่งขึ้นมาก... แต่ถ้าคุณล้มเหลว... คุณจะสูญเสียพลังไป... ที่รวบรวมไว้...ถึงตอนนี้...";
+				.@requirement = 40;
+				.@enchant_level = 2;
+				.@enchant_rate = 80;
+				break;
+			case 29063:	// Ambition3Lv
+			case 29073:	// Tab3Lv
+			case 29083:	// Expect3Lv
+			case 29093:	// ArchLine3Lv
+			case 29103:	// Steel3Lv
+			case 29113:	// Mercy3Lv
+				mes "ระดับที่ 4... ระดับ... การเสริมกำลัง?... หากคุณทำสำเร็จ... คุณจะ... ได้รับ... พลังที่แข็งแกร่งขึ้นมาก... แต่ถ้าคุณล้มเหลว... คุณจะสูญเสียพลังไป... ที่รวบรวมไว้...ถึงตอนนี้...";
+				.@requirement = 50;
+				.@enchant_level = 3;
+				.@enchant_rate = 70;
+				break;
+			case 29064:	// Ambition4Lv
+			case 29074:	// Tab4Lv
+			case 29084:	// Expect4Lv
+			case 29094:	// ArchLine4Lv
+			case 29104:	// Steel4Lv
+			case 29114:	// Mercy4Lv
+				mes "ชั้นที่ 5... ระดับ... กำลังเสริม?... คุณ... พร้อม... ที่จะควบคุม... . น่า...ได้ดู...";
+				.@requirement = 70;
+				.@enchant_level = 4;
+				.@enchant_rate = 60;
+				break;
+			case 29065:	// Ambition5Lv
+			case 29075:	// Tab5Lv
+			case 29085:	// Expect5Lv
+			case 29095:	// ArchLine5Lv
+			case 29105:	// Steel5Lv
+			case 29115:	// Mercy5Lv
+				mes "6... ระดับ... กำลังเสริม?... คุณ... พร้อม... ที่จะควบคุม... . น่า...ได้ดู...";
+				.@requirement = 100;
+				.@enchant_level = 5;
+				.@enchant_rate = 50;	// unknown rates
+				break;
+			case 29066:	// Ambition6Lv
+			case 29076:	// Tab6Lv
+			case 29086:	// Expect6Lv
+			case 29096:	// ArchLine6Lv
+			case 29106:	// Steel6Lv
+			case 29116:	// Mercy6Lv
+				// custom text
+				mes "ชั้นที่ 7... ระดับ... กำลังเสริม?... คุณ... พร้อม... ที่จะควบคุม... . น่า...ได้ดู...";
+				.@requirement = 150;
+				.@enchant_level = 6;
+				.@enchant_rate = 40;	// unknown rates
+				break;
+			case 29067:	// Ambition7Lv
+			case 29077:	// Tab7Lv
+			case 29087:	// Expect7Lv
+			case 29097:	// ArchLine7Lv
+			case 29107:	// Steel7Lv
+			case 29117:	// Mercy7Lv
+				// custom text
+				mes "8... ระดับ... กำลังเสริม?... คุณ... พร้อม... ที่จะควบคุม... . น่า...ได้ดู...";
+				.@requirement = 250;
+				.@enchant_level = 7;
+				.@enchant_rate = 30;	// unknown rates
+				break;
+			case 29068:	// Ambition8Lv
+			case 29078:	// Tab8Lv
+			case 29088:	// Expect8Lv
+			case 29098:	// ArchLine8Lv
+			case 29108:	// Steel8Lv
+			case 29118:	// Mercy8Lv
+				// custom text
+				mes "9... ระดับ... กำลังเสริม?... คุณ... พร้อม... ที่จะควบคุม... . น่า...ได้ดู...";
+				.@requirement = 500;
+				.@enchant_level = 8;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29069:	// Ambition9Lv
+			case 29079:	// Tab9Lv
+			case 29089:	// Expect9Lv
+			case 29099:	// ArchLine9Lv
+			case 29109:	// Steel9Lv
+			case 29119:	// Mercy9Lv
+				// custom text
+				mes "10... ระดับ... กำลังเสริม?... คุณ... พร้อม... ที่จะควบคุม... . น่า...ได้ดู...";
+				.@requirement = 1000;
+				.@enchant_level = 9;
+				.@enchant_rate = 20;	// unknown rates
+				break;
+			case 29070:	// Ambition10Lv
+			case 29080:	// Tab10Lv
+			case 29090:	// Expect10Lv
+			case 29100:	// ArchLine10Lv
+			case 29110:	// Steel10Lv
+			case 29120:	// Mercy10Lv
+				// custom text
+			default:
+				mes "Krr hehe... เป็นไปไม่ได้...ที่จะเสริม...พลังนี้...เหลือทางเดียวคือ...รีเซ็ต...";
+				mes "^FF0000*Mettle, Magic Spirit, Vigor, Bull's Eye, Adamantine, Benevolence";
+				mes "คุณสามารถเสริมระดับความลุ่มหลงได้เฉพาะเมื่ออุปกรณ์ถูกทำให้ลุ่มหลง*^000000";
+				close;
+			}
+			.@slot = 999;
+		}
+		next;
+		mes "[Wandering Mind]";
+		mes "อย่างไรก็ตาม...ก่อนที่จะเกิดขึ้น...ต้องขอตรวจสอบ...ว่ามี Cursed Fragments...เพียงพอหรือไม่  ";
+		next;
+		mes "[Wandering Mind]";
+		mes "Cursed... Fragments..." + .@requirement + " กำลัง... จำเป็น... ฉันสงสัย... ว่า... คุณสามารถจ่าย...... kk... kk...";
+		mes "^FF0000*In enchantment, " + .@requirement + " Cursed Fragment(s) is(are) required.*^000000";
+		next;
+		if (select( "Pay fee.", "Do not pay fee." ) == 2) {
+			mes "[Wandering Mind]";
+			mes "K...kk... ดูเหมือนว่า...คุณยังไม่...พร้อมที่จะรับ...พลังมหาศาลขนาดนั้น...กระนั้น...";
+			close;
+		}
+		if (countitem(23016) < .@requirement) {// Cursed Fragment
+			mes "[Wandering Mind]";
+			mes "K...kk... นี่นาย... ล้อเล่น... ฉันเหรอ... ทำไม... นายถึง... โหยหา... พลัง... ด้วยความแค้นเล็กๆ น้อยๆ แบบนี้?...";
+			mes "^FF0000*In enchantment, Cursed Fragment(s) 10 item(s) is(are) required.";
+			mes "ตรวจสอบจำนวน Cursed Fragments ของคุณด้วย.*^000000";
+			close;
+		}
+		mes "[Wandering Mind]";
+		mes "Krr.. hehe... มันคือ...พลังแห่งความเคียดแค้น...ฉันคิดว่า...พลังนี้...แข็งแกร่ง...พอที่จะ...";
+		mes "^FF0000*ระดับการถลุงอุปกรณ์ การ์ด การสูญเสียอุปกรณ์จะไม่เกิดขึ้น อย่างไรก็ตาม ระดับความลุ่มหลงอาจถูกลดระดับลง ขึ้นอยู่กับความสำเร็จหรือความล้มเหลว*^000000";
+		next;
+		if (select( "ทำการเสริมพลัง.", "ไม่ทำการเสริมพลัง." ) == 2) {
+			mes "[Wandering Mind]";
+			mes "K...kk... ดูเหมือนว่า...คุณยังไม่...พร้อมที่จะรับ...พลังมหาศาลขนาดนั้น...กระนั้น...";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 23016, .@requirement;// Cursed Fragment
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HEAD_TOP, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_TOP, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_TOP, .@refine))
+			close;
+
+		switch(.@slot) {
+		case 3:
+		case 2:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4704,	// Strength5
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4714,	// Inteligence5
+				4720,	// Dexterity1
+				4721,	// Dexterity2
+				4722,	// Dexterity3
+				4723,	// Dexterity4
+				4724,	// Dexterity5
+				4730,	// Agility1
+				4731,	// Agility2
+				4732,	// Agility3
+				4733,	// Agility4
+				4734,	// Agility5
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4744,	// Vitality5
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753,	// Luck4
+				4754;	// Luck5
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];	// unknown rates
+			break;
+		case 1:
+			setarray .@enchant[0],
+				4703,	// Strength4
+				4704,	// Strength5
+				4713,	// Inteligence4
+				4714,	// Inteligence5
+				4723,	// Dexterity4
+				4724,	// Dexterity5
+				4733,	// Agility4
+				4734,	// Agility5
+				4743,	// Vitality4
+				4744,	// Vitality5
+				4753,	// Luck4
+				4754,	// Luck5
+				29061,	// Ambition1Lv
+				29071,	// Tab1Lv
+				29081,	// Expect1Lv
+				29091,	// ArchLine1Lv
+				29101,	// Steel1Lv
+				29111;	// Mercy1Lv
+			.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];	// unknown rates
+			break;
+		case 999:
+			// enchant leveling
+			if (.@enchant_rate > rand(100))
+				.@level_dt = 1;
+			else
+				.@level_dt = -1;
+			.@enchant_level += .@level_dt;
+			.@card[1] += .@level_dt;
+			if (.@card[1] < 29061 || .@card[1] > 29120) {
+				mes "[Wandering Mind]";
+				mes "สิ่งเลวร้ายเกิดขึ้น.";
+				close;
+			}
+			if (.@enchant_level < 1 || .@enchant_level > 10) {
+				// item not deleted
+				specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Wandering Mind]";
+				mes "K..aargh...!! พลังแห่งความเคียดแค้น...ถูกขับเคลื่อน...ให้บ้าคลั่ง...อย่างไรก็ตาม...โชคดีที่มันไม่ระเบิดเพราะพลัง...กำลัง....อ่อนแอ.";
+				close;
+			}
+			break;
+		default:
+			mes "[Wandering Mind]";
+			mes "สิ่งเลวร้ายเกิดขึ้น.";
+			close;
+		}
+		delequip EQI_HEAD_TOP;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		if (.@level_dt == -1) {// can only happens during enchant leveling
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Wandering Mind]";
+			mes "K..aargh...!! พลังความเคียดแค้น...ถูกขับเคลื่อน...ให้บ้าคลั่ง...พลัง...ที่เคย...มั่นคง...ก็ลดลง...ลดลงหนึ่งระดับ...";
+			mes "^FF0000*เนื่องจากความล้มเหลวในการร่ายมนตร์ จึงถูกลดระดับลงหนึ่งระดับ.*^000000";
+			close;
+		}
+		specialeffect2 EF_FIREHIT;
+		mes "[Wandering Mind]";
+		mes "มัน...คือความสำเร็จ ฉันรู้สึกได้ว่าพลังของความแค้นนั้นแข็งแกร่งขึ้น.";
+		mes "^FF0000*ยินดีด้วย คุณประสบความสำเร็จในการร่ายมนต์.*^000000";
+		close;
+	case 2:
+		.@equip_id = getequipid(EQI_HEAD_TOP);
+		switch(.@equip_id) {
+			case 18971:// Old_Rune_Circlet
+			case 18972:// Old_Mitra
+			case 18973:// Old_Driver_Band_R
+			case 18974:// Old_Driver_Band_Y
+			case 18975:// Old_Shadow_Handicraft
+			case 18976:// Old_Minstrel_Song_Hat
+			case 18977:// Old_Midas_Whisper
+			case 18978:// Old_Magic_Stone_Hat
+			case 18979:// Old_Blazing_Soul
+			case 18980:// Old_Wind_Whisper
+			case 18981:// Old_Dying_Swan
+			case 18982:// Old_Circlet_Of_Bone
+			case 18983:// Old_Protect_Of_Crown
+			case 18984:// Old_Camo_RabbitHood
+				break;
+			default:
+				npctalk "Destroy it... Destroy it...", "", bc_self;
+				mes "[Wandering Mind]";
+				mes "This is... interesting... In that helmet... there is no fragrance... filled with a special power... Do you want... destruction...? kkk...";
+				mes "^FF0000*Enchantment using Cursed Fragments is only possible in the Old Helmet.*^000000";
+				close;
+		}
+		setarray .@card[0], getequipcardid(EQI_HEAD_TOP,0), getequipcardid(EQI_HEAD_TOP,1), getequipcardid(EQI_HEAD_TOP,2), getequipcardid(EQI_HEAD_TOP,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+
+		if (.@card[3] < 1) {// one enchant required
+			npctalk "You are... very calm...", "", bc_self;
+			mes "[Wandering Mind]";
+			mes "kkk... ท่านดูสงบนิ่ง...ไม่มีอำนาจ...บรรจุอยู่...ในสิ่งของ...ที่ข้าพเจ้าให้...แก่ท่าน...";
+			mes "^FF0000*หมวกใบนี้ไม่ได้ถูกร่ายมนตร์ ดังนั้นจึงไม่สามารถรีเซ็ตได้*^000000";
+			close;
+		}
+		npctalk "Krr... hehe... จะกิน...ก็...วันนี้...", "", bc_self;
+		mes "[Wandering Mind]";
+		mes "Kkk... You don't... like this power?... Bring me 10 mind powers... Then, I'll make this power... disappear...";
+		mes "^FF0000*ข้าต้องการ 10 Sentimental Fragments เพื่อรีเซ็ต";
+		mes "รีเซ็ตพลังเสริมทั้งหมดที่ Old Helmet ยกเว้นระดับตีบวกอุปกรณ์และการ์ดจะไม่ถูกรีเซ็ต*^000000";
+		next;
+		if (select( "Ignore him.", "Pay fee." ) == 1) {
+			npctalk "ตลอดไป...", "", bc_self;
+			mes "[Wandering Mind]";
+			mes "ฉันจะ... รอ... คุณ... ถ้าคุณต้องการให้ฉัน... ฉันจะรอคุณ... ตลอดไป... kkk...";
+			close;
+		}
+		if (countitem(22687) < 10) {// Sentimental Fragment
+			mes "Kk..k... If you... don't bring...";
+			mes "พลังใจ 10 ประการ... จะ... เดือดร้อน...";
+			mes "^FF0000*ข้าต้องการ 10 Sentimental Fragments เพื่อรีเซ็ต";
+			mes "ตรวจสอบจำนวน Sentimental Fragments ที่คุณมี.*^000000";
+			close;
+		}
+		npctalk "K... kk...", "", bc_self;
+		mes "[Wandering Mind]";
+		mes "Fine!... I'll... reset... the enchantment... of the old helmet... I think... we may be able to absorb... a strong mind...";
+		next;
+		progressbar "000000",2;
+		specialeffect2 EF_FIREHIT;
+		delitem 22687,10;// Sentimental Fragment
+
+		if (callfunc("F_IsEquipIDHack", EQI_HEAD_TOP, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_TOP, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_TOP, .@refine))
+			close;
+
+		delequip EQI_HEAD_TOP;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+		mes "[Wandering Mind]";
+		mes "K..kk... The power... of a strong grudge... has been... absorbed... Things I've lost... K.. aargh...";
+		close;
+	case 3:
+		for ( .@i = 18971; .@i <= 18984; ++.@i ) {
+			if (.@i < 18977)
+				.@string$[0] += getitemname(.@i) + ", ";
+			else if (.@i < 18984)
+				.@string$[1] += getitemname(.@i) + ", ";
+			else
+				.@string$[2] = getitemname(.@i);
+		}
+		mes "[Wandering Mind]";
+		mes "Do you want... power?... If so, you... need to have... the old Helmet..";
+		mes "^FF0000*You can enchant it into the " + .@string$[0];
+		mes "" + .@string$[1];
+		mes "" + .@string$[2] + ".*^000000";
+		next;
+		mes "[Wandering Mind]";
+		mes "If you... bring grudge's... power... I'll... give you... great power...";
+		mes "^FF0000*You need Cursed Fragments in order to enchant it.*^000000";
+		next;
+		mes "[Wandering Mind]";
+		mes "Kkk... Of course... in order to obtain... great power... you may need... a countless amount of... grudge's... power...";
+		mes "^FF0000*Enchantment is proceeded in the order of 4, 3, 2 slots. You need 10 Cursed Fragments when you enchant each slot for the first time.*^000000";
+		next;
+		mes "[Wandering Mind]";
+		mes "If you have... the opportunity... you might be... able to upgrade... the enchantment level... ";
+		mes "^FF0000*When reinforcing the enchant level, 50, 70, 100, 150, 250, 500, 1000 Cursed Fragments are consumed, depending on the enchant level";
+		mes "increase after 20 Cursed Fragments in the 2nd step, and 40 Cursed Fragments in the 3rd step.*^000000";
+		close;
+	}
+OnInit:
+waitingroom "Event Enchant Biolab5",0;
+end;
+}
