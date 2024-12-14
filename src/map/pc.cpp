@@ -14764,7 +14764,7 @@ void pc_show_version(map_session_data *sd) {
 
 	if( svn[0] != UNKNOWN_VERSION )
 		sprintf(buf,msg_txt(sd,1295),"SVN: r",svn); //rAthena Version SVN: r%s
-	else {
+	else { 
 		const char* git = get_git_hash();
 		if( git[0] != UNKNOWN_VERSION )
 			sprintf(buf,msg_txt(sd,1295),"Git Hash: ",git); //rAthena Version Git Hash: %s
